@@ -1,5 +1,6 @@
 import { SectionWatcher } from "@/_components/SectionWatcher";
 import SlideUpInView from "@/_components/SlideUpInView";
+import SectionHeader from "@/_components/SectionHeader";
 import EducationCard from "@/_components/EducationCard";
 import { getEducations } from "@/utils/api";
 
@@ -12,8 +13,7 @@ export default async function EducationSection() {
   return (
     <SectionWatcher id="education">
       <SlideUpInView>
-        <p className="section-eyebrow">Education</p>
-        <h2 className="section-title">Education & Certifications</h2>
+        <SectionHeader section="education" />
 
         {educationItems.length > 0 && (
           <div className="divide-y divide-foreground/10 mb-8">

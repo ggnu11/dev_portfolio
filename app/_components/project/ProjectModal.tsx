@@ -2,7 +2,8 @@ import Image from "next/image";
 import parse from "html-react-parser";
 import { getProjectById, getSkills } from "@/utils/api";
 import { parsePrismaJSON } from "@/utils/parsePrisma";
-import SkillItem from "../skill/SkillItem";
+import ProjectMetaGrid from "./ProjectMetaGrid";
+import ProjectNotFound from "./ProjectNotFound";
 
 const imageRatioMap = {
   SQUARE: { w: 312, h: 312 },
@@ -12,7 +13,7 @@ const imageRatioMap = {
 
 export default async function ProjectModal({ id }: { id: number }) {
   const project = await getProjectById(id);
-  if (!project) return <div className="p-8">Project not found</div>;
+  if (!project) return <ProjectNotFound />;
 
   const skills = await getSkills(project.skill_ids);
   const links = project.links.map((l) =>
@@ -38,51 +39,13 @@ export default async function ProjectModal({ id }: { id: number }) {
       </h2>
 
       {/* Metadata grid */}
-      <div className="grid grid-cols-2 gap-4 text-sm mb-6">
-        <div>
-          <span className="text-foreground/50 block mb-1">Description</span>
-          <span>{project.sub_title}</span>
-        </div>
-        <div>
-          <span className="text-foreground/50 block mb-1">Skills</span>
-          <div className="flex flex-wrap gap-2">
-            {skills.map((s) => (
-              <SkillItem
-                key={s.id}
-                name={s.item}
-                iconUrl={s.blobUrl}
-                size="xs"
-              />
-            ))}
-          </div>
-        </div>
-        <div>
-          <span className="text-foreground/50 block mb-1">Members</span>
-          <span>{project.member}</span>
-        </div>
-        <div>
-          <span className="text-foreground/50 block mb-1">Period</span>
-          <span>{project.period}</span>
-        </div>
-        {links.length > 0 && (
-          <div className="col-span-2">
-            <span className="text-foreground/50 block mb-1">Links</span>
-            <div className="flex flex-wrap gap-3">
-              {links.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary text-sm"
-                >
-                  {link.label}
-                </a>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
+      <ProjectMetaGrid
+        subTitle={project.sub_title}
+        skills={skills}
+        member={project.member}
+        period={project.period}
+        links={links}
+      />
 
       {/* Divider */}
       <hr className="border-foreground/15 mb-6" />

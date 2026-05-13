@@ -1,4 +1,5 @@
 import SlideUpInView from "@/_components/SlideUpInView";
+import SectionHeader from "@/_components/SectionHeader";
 import FeatureItems from "@/_components/FeatureItems";
 import { getIntros } from "@/utils/api";
 
@@ -8,10 +9,7 @@ export default async function IntroSection() {
   return (
     <section id="intro">
       <SlideUpInView>
-        <p className="section-eyebrow">Core Competencies</p>
-        <h2 className="section-title">
-          I communicate flexibly and develop robustly.
-        </h2>
+        <SectionHeader section="intro" />
         <FeatureItems items={intros} />
       </SlideUpInView>
     </section>

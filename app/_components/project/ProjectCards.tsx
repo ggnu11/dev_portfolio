@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import ProjectCard from "./ProjectCard";
+import { useI18n } from "@/i18n/context";
 
 type Skill = {
   id: number;
@@ -17,6 +18,7 @@ type Project = {
 };
 
 export default function ProjectCards({ projects }: { projects: Project[] }) {
+  const { t } = useI18n();
   const [showCount, setShowCount] = useState(6);
   const visible = projects.slice(0, showCount);
 
@@ -38,7 +40,7 @@ export default function ProjectCards({ projects }: { projects: Project[] }) {
           onClick={() => setShowCount((c) => c + 6)}
           className="mt-8 px-7 py-2 min-w-40 bg-foreground/5 rounded-lg hover:bg-foreground/10 text-foreground/65 font-semibold text-base md:text-sm transition-colors"
         >
-          Show More
+          {t.project.showMore}
         </button>
       )}
     </>

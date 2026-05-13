@@ -1,5 +1,6 @@
 import { SectionWatcher } from "@/_components/SectionWatcher";
 import SlideUpInView from "@/_components/SlideUpInView";
+import SectionHeader from "@/_components/SectionHeader";
 import ProjectCards from "@/_components/project/ProjectCards";
 import { getProjects, getSkills } from "@/utils/api";
 
@@ -17,8 +18,7 @@ export default async function ProjectSection() {
   return (
     <SectionWatcher id="project">
       <SlideUpInView className="flex flex-col items-center">
-        <p className="section-eyebrow">Projects</p>
-        <h2 className="section-title">What I&apos;ve Built</h2>
+        <SectionHeader section="project" />
         <ProjectCards projects={projectsWithSkills} />
       </SlideUpInView>
     </SectionWatcher>

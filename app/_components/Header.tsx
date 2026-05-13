@@ -4,23 +4,26 @@ import { useState, useRef, useCallback } from "react";
 import { Menu, X } from "react-feather";
 import { useAnimate, stagger } from "framer-motion";
 import Logo from "./Logo";
+import LangToggle from "./LangToggle";
 import { useSectionWatch } from "./SectionWatcher";
 import { useOnClickOutside } from "@/utils/useOnClickOutside";
+import { useI18n } from "@/i18n/context";
 
-const NAV_ITEMS = [
-  { id: "skill", label: "Skills" },
-  { id: "experience", label: "Experience" },
-  { id: "project", label: "Projects" },
-  { id: "blog", label: "Blog" },
-];
+const NAV_KEYS = ["skill", "experience", "project", "blog"] as const;
 
 export default function Header({ className }: { className?: string }) {
   const { activeId } = useSectionWatch();
+  const { t } = useI18n();
   const [isExpanded, setIsExpanded] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const [scope, animate] = useAnimate();
 
   useOnClickOutside(menuRef, () => setIsExpanded(false));
+
+  const navItems = NAV_KEYS.map((key) => ({
+    id: key,
+    label: t.nav[key === "skill" ? "skills" : key === "project" ? "projects" : key],
+  }));
 
   const toggleMenu = useCallback(async () => {
     const next = !isExpanded;
@@ -48,13 +51,11 @@ export default function Header({ className }: { className?: string }) {
 
   return (
     <div className={`sticky top-4 z-50 w-full ${className || ""}`} ref={menuRef}>
-      {/* Header bar */}
       <div className="h-10 md:h-12 rounded-full bg-foreground/[0.07] backdrop-blur-lg dark:bg-light/10 flex items-center justify-between px-4 md:px-6">
         <Logo />
 
-        {/* Desktop nav */}
         <nav className="hidden sm:flex items-center gap-1">
-          {NAV_ITEMS.map((item) => (
+          {navItems.map((item) => (
             <a
               key={item.id}
               href={`#${item.id}`}
@@ -69,16 +70,14 @@ export default function Header({ className }: { className?: string }) {
           ))}
         </nav>
 
-        {/* Mobile hamburger */}
-        <button
-          className="sm:hidden"
-          onClick={toggleMenu}
-        >
-          {isExpanded ? <X size={20} /> : <Menu size={20} />}
-        </button>
+        <div className="flex items-center gap-2">
+          <LangToggle />
+          <button className="sm:hidden" onClick={toggleMenu}>
+            {isExpanded ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
       </div>
 
-      {/* Mobile dropdown */}
       <div
         ref={scope}
         className="sm:hidden absolute top-14 right-0 left-0 bg-foreground/[0.07] backdrop-blur-lg dark:bg-light/10 rounded-2xl p-4"
@@ -88,7 +87,7 @@ export default function Header({ className }: { className?: string }) {
         }}
       >
         <nav className="flex flex-col gap-2">
-          {NAV_ITEMS.map((item) => (
+          {navItems.map((item) => (
             <a
               key={item.id}
               href={`#${item.id}`}

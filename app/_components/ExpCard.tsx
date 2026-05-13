@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ChevronRight } from "react-feather";
 import parse from "html-react-parser";
 import SkillItem from "./skill/SkillItem";
+import { useI18n } from "@/i18n/context";
 
 type Skill = {
   id: number;
@@ -36,6 +37,7 @@ export default function ExpCard({
   isActive,
   skills,
 }: Props) {
+  const { t } = useI18n();
   const [expanded, setExpanded] = useState(false);
 
   return (
@@ -105,7 +107,7 @@ export default function ExpCard({
                 size={14}
                 className={`transition-transform ${expanded ? "rotate-90" : ""}`}
               />
-              {expanded ? "Hide details" : "View details"}
+              {expanded ? t.experience.hideDetails : t.experience.viewDetails}
             </button>
             {expanded && (
               <div className="mt-3 bg-foreground/5 rounded-lg p-4">

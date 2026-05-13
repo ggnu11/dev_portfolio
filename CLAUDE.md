@@ -38,8 +38,11 @@ export const prisma = new PrismaClient({ adapter });
 ## Project Structure
 ```
 app/
-├── layout.tsx              # Root layout (Gothic_A1 font, @modal slot, #modal-root)
+├── layout.tsx              # Root layout (Gothic_A1 font, I18nProvider, @modal slot, #modal-root)
 ├── page.tsx                # SectionWatchProvider wrapping all sections
+├── i18n/
+│   ├── dictionaries.ts     # KR/JP translation dictionaries
+│   └── context.tsx         # I18nProvider + useI18n hook
 ├── globals.css             # CSS variables, base styles, component classes
 ├── sitemap.ts / robots.ts  # SEO
 ├── lib/prisma.ts           # Prisma client singleton
@@ -87,6 +90,19 @@ prisma/
 └── migrations/
 ```
 
+## i18n
+- **Client-side only** — no server i18n needed (DB content is language-agnostic)
+- Default locale: `kr` (Korean), toggle to `jp` (Japanese)
+- `app/i18n/dictionaries.ts` — flat dictionary with `kr`/`jp` keys
+- `app/i18n/context.tsx` — `I18nProvider` (in layout.tsx), `useI18n()` hook
+- `LangToggle` component in Header — pill-shaped KR/JP toggle
+- Server components that need translated labels use client wrapper components:
+  - `SectionHeader` — eyebrow + title for each section
+  - `ExperienceDividers` — Work/Project divider labels
+  - `BlogGoButton` — "Go to Blog" CTA
+  - `ProjectMetaGrid` — project detail metadata labels
+  - `ProjectNotFound` — "not found" message
+
 ## Key Architecture Decisions
 - **Server Components** by default for all data-fetching sections
 - **Client Components** only for interactive/animated parts (Header, SkillItems, FeatureItems, ProjectCards, ExpCard, Modal, MotionShapes, SectionWatcher, SlideUpInView)
@@ -102,7 +118,7 @@ prisma/
 - **Layout**: min-w-96, max-w-screen-lg, centered
 
 ## Conventions
-- Korean content but language-agnostic structure
+- KR/JP bilingual UI via client-side i18n context
 - Section pattern: eyebrow text (`.section-eyebrow`) -> title (`.section-title`) -> content
 - All scroll-in animations use `SlideUpInView` (0.6s slide-up)
 - Project card hover colors cycle by `id % 3` (blue/green/lime)
@@ -113,3 +129,4 @@ prisma/
 2. All components, sections, layouts, routes
 3. SEO (sitemap, robots), Prisma 7 adapter pattern, build scripts, .gitignore
 4. SVG assets (22 files), smooth scroll, dark mode polish, ProjectCard fix
+5. i18n (KR/JP toggle, all UI text translated via client-side context)

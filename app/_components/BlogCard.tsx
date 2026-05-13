@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import { ChevronsRight } from "react-feather";
+import { useI18n } from "@/i18n/context";
 
 type Props = {
   title: string;
@@ -14,6 +17,8 @@ export default function BlogCard({
   forwardLink,
   bgImageUrl,
 }: Props) {
+  const { t } = useI18n();
+
   return (
     <a
       href={forwardLink}
@@ -34,7 +39,7 @@ export default function BlogCard({
         <div className="flex items-center justify-between text-white/60 text-sm">
           <span>{date}</span>
           <span className="flex items-center gap-1">
-            View details <ChevronsRight size={14} />
+            {t.blog.viewDetails} <ChevronsRight size={14} />
           </span>
         </div>
       </div>

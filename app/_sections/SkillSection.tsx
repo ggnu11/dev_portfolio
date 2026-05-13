@@ -1,5 +1,6 @@
 import { SectionWatcher } from "@/_components/SectionWatcher";
 import SlideUpInView from "@/_components/SlideUpInView";
+import SectionHeader from "@/_components/SectionHeader";
 import SkillItems from "@/_components/skill/SkillItems";
 import { getSkills } from "@/utils/api";
 
@@ -9,8 +10,7 @@ export default async function SkillSection() {
   return (
     <SectionWatcher id="skill">
       <SlideUpInView>
-        <p className="section-eyebrow">Technical Skills</p>
-        <h2 className="section-title">My Skillset</h2>
+        <SectionHeader section="skill" />
         <SkillItems skills={skills} />
       </SlideUpInView>
     </SectionWatcher>
