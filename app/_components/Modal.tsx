@@ -26,7 +26,10 @@ export default function Modal({ children }: { children: ReactNode }) {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [handleClose]);
 
-  const modalRoot = typeof document !== "undefined" ? document.getElementById("modal-root") : null;
+  const modalRoot =
+    typeof document !== "undefined"
+      ? document.getElementById("modal-root")
+      : null;
   if (!modalRoot) return null;
 
   return createPortal(
@@ -41,7 +44,7 @@ export default function Modal({ children }: { children: ReactNode }) {
         <RemoveScroll>
           <motion.div
             ref={contentRef}
-            className="relative w-96 md:w-[688px] max-h-[calc(100vh_-_6rem)] bg-background border border-foreground/15 rounded-md md:rounded-lg overflow-y-scroll z-modal-content"
+            className="relative w-96 md:w-[688px] h-[600px] bg-background border border-foreground/15 rounded-md md:rounded-lg overflow-y-auto z-modal-content"
             initial={{ opacity: 0, translateY: 20, scale: 0.95 }}
             animate={{ opacity: 1, translateY: 0, scale: 1 }}
             exit={{ opacity: 0, translateY: 20, scale: 0.9 }}
