@@ -1,23 +1,29 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { Download } from "react-feather";
 import FirstShape from "@/_components/MotionShapes/FirstShape";
 import SecondShape from "@/_components/MotionShapes/SecondShape";
 import ThirdShape from "@/_components/MotionShapes/ThirdShape";
 import CTAButton from "@/_components/buttons/CTAButton";
 import { useI18n } from "@/i18n/context";
+import { useSplashDone } from "@/_components/SplashIntro";
 
 export default function MainSection() {
   const handleShapeComplete = useCallback(() => {}, []);
   const { t } = useI18n();
+  const splashDone = useSplashDone();
 
   return (
     <section id="top" className="w-full pb-28 flex flex-col items-center pt-16">
       <div className="relative flex justify-center gap-6 scale-[32%] sm:scale-[40%] origin-bottom h-[120px] sm:h-[150px] mb-20 -translate-x-6">
-        <FirstShape onComplete={handleShapeComplete} />
-        <SecondShape onComplete={handleShapeComplete} />
-        <ThirdShape onComplete={handleShapeComplete} />
+        {splashDone && (
+          <>
+            <FirstShape onComplete={handleShapeComplete} />
+            <SecondShape onComplete={handleShapeComplete} />
+            <ThirdShape onComplete={handleShapeComplete} />
+          </>
+        )}
       </div>
 
       <h1 className="bg-light z-40 dark:bg-dark px-4">
