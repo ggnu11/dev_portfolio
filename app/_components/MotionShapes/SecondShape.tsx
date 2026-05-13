@@ -9,6 +9,7 @@ import {
   FLY_UP_SPRING,
   SLIDE_TRANSITION,
   SHAPE2_DURATIONS,
+  SPREAD_X,
   shape1DrawTime,
   wait,
 } from "./constants";
@@ -37,14 +38,14 @@ export default function SecondShape({ onComplete }: Props) {
 
       // Scene 2: spread out
       await wait(Math.max(0, SCENE2_AT - elapsed()) * 1000);
-      await container.start({ x: 0, transition: SLIDE_TRANSITION });
+      await container.start({ x: SPREAD_X, transition: SLIDE_TRANSITION });
 
       // Scene 3: hide represent dot, then draw ㅇ
       await wait(Math.max(0, SCENE3_AT + shape1DrawTime - elapsed()) * 1000);
       representDot.start({ scale: 0, transition: { duration: 0.15 } });
       await circle.start({ opacity: 1, pathLength: 1, transition: { duration: SHAPE2_DURATIONS.circle } });
 
-      container.set({ x: 0, y: FINAL_Y });
+      container.set({ x: SPREAD_X, y: FINAL_Y });
       onComplete();
     }
 

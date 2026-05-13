@@ -9,6 +9,7 @@ import {
   FLY_UP_SPRING,
   SLIDE_TRANSITION,
   SHAPE3_DURATIONS,
+  SPREAD_X,
   shape1DrawTime,
   shape2DrawTime,
   wait,
@@ -40,7 +41,7 @@ export default function ThirdShape({ onComplete }: Props) {
 
       // Scene 2: spread out
       await wait(Math.max(0, SCENE2_AT - elapsed()) * 1000);
-      await container.start({ x: 0, transition: SLIDE_TRANSITION });
+      await container.start({ x: SPREAD_X, transition: SLIDE_TRANSITION });
 
       // Scene 3: hide represent dot, then draw ㅎ
       await wait(
@@ -64,7 +65,7 @@ export default function ThirdShape({ onComplete }: Props) {
         transition: { duration: SHAPE3_DURATIONS.circle },
       });
 
-      container.set({ x: 0, y: FINAL_Y });
+      container.set({ x: SPREAD_X, y: FINAL_Y });
       onComplete();
     }
 

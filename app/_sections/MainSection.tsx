@@ -14,7 +14,7 @@ export default function MainSection() {
 
   return (
     <section id="top" className="w-full pb-28 flex flex-col items-center pt-16">
-      <div className="relative flex justify-center scale-[32%] sm:scale-[40%] origin-bottom h-[120px] sm:h-[150px] mb-20">
+      <div className="relative flex justify-center gap-6 scale-[32%] sm:scale-[40%] origin-bottom h-[120px] sm:h-[150px] mb-20 -translate-x-6">
         <FirstShape onComplete={handleShapeComplete} />
         <SecondShape onComplete={handleShapeComplete} />
         <ThirdShape onComplete={handleShapeComplete} />

@@ -9,6 +9,8 @@ export const FLY_UP_SPRING = {
   bounce: 0.25,
 };
 
+export const SPREAD_X = 50;
+
 export const SLIDE_TRANSITION = {
   duration: 0.5,
   ease: "easeInOut" as const,

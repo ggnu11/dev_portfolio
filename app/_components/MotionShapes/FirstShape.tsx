@@ -9,6 +9,7 @@ import {
   FLY_UP_SPRING,
   SLIDE_TRANSITION,
   SHAPE1_DURATIONS,
+  SPREAD_X,
   wait,
 } from "./constants";
 
@@ -37,7 +38,7 @@ export default function FirstShape({ onComplete }: Props) {
 
       // Scene 2: spread out to natural flex position
       await wait(Math.max(0, SCENE2_AT - elapsed()) * 1000);
-      await container.start({ x: 0, transition: SLIDE_TRANSITION });
+      await container.start({ x: SPREAD_X, transition: SLIDE_TRANSITION });
 
       // Scene 3: hide represent dot, then draw ㅊ
       await wait(Math.max(0, SCENE3_AT - elapsed()) * 1000);
@@ -47,7 +48,7 @@ export default function FirstShape({ onComplete }: Props) {
       await wait(SHAPE1_DURATIONS.bar * 1000 - 300);
       await chevron.start({ opacity: 1, pathLength: 1, transition: { duration: SHAPE1_DURATIONS.chevron } });
 
-      container.set({ x: 0, y: FINAL_Y });
+      container.set({ x: SPREAD_X, y: FINAL_Y });
       onComplete();
     }
 
