@@ -5,9 +5,10 @@ import {
   useEffect,
   useContext,
   createContext,
+  useCallback,
   ReactNode,
 } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, useAnimationControls } from "framer-motion";
 
 const DOTS = [
   { color: "#007AFF", delay: 0 },
@@ -19,6 +20,8 @@ const NAME = "최영훈";
 const ROLE = "Frontend Developer";
 
 const EXIT_AFTER = 2800;
+const TRANSITION_DURATION = 1.2;
+const TRANSITION_EASE: [number, number, number, number] = [0.76, 0, 0.24, 1];
 
 const SplashContext = createContext(false);
 
@@ -27,31 +30,45 @@ export function useSplashDone() {
 }
 
 export default function SplashIntro({ children }: { children: ReactNode }) {
-  const [show, setShow] = useState(true);
-  const [done, setDone] = useState(false);
+  const [phase, setPhase] = useState<"intro" | "transitioning" | "done">(
+    "intro"
+  );
+  const film = useAnimationControls();
+
+  const startTransition = useCallback(async () => {
+    setPhase("transitioning");
+    await film.start({
+      y: "-50%",
+      transition: { duration: TRANSITION_DURATION, ease: TRANSITION_EASE },
+    });
+    document.body.style.overflow = "";
+    setPhase("done");
+  }, [film]);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
-    const timer = setTimeout(() => setShow(false), EXIT_AFTER);
+    const timer = setTimeout(startTransition, EXIT_AFTER);
     return () => clearTimeout(timer);
-  }, []);
+  }, [startTransition]);
+
+  // After transition, render children normally (no wrapper transform)
+  if (phase === "done") {
+    return (
+      <SplashContext.Provider value={true}>{children}</SplashContext.Provider>
+    );
+  }
 
   return (
-    <SplashContext.Provider value={done}>
-      <AnimatePresence
-        onExitComplete={() => {
-          document.body.style.overflow = "";
-          setDone(true);
-        }}
-      >
-        {show && (
-          <motion.div
-            key="splash"
-            className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[rgb(15,24,42)]"
-            exit={{ y: "-100%" }}
-            transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1] }}
-          >
-            {/* Dots */}
+    <SplashContext.Provider value={false}>
+      {/* Film strip: two full-screen frames stacked, moves up by 50% (one frame) */}
+      <div className="fixed inset-0 overflow-hidden">
+        <motion.div
+          animate={film}
+          className="will-change-transform"
+          style={{ height: "200vh" }}
+        >
+          {/* Frame 1: Splash */}
+          <div className="h-screen flex flex-col items-center justify-center bg-[rgb(15,24,42)] relative">
             <div className="flex items-center gap-3 mb-8">
               {DOTS.map((dot, i) => (
                 <motion.div
@@ -72,7 +89,6 @@ export default function SplashIntro({ children }: { children: ReactNode }) {
               ))}
             </div>
 
-            {/* Name */}
             <motion.h2
               className="text-white/90 text-xl font-semibold tracking-wide"
               initial={{ opacity: 0, y: 8 }}
@@ -85,7 +101,6 @@ export default function SplashIntro({ children }: { children: ReactNode }) {
               {NAME}
             </motion.h2>
 
-            {/* Role */}
             <motion.p
               className="text-white/40 text-sm mt-2 tracking-widest uppercase"
               initial={{ opacity: 0 }}
@@ -97,19 +112,20 @@ export default function SplashIntro({ children }: { children: ReactNode }) {
               {ROLE}
             </motion.p>
 
-            {/* Bottom line accent */}
             <motion.div
-              className="absolute bottom-12 w-8 h-[2px] rounded-full bg-white/10"
+              className="absolute bottom-12 left-1/2 -translate-x-1/2 w-8 h-[2px] rounded-full bg-white/10"
               initial={{ scaleX: 0 }}
               animate={{
                 scaleX: 1,
                 transition: { delay: 1.5, duration: 0.6, ease: "easeOut" },
               }}
             />
-          </motion.div>
-        )}
-      </AnimatePresence>
-      {children}
+          </div>
+
+          {/* Frame 2: Main content snapshot */}
+          <div className="h-screen overflow-hidden">{children}</div>
+        </motion.div>
+      </div>
     </SplashContext.Provider>
   );
 }
