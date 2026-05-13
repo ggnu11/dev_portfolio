@@ -5,6 +5,7 @@ import { Menu, X } from "react-feather";
 import { useAnimate, stagger } from "framer-motion";
 import Logo from "./Logo";
 import LangToggle from "./LangToggle";
+import ThemeToggle from "./ThemeToggle";
 import { useSectionWatch } from "./SectionWatcher";
 import { useOnClickOutside } from "@/utils/useOnClickOutside";
 import { useI18n } from "@/i18n/context";
@@ -71,6 +72,7 @@ export default function Header({ className }: { className?: string }) {
         </nav>
 
         <div className="flex items-center gap-2">
+          <ThemeToggle />
           <LangToggle />
           <button className="sm:hidden" onClick={toggleMenu}>
             {isExpanded ? <X size={20} /> : <Menu size={20} />}

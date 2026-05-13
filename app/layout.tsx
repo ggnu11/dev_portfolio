@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Gothic_A1 } from "next/font/google";
 import { I18nProvider } from "@/i18n/context";
+import { ThemeProvider } from "@/theme/context";
 import "./globals.css";
 
 const gothicA1 = Gothic_A1({
@@ -24,13 +25,15 @@ export default function RootLayout({
   modal: React.ReactNode;
 }>) {
   return (
-    <html lang="kr">
+    <html lang="kr" className="dark">
       <body className={gothicA1.className}>
-        <I18nProvider>
-          {children}
-          {modal}
-          <div id="modal-root" />
-        </I18nProvider>
+        <ThemeProvider>
+          <I18nProvider>
+            {children}
+            {modal}
+            <div id="modal-root" />
+          </I18nProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
