@@ -3,67 +3,69 @@
 import { motion, useAnimationControls } from "framer-motion";
 import { useEffect } from "react";
 import {
-  SCENE1_DELAY,
-  SCENE2_DELAY,
-  SCENE3_DELAY,
+  SCENE1_AT,
+  SCENE2_AT,
+  SCENE3_AT,
   FLY_UP_SPRING,
-  SLIDE_SPRING,
-  scene3shape1Total,
+  SLIDE_TRANSITION,
+  HOVER_SPRING,
+  SHAPE2_DURATIONS,
+  shape1DrawTime,
+  wait,
 } from "./constants";
+
+const OFFSET_X = 50;
+const FINAL_Y = -10;
+const STAGGER = 0.1;
 
 type Props = {
   isDone: boolean;
-  onComplete?: () => void;
+  onComplete: () => void;
 };
 
 export default function SecondShape({ isDone, onComplete }: Props) {
-  const containerControls = useAnimationControls();
-  const circleControls = useAnimationControls();
+  const container = useAnimationControls();
+  const circle = useAnimationControls();
 
   useEffect(() => {
-    async function animate() {
-      // Scene 1: fly up (stagger delay 0.1s)
-      await containerControls.start({
-        y: -10,
-        transition: { ...FLY_UP_SPRING, delay: SCENE1_DELAY + 0.1 },
-      });
-      // Scene 2: slide to center
-      await containerControls.start({
-        x: 0,
-        transition: { ...SLIDE_SPRING, delay: SCENE2_DELAY - SCENE1_DELAY - 0.5 },
-      });
-      // Scene 3: wait for shape1 then draw
-      await new Promise((r) =>
-        setTimeout(r, (SCENE3_DELAY - SCENE2_DELAY + scene3shape1Total) * 1000)
-      );
-      await circleControls.start({
-        pathLength: 1,
-        transition: { duration: 1 },
-      });
-      onComplete?.();
+    const t0 = performance.now();
+    const elapsed = () => (performance.now() - t0) / 1000;
+
+    async function run() {
+      // Scene 1: fly up (stagger 0.1s)
+      await wait(Math.max(0, SCENE1_AT + STAGGER - elapsed()) * 1000);
+      await container.start({ y: FINAL_Y, transition: FLY_UP_SPRING });
+
+      // Scene 2: spread out
+      await wait(Math.max(0, SCENE2_AT - elapsed()) * 1000);
+      await container.start({ x: 0, transition: SLIDE_TRANSITION });
+
+      // Scene 3: wait for shape1, then draw ㅇ
+      await wait(Math.max(0, SCENE3_AT + shape1DrawTime - elapsed()) * 1000);
+      await circle.start({ pathLength: 1, transition: { duration: SHAPE2_DURATIONS.circle } });
+
+      container.set({ x: 0, y: FINAL_Y });
+      onComplete();
     }
-    animate();
-  }, [containerControls, circleControls, onComplete]);
+
+    run();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <motion.div
-      initial={{ x: 50, y: 300 }}
-      animate={containerControls}
+      initial={{ x: OFFSET_X, y: 300 }}
+      animate={container}
       style={{ zIndex: 2 }}
-      whileHover={isDone ? { y: -30 } : undefined}
+      whileHover={isDone ? { y: FINAL_Y - 30 } : undefined}
       whileTap={isDone ? { scale: 0.9 } : undefined}
-      transition={isDone ? { duration: 0.1, damping: 7, bounce: 0.25 } : undefined}
+      transition={HOVER_SPRING}
     >
       <svg viewBox="0 0 200 200" width="200" height="200">
         <motion.path
           d="M100 144C75.7 144 56 124.3 56 100C56 75.7 75.7 56 100 56C124.3 56 144 75.7 144 100C144 124.3 124.3 144 100 144Z"
-          stroke="#00C676"
-          strokeWidth="72"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          fill="none"
-          initial={{ pathLength: 0 }}
-          animate={circleControls}
+          stroke="#00C676" strokeWidth="72" strokeLinecap="round" strokeLinejoin="round" fill="none"
+          initial={{ pathLength: 0 }} animate={circle}
         />
       </svg>
     </motion.div>
