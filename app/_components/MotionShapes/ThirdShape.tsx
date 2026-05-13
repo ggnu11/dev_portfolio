@@ -80,8 +80,8 @@ export default function ThirdShape({ onComplete }: Props) {
     >
       <svg viewBox="0 0 220 220" width="200" height="200">
         <motion.circle
-          cx="100"
-          cy="100"
+          cx="110"
+          cy="110"
           r="20"
           fill="#E2FF00"
           initial={{ scale: 1 }}
