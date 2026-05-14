@@ -34,16 +34,24 @@ export default function SplashIntro({ children }: { children: ReactNode }) {
     "intro"
   );
   const film = useAnimationControls();
+  const content = useAnimationControls();
 
   const startTransition = useCallback(async () => {
     setPhase("transitioning");
-    await film.start({
-      y: "-50%",
-      transition: { duration: TRANSITION_DURATION, ease: TRANSITION_EASE },
-    });
+    // 필름(splash)은 위로 올라가고, children은 100vh 아래에서 동시에 올라옴
+    await Promise.all([
+      film.start({
+        y: "-100%",
+        transition: { duration: TRANSITION_DURATION, ease: TRANSITION_EASE },
+      }),
+      content.start({
+        y: 0,
+        transition: { duration: TRANSITION_DURATION, ease: TRANSITION_EASE },
+      }),
+    ]);
     document.body.style.overflow = "";
     setPhase("done");
-  }, [film]);
+  }, [film, content]);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -51,23 +59,16 @@ export default function SplashIntro({ children }: { children: ReactNode }) {
     return () => clearTimeout(timer);
   }, [startTransition]);
 
-  // After transition, render children normally (no wrapper transform)
-  if (phase === "done") {
-    return (
-      <SplashContext.Provider value={true}>{children}</SplashContext.Provider>
-    );
-  }
+  const isDone = phase === "done";
 
   return (
-    <SplashContext.Provider value={false}>
-      {/* Film strip: two full-screen frames stacked, moves up by 50% (one frame) */}
-      <div className="fixed inset-0 overflow-hidden">
+    <SplashContext.Provider value={isDone}>
+      {/* Splash 오버레이 — 위로 올라가며 사라짐 */}
+      {!isDone && (
         <motion.div
           animate={film}
-          className="will-change-transform"
-          style={{ height: "200vh" }}
+          className="fixed inset-0 z-[9999] will-change-transform"
         >
-          {/* Frame 1: Splash */}
           <div className="h-screen flex flex-col items-center justify-center bg-[rgb(15,24,42)] relative">
             <div className="flex items-center gap-3 mb-8">
               {DOTS.map((dot, i) => (
@@ -121,11 +122,18 @@ export default function SplashIntro({ children }: { children: ReactNode }) {
               }}
             />
           </div>
-
-          {/* Frame 2: Main content snapshot */}
-          <div className="h-screen overflow-hidden">{children}</div>
         </motion.div>
-      </div>
+      )}
+
+      {/* Children — 항상 같은 트리 위치 (remount 없음)
+           필름 전환 시 아래(100vh)에서 위(0)로 올라와서 필름 효과 연출 */}
+      <motion.div
+        animate={content}
+        initial={{ y: "100vh" }}
+        className={isDone ? "" : "fixed inset-0 overflow-hidden will-change-transform"}
+      >
+        {children}
+      </motion.div>
     </SplashContext.Provider>
   );
 }
