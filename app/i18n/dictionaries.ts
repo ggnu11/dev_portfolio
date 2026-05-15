@@ -7,6 +7,7 @@ const dictionaries = {
       experience: "경험",
       projects: "프로젝트",
       blog: "블로그",
+      education: "교육",
     },
     hero: {
       greeting: "안녕하세요,",
@@ -69,6 +70,7 @@ const dictionaries = {
       experience: "経験",
       projects: "プロジェクト",
       blog: "ブログ",
+      education: "教育",
     },
     hero: {
       greeting: "こんにちは、",
