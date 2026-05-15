@@ -15,15 +15,27 @@ export default function OutroSection() {
         <div className="grid grid-cols-3 gap-4 text-sm">
           <div>
             <span className="text-foreground/40 block mb-1">{t.outro.phone}</span>
-            <span className="text-foreground/80">-</span>
+            <span className="text-foreground/80">010-8934-7661</span>
           </div>
           <div>
             <span className="text-foreground/40 block mb-1">{t.outro.email}</span>
-            <span className="text-foreground/80">-</span>
+            <a
+              href="mailto:choiyounghun0712@gmail.com"
+              className="text-foreground/80 text-xs no-underline hover:underline break-all"
+            >
+              choiyounghun0712@gmail.com
+            </a>
           </div>
           <div>
             <span className="text-foreground/40 block mb-1">{t.outro.github}</span>
-            <span className="text-foreground/80">-</span>
+            <a
+              href="https://github.com/ggnu11"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-foreground/80 no-underline hover:underline"
+            >
+              ggnu11
+            </a>
           </div>
         </div>
       </div>

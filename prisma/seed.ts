@@ -24,7 +24,8 @@ async function main() {
         category: "FRONTEND",
         items: [],
         item: "HTML5",
-        blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",
+        blobUrl:
+          "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",
       },
     }),
     prisma.skill.create({
@@ -33,7 +34,8 @@ async function main() {
         category: "FRONTEND",
         items: [],
         item: "CSS3",
-        blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",
+        blobUrl:
+          "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",
       },
     }),
     prisma.skill.create({
@@ -42,7 +44,8 @@ async function main() {
         category: "FRONTEND",
         items: [],
         item: "JavaScript",
-        blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
+        blobUrl:
+          "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
       },
     }),
     prisma.skill.create({
@@ -51,7 +54,8 @@ async function main() {
         category: "FRONTEND",
         items: [],
         item: "TypeScript",
-        blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
+        blobUrl:
+          "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
       },
     }),
     prisma.skill.create({
@@ -60,7 +64,8 @@ async function main() {
         category: "FRONTEND_LIBRARY",
         items: [],
         item: "React",
-        blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
+        blobUrl:
+          "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
       },
     }),
     prisma.skill.create({
@@ -68,8 +73,9 @@ async function main() {
         id: 6,
         category: "FRONTEND_LIBRARY",
         items: [],
-        item: "Next.js",
-        blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",
+        item: "React Router",
+        blobUrl:
+          "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/reactrouter/reactrouter-original.svg",
       },
     }),
     prisma.skill.create({
@@ -77,8 +83,9 @@ async function main() {
         id: 7,
         category: "FRONTEND_LIBRARY",
         items: [],
-        item: "Vue.js",
-        blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg",
+        item: "Tailwind CSS",
+        blobUrl:
+          "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg",
       },
     }),
     prisma.skill.create({
@@ -86,26 +93,29 @@ async function main() {
         id: 8,
         category: "FRONTEND_LIBRARY",
         items: [],
-        item: "Redux",
-        blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redux/redux-original.svg",
+        item: "Styled Components",
+        blobUrl:
+          "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",
       },
     }),
     prisma.skill.create({
       data: {
         id: 9,
-        category: "ENV",
+        category: "FRONTEND_LIBRARY",
         items: [],
-        item: "Node.js",
-        blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
+        item: "Framer Motion",
+        blobUrl:
+          "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/framermotion/framermotion-original.svg",
       },
     }),
     prisma.skill.create({
       data: {
         id: 10,
-        category: "ENV",
+        category: "FRONTEND_LIBRARY",
         items: [],
-        item: "Docker",
-        blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg",
+        item: "Recoil",
+        blobUrl:
+          "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
       },
     }),
     prisma.skill.create({
@@ -114,7 +124,8 @@ async function main() {
         category: "ENV",
         items: [],
         item: "Git",
-        blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
+        blobUrl:
+          "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
       },
     }),
     prisma.skill.create({
@@ -122,35 +133,119 @@ async function main() {
         id: 12,
         category: "ENV",
         items: [],
-        item: "AWS",
-        blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg",
+        item: "Webpack",
+        blobUrl:
+          "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/webpack/webpack-original.svg",
       },
     }),
     prisma.skill.create({
       data: {
         id: 13,
-        category: "DESIGN",
+        category: "ENV",
         items: [],
-        item: "Figma",
-        blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg",
+        item: "Vite",
+        blobUrl:
+          "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vitejs/vitejs-original.svg",
       },
     }),
     prisma.skill.create({
       data: {
         id: 14,
-        category: "DESIGN",
+        category: "ENV",
         items: [],
-        item: "Storybook",
-        blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/storybook/storybook-original.svg",
+        item: "Firebase",
+        blobUrl:
+          "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-original.svg",
       },
     }),
     prisma.skill.create({
       data: {
         id: 15,
+        category: "ENV",
+        items: [],
+        item: "GitHub Actions",
+        blobUrl:
+          "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/githubactions/githubactions-original.svg",
+      },
+    }),
+    prisma.skill.create({
+      data: {
+        id: 16,
+        category: "ENV",
+        items: [],
+        item: "Node.js",
+        blobUrl:
+          "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
+      },
+    }),
+    prisma.skill.create({
+      data: {
+        id: 17,
+        category: "ENV",
+        items: [],
+        item: "Express",
+        blobUrl:
+          "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg",
+      },
+    }),
+    prisma.skill.create({
+      data: {
+        id: 18,
+        category: "ENV",
+        items: [],
+        item: "MongoDB",
+        blobUrl:
+          "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
+      },
+    }),
+    prisma.skill.create({
+      data: {
+        id: 19,
+        category: "ENV",
+        items: [],
+        item: "Supabase",
+        blobUrl:
+          "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/supabase/supabase-original.svg",
+      },
+    }),
+    prisma.skill.create({
+      data: {
+        id: 20,
+        category: "DESIGN",
+        items: [],
+        item: "Figma",
+        blobUrl:
+          "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg",
+      },
+    }),
+    prisma.skill.create({
+      data: {
+        id: 21,
         category: "FRONTEND_LIBRARY",
         items: [],
-        item: "Tailwind CSS",
-        blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg",
+        item: "ECharts",
+        blobUrl:
+          "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apachecharts/apachecharts-original.svg",
+      },
+    }),
+    prisma.skill.create({
+      data: {
+        id: 22,
+        category: "FRONTEND_LIBRARY",
+        items: [],
+        item: "React Query",
+        blobUrl:
+          "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/reactrouter/reactrouter-original.svg",
+      },
+    }),
+    prisma.skill.create({
+      data: {
+        id: 23,
+        category: "FRONTEND_LIBRARY",
+        items: [],
+        item: "Zustand",
+        blobUrl:
+          "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
       },
     }),
   ]);
@@ -161,25 +256,25 @@ async function main() {
   const intros = await Promise.all([
     prisma.intro.create({
       data: {
-        title: "Flexible Communication",
+        title: "사용자 중심 개발",
         detail:
-          "I value clear and open communication with team members. I actively participate in code reviews and discussions to build better products together.",
+          "React 기반의 사용자 중심 웹 서비스 개발에 집중합니다. 직관적인 인터페이스와 매끄러운 사용자 경험을 최우선으로 생각합니다.",
         blobUrl: null,
       },
     }),
     prisma.intro.create({
       data: {
-        title: "Robust Development",
+        title: "유연한 소통",
         detail:
-          "I write clean, maintainable code with comprehensive test coverage. I focus on building scalable architecture that can grow with the product.",
+          "다양한 직군과의 협업에 열린 자세를 갖추고 있습니다. 일본어 일상회화가 가능하며, 해외 체류 경험을 통해 다문화 환경에서의 적응력을 키웠습니다.",
         blobUrl: null,
       },
     }),
     prisma.intro.create({
       data: {
-        title: "User-Centered Design",
+        title: "견고한 코드",
         detail:
-          "I prioritize user experience in every development decision. I combine technical expertise with design sensibility to create intuitive interfaces.",
+          "TypeScript와 모던 프론트엔드 기술로 유지보수하기 쉬운 코드를 작성합니다. 성능 최적화와 코드 품질 개선에 지속적으로 관심을 갖고 있습니다.",
         blobUrl: null,
       },
     }),
@@ -191,53 +286,53 @@ async function main() {
   const workExperiences = await Promise.all([
     prisma.experience.create({
       data: {
-        title: "TechCorp Inc.",
-        sub_title: "Senior Frontend Developer",
-        period: "2023.01 - Present",
+        title: "아이페이지온 (iPageOn)",
+        sub_title: "프론트엔드 개발자",
+        period: "2023.06 - 현재",
         items: [
-          "Led the migration from legacy jQuery codebase to React/TypeScript",
-          "Implemented design system with Storybook, improving UI consistency across 5 products",
-          "Reduced initial page load time by 40% through code splitting and lazy loading",
-          "Mentored 3 junior developers through pair programming sessions",
+          "React, TypeScript 기반 통신 솔루션 및 산업용 IoT 솔루션 웹 애플리케이션 개발",
+          "WebSocket 기반 실시간 데이터 통신 구현",
+          "ECharts를 활용한 데이터 시각화 대시보드 개발",
+          "코드 유지보수, 성능 최적화, UI/UX 개선 담당",
         ],
-        links: [{ href: "https://example.com", label: "Company Website" }],
+        links: [],
         is_active: true,
         index: 1,
-        skill_ids: [4, 5, 6, 15],
+        skill_ids: [4, 5, 8, 21],
         category: "WORK",
       },
     }),
     prisma.experience.create({
       data: {
-        title: "StartupHub",
-        sub_title: "Frontend Developer",
-        period: "2021.03 - 2022.12",
+        title: "한국 소프트웨어 인재 개발원",
+        sub_title: "JAVA 개발자 양성과정 수료",
+        period: "2022.10 - 2023.04",
         items: [
-          "Built a real-time dashboard using React and WebSocket",
-          "Developed a reusable component library used across 3 projects",
-          "Integrated CI/CD pipeline with GitHub Actions, reducing deployment time by 60%",
+          "정부 지원 풀스택 개발 교육 과정 (6개월 집중)",
+          "HTML, CSS, JavaScript 웹 개발 기초부터 심화까지 학습",
+          "팀 프로젝트를 통한 실전 개발 경험 습득",
         ],
         links: [],
         is_active: false,
         index: 2,
-        skill_ids: [3, 5, 8, 11],
+        skill_ids: [1, 2, 3, 11],
         category: "WORK",
       },
     }),
     prisma.experience.create({
       data: {
-        title: "WebAgency Co.",
-        sub_title: "Junior Frontend Developer",
-        period: "2019.06 - 2021.02",
+        title: "일본 체류 (하마마츠 & 오사카)",
+        sub_title: "일본어 학습 및 게임 프로그래밍",
+        period: "2021.03 - 2022.10",
         items: [
-          "Developed responsive web applications for 10+ client projects",
-          "Implemented pixel-perfect UI from Figma designs",
-          "Collaborated with backend team to design RESTful API contracts",
+          "하마마츠 일본어 학교에서 일본어 집중 학습",
+          "오사카 휴먼 아카데미 게임 프로그래밍학과 수학 (Unity, C#)",
+          "다문화 환경에서의 적응력 및 커뮤니케이션 능력 향상",
         ],
         links: [],
         is_active: false,
         index: 3,
-        skill_ids: [1, 2, 3, 7],
+        skill_ids: [],
         category: "WORK",
       },
     }),
@@ -247,37 +342,73 @@ async function main() {
   const projectExperiences = await Promise.all([
     prisma.experience.create({
       data: {
-        title: "Open Source Design System",
-        sub_title: "Creator & Maintainer",
-        period: "2022.06 - Present",
+        title: "SiteDash",
+        sub_title: "풀스택 웹 애플리케이션 (프로젝트 대시보드)",
+        period: "2025.05",
         items: [
-          "Created an open-source React component library with 500+ GitHub stars",
-          "Published on npm with 2,000+ weekly downloads",
-          "Wrote comprehensive documentation with interactive examples",
+          "React 19 + TypeScript 프론트엔드, Express.js 백엔드 개발",
+          "Google OAuth 2.0 + JWT 인증 구현",
+          "FSD (Feature-Sliced Design) 아키텍처 적용",
+          "Framer Motion 인터랙티브 애니메이션 구현",
         ],
         links: [
-          { href: "https://github.com", label: "GitHub" },
+          {
+            href: "https://ggnu11.github.io/site-dash/",
+            label: "Live Demo",
+          },
         ],
         is_active: true,
         index: 4,
-        skill_ids: [4, 5, 14, 15],
+        skill_ids: [4, 5, 7, 9, 16, 17, 19, 23],
         category: "PROJECT",
       },
     }),
     prisma.experience.create({
       data: {
-        title: "Tech Blog Platform",
-        sub_title: "Full-stack Developer",
-        period: "2021.09 - 2022.05",
+        title: "NoteSnap",
+        sub_title: "텍스트 파일 요약 웹 애플리케이션",
+        period: "2025.04",
         items: [
-          "Built a blog platform with Next.js and PostgreSQL",
-          "Implemented server-side rendering for SEO optimization",
-          "Achieved 95+ Lighthouse score across all metrics",
+          "업로드된 텍스트 파일에서 핵심 문장을 추출하는 인브라우저 요약 앱",
+          "외부 AI API 없이 브라우저 내에서 동작",
+          "Firebase Hosting + GitHub Actions CI/CD 파이프라인 구축",
         ],
-        links: [],
+        links: [
+          {
+            href: "https://notesnap-6966c.web.app",
+            label: "Live Demo",
+          },
+          {
+            href: "https://github.com/ggnu11/notesnap",
+            label: "GitHub",
+          },
+        ],
         is_active: false,
         index: 5,
-        skill_ids: [4, 6, 9],
+        skill_ids: [4, 5, 7, 13, 14, 15],
+        category: "PROJECT",
+      },
+    }),
+    prisma.experience.create({
+      data: {
+        title: "ABC Company Site",
+        sub_title: "풀스택 웹 애플리케이션 (회사 소개 사이트)",
+        period: "2025.01",
+        items: [
+          "React 프론트엔드 + Express.js RESTful API 백엔드",
+          "MongoDB Atlas 클라우드 데이터베이스 연동",
+          "JWT 인증 및 CORS 보안 구현",
+          "Netlify(프론트) + Render(백엔드) 배포 아키텍처",
+        ],
+        links: [
+          {
+            href: "https://abc-company1216.netlify.app",
+            label: "Live Demo",
+          },
+        ],
+        is_active: false,
+        index: 6,
+        skill_ids: [5, 7, 16, 17, 18],
         category: "PROJECT",
       },
     }),
@@ -292,31 +423,34 @@ async function main() {
     prisma.project.create({
       data: {
         id: 1,
-        title: "E-Commerce <em>Dashboard</em>",
-        sub_title: "Admin dashboard for managing products, orders, and analytics",
-        period: "2023.06 - 2023.09",
-        member: "Frontend 2, Backend 2, Designer 1",
+        title: "<em>SiteDash</em>",
+        sub_title:
+          "React 19 + Express.js 풀스택 프로젝트 대시보드",
+        period: "2025.05",
+        member: "Solo Project",
         skills: [],
-        links: [{ href: "https://github.com", label: "GitHub" }],
-        skill_ids: [4, 5, 8, 15],
+        links: [
+          { href: "https://ggnu11.github.io/site-dash/", label: "Live Demo" },
+        ],
+        skill_ids: [4, 5, 7, 9, 16, 17, 19, 23],
         row_number: 1,
         items: {
           create: [
             {
-              title: "Real-time Analytics Dashboard",
+              title: "인증 및 아키텍처",
               content: [
-                "Implemented real-time chart updates using WebSocket",
-                "Built custom chart components with D3.js integration",
-                "Optimized rendering performance for large datasets",
+                "Google OAuth 2.0 + JWT 토큰 기반 인증 시스템 구현",
+                "FSD (Feature-Sliced Design) 아키텍처로 확장 가능한 구조 설계",
+                "Supabase PostgreSQL 데이터베이스 연동",
               ],
               row_number: 1,
-              image_ratio: "LANDSCAPE",
             },
             {
-              title: "Order Management System",
+              title: "UI/UX 및 배포",
               content: [
-                "Designed filterable/sortable data table with virtual scrolling",
-                "Implemented bulk action support for order processing",
+                "Framer Motion 인터랙티브 애니메이션 구현",
+                "shadcn/ui + Tailwind CSS 반응형 디자인",
+                "Frontend: GitHub Pages / Backend: Railway 배포",
               ],
               row_number: 2,
             },
@@ -327,33 +461,34 @@ async function main() {
     prisma.project.create({
       data: {
         id: 2,
-        title: "Social Media <em>App</em>",
-        sub_title: "Mobile-first social platform with real-time messaging",
-        period: "2023.01 - 2023.05",
-        member: "Frontend 3, Backend 2, Designer 1",
+        title: "<em>NoteSnap</em>",
+        sub_title:
+          "외부 AI 없이 브라우저에서 동작하는 텍스트 요약 앱",
+        period: "2025.04",
+        member: "Solo Project",
         skills: [],
         links: [
-          { href: "https://github.com", label: "GitHub" },
-          { href: "https://example.com", label: "Live Demo" },
+          { href: "https://notesnap-6966c.web.app", label: "Live Demo" },
+          { href: "https://github.com/ggnu11/notesnap", label: "GitHub" },
         ],
-        skill_ids: [4, 5, 6, 9],
+        skill_ids: [4, 5, 7, 13, 14, 15],
         row_number: 2,
         items: {
           create: [
             {
-              title: "Real-time Chat System",
+              title: "핵심 기능",
               content: [
-                "Built WebSocket-based messaging with typing indicators",
-                "Implemented message read receipts and online status",
-                "Added support for image/file sharing in conversations",
+                "텍스트 파일 업로드 → 핵심 문장 자동 추출",
+                "외부 AI API/GPT 없이 인브라우저에서 완전 동작",
+                "깔끔하고 직관적인 UI 설계",
               ],
               row_number: 1,
             },
             {
-              title: "Infinite Scroll Feed",
+              title: "배포 파이프라인",
               content: [
-                "Implemented virtualized list for smooth scrolling",
-                "Built optimistic UI updates for like/comment actions",
+                "Firebase Hosting으로 정적 파일 배포",
+                "GitHub Actions CI/CD 파이프라인 구축",
               ],
               row_number: 2,
             },
@@ -364,23 +499,39 @@ async function main() {
     prisma.project.create({
       data: {
         id: 3,
-        title: "Portfolio <em>Website</em>",
-        sub_title: "Personal portfolio with animated SVG shapes and dark mode",
-        period: "2024.01 - 2024.02",
+        title: "ABC <em>Company</em> Site",
+        sub_title:
+          "모던 웹 기술 기반 풀스택 회사 소개 웹사이트",
+        period: "2025.01",
         member: "Solo Project",
         skills: [],
-        links: [{ href: "https://github.com", label: "GitHub" }],
-        skill_ids: [4, 6, 15, 13],
+        links: [
+          {
+            href: "https://abc-company1216.netlify.app",
+            label: "Live Demo",
+          },
+        ],
+        skill_ids: [5, 7, 16, 17, 18],
         row_number: 3,
         items: {
           create: [
             {
-              title: "SVG Animation System",
+              title: "풀스택 구조",
               content: [
-                "Designed choreographed 3-scene SVG animation sequence",
-                "Implemented path drawing animations with Framer Motion",
+                "React 반응형 UI/UX 프론트엔드",
+                "Express.js RESTful API 백엔드",
+                "MongoDB Atlas 클라우드 데이터베이스",
               ],
               row_number: 1,
+            },
+            {
+              title: "보안 및 배포",
+              content: [
+                "JWT 인증 + CORS 보안 설정",
+                "Mongoose ODM을 활용한 스키마 관리",
+                "Netlify(프론트) + Render(백엔드) 배포",
+              ],
+              row_number: 2,
             },
           ],
         },
@@ -389,100 +540,36 @@ async function main() {
     prisma.project.create({
       data: {
         id: 4,
-        title: "Task <em>Manager</em>",
-        sub_title: "Kanban-style project management tool with drag and drop",
-        period: "2022.08 - 2022.11",
-        member: "Frontend 2, Backend 1",
+        title: "Dev <em>Portfolio</em>",
+        sub_title:
+          "Next.js 14 + Prisma 기반 개인 포트폴리오 웹사이트",
+        period: "2025.03 - 현재",
+        member: "Solo Project",
         skills: [],
-        links: [],
-        skill_ids: [3, 5, 8, 11],
+        links: [
+          { href: "https://github.com/ggnu11", label: "GitHub" },
+        ],
+        skill_ids: [4, 5, 7, 9],
         row_number: 4,
         items: {
           create: [
             {
-              title: "Drag & Drop Board",
+              title: "프론트엔드",
               content: [
-                "Implemented smooth drag-and-drop with react-beautiful-dnd",
-                "Built optimistic updates for seamless board interactions",
-                "Added multi-select and bulk move functionality",
+                "Next.js 14 App Router + React 18 서버/클라이언트 컴포넌트",
+                "Framer Motion 기반 SVG 초성 애니메이션 (ㅊㅇㅎ)",
+                "한국어/일본어 클라이언트 사이드 i18n",
+                "다크모드/라이트모드 자동 전환",
               ],
               row_number: 1,
             },
-          ],
-        },
-      },
-    }),
-    prisma.project.create({
-      data: {
-        id: 5,
-        title: "Weather <em>App</em>",
-        sub_title: "Location-based weather forecast with beautiful animations",
-        period: "2022.03 - 2022.05",
-        member: "Solo Project",
-        skills: [],
-        links: [{ href: "https://example.com", label: "Live Demo" }],
-        skill_ids: [4, 5, 15],
-        row_number: 5,
-        items: {
-          create: [
             {
-              title: "Weather Visualization",
+              title: "백엔드 & 인프라",
               content: [
-                "Built animated weather icons using CSS and SVG",
-                "Implemented 7-day forecast with interactive charts",
+                "Prisma 7 + PostgreSQL 어댑터 패턴",
+                "Intercepting Routes를 활용한 프로젝트 모달",
               ],
-              row_number: 1,
-            },
-          ],
-        },
-      },
-    }),
-    prisma.project.create({
-      data: {
-        id: 6,
-        title: "Code <em>Editor</em>",
-        sub_title: "Browser-based code editor with live preview and collaboration",
-        period: "2023.10 - 2024.01",
-        member: "Frontend 2, Backend 1",
-        skills: [],
-        links: [{ href: "https://github.com", label: "GitHub" }],
-        skill_ids: [4, 5, 6, 9, 10],
-        row_number: 6,
-        items: {
-          create: [
-            {
-              title: "Live Collaboration",
-              content: [
-                "Implemented real-time code syncing with CRDT algorithm",
-                "Built cursor presence and selection highlighting",
-              ],
-              row_number: 1,
-            },
-          ],
-        },
-      },
-    }),
-    prisma.project.create({
-      data: {
-        id: 7,
-        title: "Design <em>System</em>",
-        sub_title: "Comprehensive component library with accessibility focus",
-        period: "2022.06 - Present",
-        member: "Frontend 3, Designer 2",
-        skills: [],
-        links: [{ href: "https://github.com", label: "GitHub" }],
-        skill_ids: [4, 5, 14, 15],
-        row_number: 7,
-        items: {
-          create: [
-            {
-              title: "Accessible Components",
-              content: [
-                "Built 40+ WCAG 2.1 AA compliant components",
-                "Implemented keyboard navigation and screen reader support",
-                "Created automated accessibility testing pipeline",
-              ],
-              row_number: 1,
+              row_number: 2,
             },
           ],
         },
@@ -496,50 +583,56 @@ async function main() {
   const blogs = await Promise.all([
     prisma.blog.create({
       data: {
-        title: "Understanding React Server Components",
+        title: "React Server Components 이해하기",
         date: "2024.01.15",
         forwardLink: "https://velog.io",
-        bgImageUrl: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&q=80",
+        bgImageUrl:
+          "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&q=80",
       },
     }),
     prisma.blog.create({
       data: {
-        title: "TypeScript Tips for Better DX",
+        title: "TypeScript로 더 나은 DX 만들기",
         date: "2023.11.20",
         forwardLink: "https://velog.io",
-        bgImageUrl: "https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=600&q=80",
+        bgImageUrl:
+          "https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=600&q=80",
       },
     }),
     prisma.blog.create({
       data: {
-        title: "Building Animations with Framer Motion",
+        title: "Framer Motion으로 애니메이션 구현하기",
         date: "2023.09.05",
         forwardLink: "https://velog.io",
-        bgImageUrl: "https://images.unsplash.com/photo-1550439062-609e1531270e?w=600&q=80",
+        bgImageUrl:
+          "https://images.unsplash.com/photo-1550439062-609e1531270e?w=600&q=80",
       },
     }),
     prisma.blog.create({
       data: {
-        title: "CSS Grid vs Flexbox: When to Use What",
-        date: "2023.07.12",
+        title: "WebSocket 실시간 통신 구축 가이드",
+        date: "2024.03.12",
         forwardLink: "https://velog.io",
-        bgImageUrl: "https://images.unsplash.com/photo-1507721999472-8ed4421c4af2?w=600&q=80",
+        bgImageUrl:
+          "https://images.unsplash.com/photo-1507721999472-8ed4421c4af2?w=600&q=80",
       },
     }),
     prisma.blog.create({
       data: {
-        title: "Web Performance Optimization Guide",
-        date: "2023.05.28",
+        title: "ECharts로 데이터 시각화하기",
+        date: "2024.05.28",
         forwardLink: "https://velog.io",
-        bgImageUrl: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80",
+        bgImageUrl:
+          "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80",
       },
     }),
     prisma.blog.create({
       data: {
-        title: "Next.js App Router Deep Dive",
+        title: "Next.js App Router 심층 분석",
         date: "2024.02.10",
         forwardLink: "https://velog.io",
-        bgImageUrl: "https://images.unsplash.com/photo-1484417894907-623942c8ee29?w=600&q=80",
+        bgImageUrl:
+          "https://images.unsplash.com/photo-1484417894907-623942c8ee29?w=600&q=80",
       },
     }),
   ]);
@@ -550,42 +643,63 @@ async function main() {
   const educations = await Promise.all([
     prisma.education.create({
       data: {
-        title: "Korea University",
-        sub_title: "B.S. in Computer Science",
-        period: "2015.03 - 2019.02",
-        items: [
-          "GPA: 3.8 / 4.5",
-          "Relevant coursework: Data Structures, Algorithms, Web Programming",
-        ],
+        title: "서울 사이버대학교",
+        sub_title: "컴퓨터공학 전공",
+        period: "2021 - 2025",
+        items: [],
         category: "EDUCATION",
       },
     }),
     prisma.education.create({
       data: {
-        title: "Samsung SW Academy (SSAFY)",
-        sub_title: "Full-stack Web Development Track",
-        period: "2019.01 - 2019.06",
-        items: [
-          "Completed 800+ hours of intensive training",
-          "Built 5 team projects with agile methodology",
-        ],
+        title: "오사카 휴먼 아카데미",
+        sub_title: "게임 프로그래밍학과",
+        period: "2022.01 - 2022.10",
+        items: ["Unity, C# 기반 게임 프로그래밍 학습"],
         category: "EDUCATION",
       },
     }),
     prisma.education.create({
       data: {
-        title: "AWS Certified Developer - Associate",
-        sub_title: "Amazon Web Services",
-        period: "2023.06",
+        title: "하마마츠 일본어 학교",
+        sub_title: "일본어 집중 학습",
+        period: "2021.03 - 2021.12",
+        items: [],
+        category: "EDUCATION",
+      },
+    }),
+    prisma.education.create({
+      data: {
+        title: "정보처리기사",
+        sub_title: "한국산업인력공단",
+        period: "2025.09 (예정)",
         items: [],
         category: "CERTIFICATION",
       },
     }),
     prisma.education.create({
       data: {
-        title: "SQLD (SQL Developer)",
-        sub_title: "Korea Data Agency",
-        period: "2019.09",
+        title: "SQL 개발자 (SQLD)",
+        sub_title: "한국데이터산업진흥원",
+        period: "2025.06 (예정)",
+        items: [],
+        category: "CERTIFICATION",
+      },
+    }),
+    prisma.education.create({
+      data: {
+        title: "JLPT N2",
+        sub_title: "일본어능력시험",
+        period: "2022.01",
+        items: [],
+        category: "CERTIFICATION",
+      },
+    }),
+    prisma.education.create({
+      data: {
+        title: "JLPT N3",
+        sub_title: "일본어능력시험",
+        period: "2021.08",
         items: [],
         category: "CERTIFICATION",
       },

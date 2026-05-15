@@ -10,10 +10,10 @@ const gothicA1 = Gothic_A1({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://meganmagic.com"),
-  title: "Choi Young-Hun | Frontend Developer",
-  description: "Portfolio of frontend developer Choi Young-Hun",
-  keywords: ["frontend", "frontend developer", "portfolio"],
+  metadataBase: new URL("https://ggnu11.github.io"),
+  title: "최영훈 | Frontend Developer",
+  description: "프론트엔드 개발자 최영훈 포트폴리오",
+  keywords: ["frontend", "프론트엔드", "개발자", "포트폴리오", "최영훈"],
   alternates: { canonical: "/" },
 };
 

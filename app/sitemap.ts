@@ -5,7 +5,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const projects = await prisma.project.findMany({ select: { id: true } });
 
   const projectUrls = projects.map((p) => ({
-    url: `https://meganmagic.com/project/${p.id}`,
+    url: `https://ggnu11.github.io/project/${p.id}`,
     lastModified: new Date(),
     changeFrequency: "monthly" as const,
     priority: 0.8,
@@ -13,7 +13,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     {
-      url: "https://meganmagic.com",
+      url: "https://ggnu11.github.io",
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 1,
