@@ -1,7 +1,4 @@
-import { SectionWatcher } from "@/_components/SectionWatcher";
-import SlideUpInView from "@/_components/SlideUpInView";
-import SectionHeader from "@/_components/SectionHeader";
-import ProjectGrid from "@/_components/project/ProjectGrid";
+import ProjectSectionClient from "@/_components/project/ProjectSectionClient";
 import { getProjects, getSkills } from "@/utils/api";
 import { parsePrismaJSON } from "@/utils/parsePrisma";
 
@@ -29,12 +26,5 @@ export default async function ProjectSection() {
     })),
   }));
 
-  return (
-    <SectionWatcher id="project">
-      <SlideUpInView className="flex flex-col items-center">
-        <SectionHeader section="project" />
-        <ProjectGrid projects={fullProjects} />
-      </SlideUpInView>
-    </SectionWatcher>
-  );
+  return <ProjectSectionClient projects={fullProjects} />;
 }

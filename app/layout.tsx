@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Gothic_A1 } from "next/font/google";
 import { I18nProvider } from "@/i18n/context";
 import { ThemeProvider } from "@/theme/context";
@@ -27,6 +28,13 @@ export default function RootLayout({
   return (
     <html lang="kr" className="dark">
       <body className={gothicA1.className}>
+        <Script
+          id="scroll-restore"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `if("scrollRestoration"in history){history.scrollRestoration="manual"}window.scrollTo(0,0);`,
+          }}
+        />
         <ThemeProvider>
           <I18nProvider>
             {children}

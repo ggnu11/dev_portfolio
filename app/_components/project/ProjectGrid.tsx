@@ -3,10 +3,9 @@
 import { useRef, useState, useCallback, useEffect } from "react";
 import {
   motion,
-  useScroll,
   useTransform,
   useSpring,
-  useMotionValueEvent,
+  useMotionValue,
   AnimatePresence,
   LayoutGroup,
 } from "framer-motion";
@@ -20,6 +19,7 @@ import type { FullProject } from "./types";
 const ANGLE_SPACING = 36;
 const RADIUS = 300;
 const EASE = [0.25, 0.46, 0.45, 0.94] as const;
+const WHEEL_THRESHOLD = 50;
 
 export default function ProjectGrid({
   projects,
@@ -32,6 +32,11 @@ export default function ProjectGrid({
   const selectedProject = projects.find((p) => p.id === selectedId) ?? null;
   const total = projects.length;
 
+  // Motion value driven by wheel events (0 ~ 1)
+  const progress = useMotionValue(0);
+  const wheelAccum = useRef(0);
+  const isWheelLocked = useRef(false);
+
   const handleClose = useCallback(() => setSelectedId(null), []);
 
   useEffect(() => {
@@ -41,15 +46,62 @@ export default function ProjectGrid({
     };
   }, [selectedId]);
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
-  });
+  // Native wheel handler (non-passive) so preventDefault works
+  const focusedIndexRef = useRef(focusedIndex);
+  focusedIndexRef.current = focusedIndex;
 
-  useMotionValueEvent(scrollYProgress, "change", (v) => {
-    const idx = Math.round(v * (total - 1));
-    setFocusedIndex(Math.min(Math.max(idx, 0), total - 1));
-  });
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      if (isWheelLocked.current) {
+        e.preventDefault();
+        return;
+      }
+
+      const idx = focusedIndexRef.current;
+      wheelAccum.current += e.deltaY;
+
+      if (Math.abs(wheelAccum.current) >= WHEEL_THRESHOLD) {
+        const direction = wheelAccum.current > 0 ? 1 : -1;
+        const nextIndex = idx + direction;
+        wheelAccum.current = 0;
+
+        // At boundaries, let page scroll normally
+        if (nextIndex < 0 || nextIndex >= total) return;
+
+        e.preventDefault();
+        isWheelLocked.current = true;
+
+        setFocusedIndex(nextIndex);
+        progress.set(nextIndex / (total - 1));
+
+        setTimeout(() => {
+          isWheelLocked.current = false;
+        }, 400);
+      } else {
+        // While accumulating, block page scroll unless at boundary
+        const atTop = idx === 0 && e.deltaY < 0;
+        const atBottom = idx === total - 1 && e.deltaY > 0;
+        if (!atTop && !atBottom) {
+          e.preventDefault();
+        }
+      }
+    };
+
+    el.addEventListener("wheel", handleWheel, { passive: false });
+    return () => el.removeEventListener("wheel", handleWheel);
+  }, [total, progress]);
+
+  // Also support clicking progress dots
+  const handleDotClick = useCallback(
+    (index: number) => {
+      setFocusedIndex(index);
+      progress.set(index / (total - 1));
+    },
+    [total, progress]
+  );
 
   const focusedProject = projects[focusedIndex];
 
@@ -57,10 +109,9 @@ export default function ProjectGrid({
     <LayoutGroup>
       <div
         ref={containerRef}
-        className="relative w-full"
-        style={{ height: `${Math.max(total * 85, 300)}vh` }}
+        className="relative w-full h-[80vh] md:h-[85vh]"
       >
-        <div className="sticky top-0 h-screen w-full overflow-hidden">
+        <div className="relative h-full w-full overflow-hidden">
           <div className="relative h-full flex items-center">
             {/* ═══ LEFT: Clock Wheel ═══ */}
             <div className="relative w-full md:w-[42%] h-full flex items-center">
@@ -81,7 +132,7 @@ export default function ProjectGrid({
                   project={project}
                   index={i}
                   total={total}
-                  scrollYProgress={scrollYProgress}
+                  progress={progress}
                   onSelect={() => setSelectedId(project.id)}
                 />
               ))}
@@ -116,14 +167,15 @@ export default function ProjectGrid({
           </motion.div>
 
           {/* Progress dots — right edge */}
-          <div className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-10 flex flex-col items-center gap-2.5">
+          <div className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-10 flex flex-col-reverse items-center gap-2.5">
             {projects.map((p, i) => (
               <ProgressDot
                 key={p.id}
                 index={i}
                 total={total}
+                focusedIndex={focusedIndex}
                 accent={["0,122,255", "0,198,118", "226,255,0"][p.id % 3]}
-                scrollYProgress={scrollYProgress}
+                onClick={() => handleDotClick(i)}
               />
             ))}
           </div>
@@ -150,13 +202,13 @@ function WheelCard({
   project,
   index,
   total,
-  scrollYProgress,
+  progress,
   onSelect,
 }: {
   project: FullProject;
   index: number;
   total: number;
-  scrollYProgress: ReturnType<typeof useScroll>["scrollYProgress"];
+  progress: ReturnType<typeof useMotionValue<number>>;
   onSelect: () => void;
 }) {
   const { id, title, period } = project;
@@ -166,7 +218,7 @@ function WheelCard({
   const accent = accentColors[colorIdx];
 
   // Angle from 3 o'clock (0°)
-  const angle = useTransform(scrollYProgress, (v: number) => {
+  const angle = useTransform(progress, (v: number) => {
     const activeFloat = v * (total - 1);
     return (index - activeFloat) * ANGLE_SPACING;
   });
@@ -283,7 +335,7 @@ function FocusedDetail({
 
   return (
     <motion.div
-      className="relative max-w-md w-full"
+      className="relative max-w-md w-full rounded-2xl border border-foreground/[0.08] bg-background/60 backdrop-blur-md p-8 lg:p-10"
       initial={{ opacity: 0, x: 50 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -40 }}
@@ -424,40 +476,31 @@ function FocusedDetail({
    ═══════════════════════════════════════════ */
 function ProgressDot({
   index,
-  total,
+  focusedIndex,
   accent,
-  scrollYProgress,
+  onClick,
 }: {
   index: number;
   total: number;
+  focusedIndex: number;
   accent: string;
-  scrollYProgress: ReturnType<typeof useScroll>["scrollYProgress"];
+  onClick: () => void;
 }) {
-  const start = index / total;
-  const end = (index + 1) / total;
-  const isActive = useTransform(
-    scrollYProgress,
-    [start, start + 0.02, end - 0.02, end],
-    [0, 1, 1, 0]
-  );
-  const dotScale = useSpring(
-    useTransform(isActive, [0, 1], [0.5, 1]),
-    { stiffness: 300, damping: 25 }
-  );
-  const dotOpacity = useSpring(
-    useTransform(isActive, [0, 1], [0.15, 1]),
-    { stiffness: 300, damping: 25 }
-  );
+  const isActive = index === focusedIndex;
 
   return (
     <motion.div
-      className="w-2 h-2 rounded-full"
-      style={{
-        scale: dotScale,
-        opacity: dotOpacity,
-        backgroundColor: `rgba(${accent}, 1)`,
-        boxShadow: `0 0 6px rgba(${accent}, 0.3)`,
+      className="w-2 h-2 rounded-full ring-1 ring-foreground/10 cursor-pointer"
+      animate={{
+        scale: isActive ? 1 : 0.5,
+        opacity: isActive ? 1 : 0.35,
       }}
+      transition={{ type: "spring", stiffness: 300, damping: 25 }}
+      style={{
+        backgroundColor: `rgba(${accent}, 1)`,
+        boxShadow: isActive ? `0 0 6px rgba(${accent}, 0.4)` : "none",
+      }}
+      onClick={onClick}
     />
   );
 }

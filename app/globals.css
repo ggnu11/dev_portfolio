@@ -48,6 +48,7 @@
 
   section {
     @apply w-full pt-16 pb-24 md:pt-20 md:pb-32 lg:pt-20 lg:pb-40;
+    scroll-margin-top: 5rem;
   }
 
   a {
@@ -73,7 +74,7 @@
   }
 
   .section-title {
-    @apply text-2xl font-semibold break-keep mb-8 md:mb-12 text-center;
+    @apply text-2xl font-semibold break-keep mb-6 md:mb-8 text-center;
   }
 
   .section-description {
