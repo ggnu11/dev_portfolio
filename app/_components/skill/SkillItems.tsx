@@ -38,7 +38,7 @@ export default function SkillItems({ skills }: { skills: Skill[] }) {
         {/* Toggle Button */}
         <button
           onClick={handleToggle}
-          className="px-5 py-2 rounded-full border border-foreground/10 text-sm font-medium text-foreground/50 hover:text-foreground/80 hover:border-foreground/20 transition-colors"
+          className="px-5 py-2 rounded-full text-sm font-medium transition-colors bg-primary/15 text-primary border border-primary/25 hover:bg-primary/25 hover:border-primary/40"
         >
           {mode === "all" ? "Group by Category" : "Show All"}
         </button>
