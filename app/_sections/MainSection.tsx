@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { Download } from "react-feather";
 import FirstShape from "@/_components/MotionShapes/FirstShape";
 import SecondShape from "@/_components/MotionShapes/SecondShape";
