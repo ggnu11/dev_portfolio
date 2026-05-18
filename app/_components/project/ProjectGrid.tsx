@@ -11,7 +11,6 @@ import {
 } from "framer-motion";
 import Image from "next/image";
 import parse from "html-react-parser";
-import { ChevronRight } from "react-feather";
 import SkillItem from "../skill/SkillItem";
 import ProjectCinematic from "./ProjectCinematic";
 import type { FullProject } from "./types";
@@ -109,7 +108,7 @@ export default function ProjectGrid({
     <LayoutGroup>
       <div
         ref={containerRef}
-        className="relative w-full h-[80vh] md:h-[85vh]"
+        className="relative w-full h-[80vh] md:h-[50vh]"
       >
         <div className="relative h-full w-full overflow-hidden">
           <div className="relative h-full flex items-center">
@@ -260,7 +259,7 @@ function WheelCard({
         scale: sScale,
         filter: filterStr,
         willChange: "transform, opacity, filter",
-        zIndex: useTransform(absAngle, (a) => Math.round(100 - a)),
+        zIndex: useTransform(absAngle, (a) => Math.round(40 - a)),
       }}
     >
       {/* Inner wrapper to center the card on its arc point */}
@@ -335,11 +334,17 @@ function FocusedDetail({
 
   return (
     <motion.div
-      className="relative max-w-md w-full rounded-2xl border border-foreground/[0.08] bg-background/60 backdrop-blur-md p-8 lg:p-10"
+      onClick={onSelect}
+      className="relative max-w-md w-full rounded-2xl border border-foreground/[0.08] bg-background/60 backdrop-blur-md p-8 lg:p-10 cursor-pointer"
       initial={{ opacity: 0, x: 50 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -40 }}
       transition={{ duration: 0.5, ease: EASE }}
+      whileHover={{
+        scale: 1.02,
+        borderColor: `rgba(${accent}, 0.2)`,
+        boxShadow: `0 8px 32px -8px rgba(${accent}, 0.12)`,
+      }}
     >
       {/* Decorative large shape watermark */}
       <motion.div
@@ -442,30 +447,13 @@ function FocusedDetail({
         </motion.div>
       )}
 
-      {/* CTA */}
-      <motion.button
-        onClick={onSelect}
-        className="flex items-center gap-1.5 text-sm font-medium group"
-        style={{ color: `rgba(${accent}, 0.65)` }}
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4, duration: 0.4, ease: EASE }}
-        whileHover={{ x: 3 }}
-      >
-        View Details
-        <ChevronRight
-          size={14}
-          className="transition-transform group-hover:translate-x-0.5"
-        />
-      </motion.button>
-
       {/* Accent divider */}
       <motion.div
-        className="mt-8 h-[1px] w-12"
+        className="h-[1px] w-12"
         style={{ backgroundColor: `rgba(${accent}, 0.15)`, transformOrigin: "left" }}
         initial={{ scaleX: 0 }}
         animate={{ scaleX: 1 }}
-        transition={{ delay: 0.5, duration: 0.6 }}
+        transition={{ delay: 0.4, duration: 0.6 }}
       />
     </motion.div>
   );
