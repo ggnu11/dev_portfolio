@@ -69,7 +69,7 @@ export default function SplashIntro({ children }: { children: ReactNode }) {
           animate={film}
           className="fixed inset-0 z-[9999] will-change-transform"
         >
-          <div className="h-screen flex flex-col items-center justify-center bg-[rgb(15,24,42)] relative">
+          <div className="h-screen flex flex-col items-center justify-center bg-background relative">
             <div className="flex items-center gap-3 mb-8">
               {DOTS.map((dot, i) => (
                 <motion.div
@@ -91,7 +91,7 @@ export default function SplashIntro({ children }: { children: ReactNode }) {
             </div>
 
             <motion.h2
-              className="text-white/90 text-xl font-semibold tracking-wide"
+              className="text-foreground/90 text-xl font-semibold tracking-wide"
               initial={{ opacity: 0, y: 8 }}
               animate={{
                 opacity: 1,
@@ -103,7 +103,7 @@ export default function SplashIntro({ children }: { children: ReactNode }) {
             </motion.h2>
 
             <motion.p
-              className="text-white/40 text-sm mt-2 tracking-widest uppercase"
+              className="text-foreground/40 text-sm mt-2 tracking-widest uppercase"
               initial={{ opacity: 0 }}
               animate={{
                 opacity: 1,
@@ -114,7 +114,7 @@ export default function SplashIntro({ children }: { children: ReactNode }) {
             </motion.p>
 
             <motion.div
-              className="absolute bottom-12 left-1/2 -translate-x-1/2 w-8 h-[2px] rounded-full bg-white/10"
+              className="absolute bottom-12 left-1/2 -translate-x-1/2 w-8 h-[2px] rounded-full bg-foreground/10"
               initial={{ scaleX: 0 }}
               animate={{
                 scaleX: 1,

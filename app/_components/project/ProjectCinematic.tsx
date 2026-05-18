@@ -66,7 +66,7 @@ export default function ProjectCinematic({
     >
       {/* STEP 4: Dark cinematic backdrop */}
       <motion.div
-        className="absolute inset-0 bg-[rgb(8,10,18)]"
+        className="absolute inset-0 bg-background"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -76,7 +76,7 @@ export default function ProjectCinematic({
       {/* Close button */}
       <motion.button
         onClick={onClose}
-        className="absolute top-6 right-6 z-[1002] w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white/60 hover:text-white hover:bg-white/20"
+        className="absolute top-6 right-6 z-[1002] w-10 h-10 rounded-full bg-foreground/10 backdrop-blur-md flex items-center justify-center text-foreground/60 hover:text-foreground hover:bg-foreground/20"
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.8 }}
@@ -132,7 +132,7 @@ export default function ProjectCinematic({
           {/* Title - shared element */}
           <motion.h1
             layoutId={`project-title-${project.id}`}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white text-center leading-tight mb-6 max-w-3xl"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground text-center leading-tight mb-6 max-w-3xl"
             transition={{ duration: 0.6, ease: EASE_CINEMATIC }}
           >
             {parse(project.title)}
@@ -140,7 +140,7 @@ export default function ProjectCinematic({
 
           {/* Subtitle - stagger reveal */}
           <motion.p
-            className="text-base md:text-lg text-white/40 text-center max-w-xl leading-relaxed"
+            className="text-base md:text-lg text-foreground/40 text-center max-w-xl leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.6, ease: EASE_CINEMATIC }}
@@ -150,13 +150,13 @@ export default function ProjectCinematic({
 
           {/* Meta row */}
           <motion.div
-            className="flex items-center gap-6 mt-8 text-sm text-white/30"
+            className="flex items-center gap-6 mt-8 text-sm text-foreground/30"
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.6, ease: EASE_CINEMATIC }}
           >
             <span>{project.period}</span>
-            <span className="w-1 h-1 rounded-full bg-white/20" />
+            <span className="w-1 h-1 rounded-full bg-foreground/20" />
             <span>{project.member}</span>
           </motion.div>
 
@@ -191,7 +191,7 @@ export default function ProjectCinematic({
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-full border border-white/10 text-white/60 text-sm hover:text-white hover:border-white/30 no-underline transition-colors"
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-full border border-foreground/10 text-foreground/60 text-sm hover:text-foreground hover:border-foreground/30 no-underline transition-colors"
                 >
                   {link.label}
                   <ExternalLink size={14} />
@@ -207,11 +207,11 @@ export default function ProjectCinematic({
             animate={{ opacity: 1 }}
             transition={{ delay: 1, duration: 0.6 }}
           >
-            <span className="text-[10px] text-white/20 tracking-[0.3em] uppercase">
+            <span className="text-[10px] text-foreground/20 tracking-[0.3em] uppercase">
               Scroll
             </span>
             <motion.div
-              className="w-[1px] h-8 bg-gradient-to-b from-white/30 to-transparent"
+              className="w-[1px] h-8 bg-gradient-to-b from-foreground/30 to-transparent"
               animate={{ scaleY: [1, 0.5, 1] }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
               style={{ transformOrigin: "top" }}
@@ -222,9 +222,9 @@ export default function ProjectCinematic({
         {/* ═══ DETAIL SECTIONS - Sticky Scroll Storytelling ═══ */}
         <div className="relative">
           {/* Gradient transition from hero to content */}
-          <div className="h-32 bg-gradient-to-b from-transparent to-[rgb(12,14,22)]" />
+          <div className="h-32 bg-gradient-to-b from-transparent to-background" />
 
-          <div className="bg-[rgb(12,14,22)] px-6 md:px-12 pb-32">
+          <div className="bg-background px-6 md:px-12 pb-32">
             <div className="max-w-3xl mx-auto">
               {project.items.map((item, idx) => (
                 <ProjectDetailSection
@@ -291,7 +291,7 @@ function ProjectDetailSection({
         >
           {String(index + 1).padStart(2, "0")}
         </span>
-        <h3 className="text-xl md:text-2xl font-semibold text-white">
+        <h3 className="text-xl md:text-2xl font-semibold text-foreground">
           {item.title}
         </h3>
       </div>
@@ -315,7 +315,7 @@ function ProjectDetailSection({
               className="mt-2 w-1.5 h-1.5 rounded-full shrink-0"
               style={{ backgroundColor: `rgba(${accent}, 0.5)` }}
             />
-            <p className="text-sm md:text-base text-white/60 leading-relaxed">
+            <p className="text-sm md:text-base text-foreground/60 leading-relaxed">
               {parse(c)}
             </p>
           </motion.div>
