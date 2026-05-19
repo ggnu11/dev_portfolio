@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useCallback, useEffect } from "react";
+import { useRef, useState, useCallback, useEffect, useMemo } from "react";
 import {
   motion,
   useTransform,
@@ -27,7 +27,9 @@ export default function ProjectGrid({
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [selectOrigin, setSelectOrigin] = useState<"left" | "right">("left");
   const [focusedIndex, setFocusedIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
   const selectedProject = projects.find((p) => p.id === selectedId) ?? null;
   const total = projects.length;
 
@@ -102,9 +104,21 @@ export default function ProjectGrid({
     <LayoutGroup>
       <div
         ref={containerRef}
-        className="relative w-full h-[80vh] md:h-[50vh]"
+        className="relative w-full h-[80vh] md:h-[50vh] rounded-3xl"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
       >
-        <div className="relative h-full w-full overflow-hidden">
+        {/* Hover-activated background */}
+        <motion.div
+          className="absolute -inset-10 pointer-events-none"
+          animate={{ opacity: isHovered ? 1 : 0 }}
+          transition={{ duration: 0.5, ease: EASE }}
+          style={{
+            background: "radial-gradient(ellipse at center, rgba(var(--foreground-rgb), 0.2) 0%, rgba(var(--foreground-rgb), 0.08) 40%, transparent 70%)",
+          }}
+        />
+
+        <div className="relative h-full w-full overflow-hidden rounded-3xl">
           <div className="relative h-full flex items-center">
             {/* ═══ LEFT: Clock Wheel ═══ */}
             <div className="relative w-full md:w-[42%] h-full flex items-center">
@@ -126,7 +140,10 @@ export default function ProjectGrid({
                   index={i}
                   total={total}
                   progress={progress}
-                  onSelect={() => setSelectedId(project.id)}
+                  onSelect={() => {
+                    setSelectOrigin("left");
+                    setSelectedId(project.id);
+                  }}
                 />
               ))}
             </div>
@@ -138,7 +155,10 @@ export default function ProjectGrid({
                   key={focusedProject.id}
                   project={focusedProject}
                   index={focusedIndex}
-                  onSelect={() => setSelectedId(focusedProject.id)}
+                  onSelect={() => {
+                    setSelectOrigin("right");
+                    setSelectedId(focusedProject.id);
+                  }}
                 />
               </AnimatePresence>
             </div>
@@ -180,6 +200,7 @@ export default function ProjectGrid({
         {selectedProject && (
           <ProjectCinematic
             project={selectedProject}
+            origin={selectOrigin}
             onClose={handleClose}
           />
         )}
