@@ -5,7 +5,7 @@ import { parsePrismaJSON } from "@/utils/parsePrisma";
 import ProjectMetaGrid from "./ProjectMetaGrid";
 import ProjectNotFound from "./ProjectNotFound";
 
-const imageRatioMap = {
+const imageRatioMap: Record<string, { w: number; h: number }> = {
   SQUARE: { w: 312, h: 312 },
   PORTRAIT: { w: 468, h: 903 },
   LANDSCAPE: { w: 384, h: 208 },

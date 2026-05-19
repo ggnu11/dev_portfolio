@@ -20,39 +20,38 @@ const SectionWatchContext = createContext<SectionWatchContextType>({
 export function SectionWatchProvider({ children }: { children: ReactNode }) {
   const [activeId, setActiveId] = useState("");
   const sectionsRef = useRef<Map<string, HTMLElement>>(new Map());
+  const [version, setVersion] = useState(0);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        // Find the entry with the largest intersection ratio
-        let best: IntersectionObserverEntry | null = null;
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            if (!best || entry.intersectionRatio > best.intersectionRatio) {
-              best = entry;
-            }
-          }
+    const sections = sectionsRef.current;
+    if (sections.size === 0) return;
+
+    // Use scroll-based detection for more accurate tracking
+    const handleScroll = () => {
+      const viewportCenter = window.innerHeight / 2;
+      let closestId = "";
+      let closestDist = Infinity;
+
+      sections.forEach((el, id) => {
+        const rect = el.getBoundingClientRect();
+        const sectionCenter = rect.top + rect.height / 2;
+        const distance = Math.abs(sectionCenter - viewportCenter);
+
+        if (distance < closestDist) {
+          closestId = id;
+          closestDist = distance;
         }
-        if (best?.target.id) {
-          setActiveId(best.target.id);
-        }
-      },
-      {
-        rootMargin: "-40% 0px -40% 0px",
-        threshold: [0, 0.1, 0.2, 0.3, 0.5],
+      });
+
+      if (closestId) {
+        setActiveId(closestId);
       }
-    );
-
-    // Observe after a tick to ensure sections are mounted
-    const timer = setTimeout(() => {
-      sectionsRef.current.forEach((el) => observer.observe(el));
-    }, 100);
-
-    return () => {
-      clearTimeout(timer);
-      observer.disconnect();
     };
-  }, []);
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [version]);
 
   const registerSection = (id: string, el: HTMLElement | null) => {
     if (el) {
@@ -60,6 +59,7 @@ export function SectionWatchProvider({ children }: { children: ReactNode }) {
     } else {
       sectionsRef.current.delete(id);
     }
+    setVersion((v) => v + 1);
   };
 
   return (

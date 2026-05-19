@@ -27,7 +27,6 @@ export default function ProjectGrid({
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [selectedId, setSelectedId] = useState<number | null>(null);
-  const [selectOrigin, setSelectOrigin] = useState<"left" | "right">("left");
   const [focusedIndex, setFocusedIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const [viewMode, setViewMode] = useState<"wheel" | "grid">("wheel");
@@ -184,7 +183,6 @@ export default function ProjectGrid({
                       total={total}
                       progress={progress}
                       onSelect={() => {
-                        setSelectOrigin("left");
                         setSelectedId(project.id);
                       }}
                     />
@@ -199,7 +197,6 @@ export default function ProjectGrid({
                       project={focusedProject}
                       index={focusedIndex}
                       onSelect={() => {
-                        setSelectOrigin("right");
                         setSelectedId(focusedProject.id);
                       }}
                     />
@@ -253,7 +250,6 @@ export default function ProjectGrid({
                     project={project}
                     index={i}
                     onSelect={() => {
-                      setSelectOrigin("left");
                       setSelectedId(project.id);
                     }}
                   />
@@ -269,7 +265,6 @@ export default function ProjectGrid({
         {selectedProject && (
           <ProjectCinematic
             project={selectedProject}
-            origin={selectOrigin}
             onClose={handleClose}
           />
         )}
