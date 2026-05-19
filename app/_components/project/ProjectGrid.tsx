@@ -64,11 +64,10 @@ export default function ProjectGrid({
 
       if (Math.abs(wheelAccum.current) >= WHEEL_THRESHOLD) {
         const direction = wheelAccum.current > 0 ? 1 : -1;
-        const nextIndex = idx + direction;
         wheelAccum.current = 0;
 
-        // At boundaries, let page scroll normally
-        if (nextIndex < 0 || nextIndex >= total) return;
+        // Wrap around: last → first, first → last
+        const nextIndex = (idx + direction + total) % total;
 
         e.preventDefault();
         isWheelLocked.current = true;
@@ -80,12 +79,7 @@ export default function ProjectGrid({
           isWheelLocked.current = false;
         }, 400);
       } else {
-        // While accumulating, block page scroll unless at boundary
-        const atTop = idx === 0 && e.deltaY < 0;
-        const atBottom = idx === total - 1 && e.deltaY > 0;
-        if (!atTop && !atBottom) {
-          e.preventDefault();
-        }
+        e.preventDefault();
       }
     };
 
