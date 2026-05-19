@@ -30,6 +30,7 @@ export default function ProjectGrid({
   const [selectOrigin, setSelectOrigin] = useState<"left" | "right">("left");
   const [focusedIndex, setFocusedIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+  const [viewMode, setViewMode] = useState<"wheel" | "grid">("wheel");
   const selectedProject = projects.find((p) => p.id === selectedId) ?? null;
   const total = projects.length;
 
@@ -56,6 +57,8 @@ export default function ProjectGrid({
     if (!el) return;
 
     const handleWheel = (e: WheelEvent) => {
+      if (viewMode === "grid") return;
+
       if (isWheelLocked.current) {
         e.preventDefault();
         return;
@@ -65,7 +68,7 @@ export default function ProjectGrid({
       wheelAccum.current += e.deltaY;
 
       if (Math.abs(wheelAccum.current) >= WHEEL_THRESHOLD) {
-        const direction = wheelAccum.current > 0 ? 1 : -1;
+        const direction = wheelAccum.current > 0 ? -1 : 1;
         wheelAccum.current = 0;
 
         const nextIndex = idx + direction;
@@ -92,7 +95,7 @@ export default function ProjectGrid({
 
     el.addEventListener("wheel", handleWheel, { passive: false });
     return () => el.removeEventListener("wheel", handleWheel);
-  }, [total, progress]);
+  }, [total, progress, viewMode]);
 
   // Also support clicking progress dots
   const handleDotClick = useCallback(
@@ -107,97 +110,158 @@ export default function ProjectGrid({
 
   return (
     <LayoutGroup>
+      {/* View mode toggle — centered */}
+      <div className="flex justify-center mb-4">
+        <button
+          onClick={() => setViewMode(viewMode === "wheel" ? "grid" : "wheel")}
+          className="flex items-center gap-2 px-5 py-2 rounded-full text-sm font-medium transition-all bg-primary/15 text-primary border border-primary/25 hover:bg-primary/25 hover:border-primary/40"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            {viewMode === "wheel" ? (
+              <>
+                <rect x="3" y="3" width="7" height="7" rx="1" />
+                <rect x="14" y="3" width="7" height="7" rx="1" />
+                <rect x="3" y="14" width="7" height="7" rx="1" />
+                <rect x="14" y="14" width="7" height="7" rx="1" />
+              </>
+            ) : (
+              <>
+                <circle cx="12" cy="12" r="9" />
+                <path d="M12 8v8M8 12h8" />
+              </>
+            )}
+          </svg>
+          {viewMode === "wheel" ? "View All" : "Wheel"}
+        </button>
+      </div>
+
+      {/* Fixed-height container for both views */}
       <div
         ref={containerRef}
-        className="relative w-full h-[80vh] md:h-[50vh] rounded-3xl"
+        className="relative w-full h-[80vh] md:h-[50vh]"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        {/* Hover-activated background */}
-        <motion.div
-          className="absolute -inset-10 pointer-events-none"
-          animate={{ opacity: isHovered ? 1 : 0 }}
-          transition={{ duration: 0.5, ease: EASE }}
-          style={{
-            background: "radial-gradient(ellipse at center, rgba(var(--foreground-rgb), 0.2) 0%, rgba(var(--foreground-rgb), 0.08) 40%, transparent 70%)",
-          }}
-        />
-
-        <div className="relative h-full w-full overflow-hidden rounded-3xl">
-          <div className="relative h-full flex items-center">
-            {/* ═══ LEFT: Clock Wheel ═══ */}
-            <div className="relative w-full md:w-[42%] h-full flex items-center">
-              {/* Subtle arc guide */}
-              <div
-                className="absolute rounded-full border border-foreground/[0.03] pointer-events-none hidden md:block"
-                style={{
-                  width: RADIUS * 2,
-                  height: RADIUS * 2,
-                  left: -RADIUS,
-                  top: `calc(50% - ${RADIUS}px)`,
-                }}
-              />
-
-              {projects.map((project, i) => (
-                <WheelCard
-                  key={project.id}
-                  project={project}
-                  index={i}
-                  total={total}
-                  progress={progress}
-                  onSelect={() => {
-                    setSelectOrigin("left");
-                    setSelectedId(project.id);
-                  }}
-                />
-              ))}
-            </div>
-
-            {/* ═══ RIGHT: Focused Detail ═══ */}
-            <div className="hidden md:flex flex-1 items-center justify-center px-8 lg:px-14">
-              <AnimatePresence mode="wait">
-                <FocusedDetail
-                  key={focusedProject.id}
-                  project={focusedProject}
-                  index={focusedIndex}
-                  onSelect={() => {
-                    setSelectOrigin("right");
-                    setSelectedId(focusedProject.id);
-                  }}
-                />
-              </AnimatePresence>
-            </div>
-          </div>
-
-          {/* Scroll hint */}
-          <motion.div
-            className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1 }}
-          >
+        <AnimatePresence mode="wait">
+          {viewMode === "wheel" ? (
             <motion.div
-              className="w-[1px] h-6 bg-gradient-to-b from-foreground/20 to-transparent"
-              animate={{ scaleY: [1, 0.4, 1] }}
-              transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-              style={{ transformOrigin: "top" }}
+              key="wheel-view"
+              className="absolute inset-0 rounded-3xl"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.35, ease: EASE }}
+            >
+            {/* Hover-activated background */}
+            <motion.div
+              className="absolute -inset-10 pointer-events-none"
+              animate={{ opacity: isHovered ? 1 : 0 }}
+              transition={{ duration: 0.5, ease: EASE }}
+              style={{
+                background: "radial-gradient(ellipse at center, rgba(var(--foreground-rgb), 0.2) 0%, rgba(var(--foreground-rgb), 0.08) 40%, transparent 70%)",
+              }}
             />
-          </motion.div>
 
-          {/* Progress dots — right edge */}
-          <div className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-10 flex flex-col-reverse items-center gap-2.5">
-            {projects.map((p, i) => (
-              <ProgressDot
-                key={p.id}
-                index={i}
-                total={total}
-                focusedIndex={focusedIndex}
-                accent={["0,122,255", "0,198,118", "226,255,0"][p.id % 3]}
-                onClick={() => handleDotClick(i)}
-              />
-            ))}
-          </div>
-        </div>
+            <div className="relative h-full w-full overflow-hidden rounded-3xl">
+              <div className="relative h-full flex items-center">
+                {/* ═══ LEFT: Clock Wheel ═══ */}
+                <div className="relative w-full md:w-[42%] h-full flex items-center">
+                  <div
+                    className="absolute rounded-full border border-foreground/[0.03] pointer-events-none hidden md:block"
+                    style={{
+                      width: RADIUS * 2,
+                      height: RADIUS * 2,
+                      left: -RADIUS,
+                      top: `calc(50% - ${RADIUS}px)`,
+                    }}
+                  />
+
+                  {projects.map((project, i) => (
+                    <WheelCard
+                      key={project.id}
+                      project={project}
+                      index={i}
+                      total={total}
+                      progress={progress}
+                      onSelect={() => {
+                        setSelectOrigin("left");
+                        setSelectedId(project.id);
+                      }}
+                    />
+                  ))}
+                </div>
+
+                {/* ═══ RIGHT: Focused Detail ═══ */}
+                <div className="hidden md:flex flex-1 items-center justify-center px-8 lg:px-14">
+                  <AnimatePresence mode="wait">
+                    <FocusedDetail
+                      key={focusedProject.id}
+                      project={focusedProject}
+                      index={focusedIndex}
+                      onSelect={() => {
+                        setSelectOrigin("right");
+                        setSelectedId(focusedProject.id);
+                      }}
+                    />
+                  </AnimatePresence>
+                </div>
+              </div>
+
+              {/* Scroll hint */}
+              <motion.div
+                className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1 }}
+              >
+                <motion.div
+                  className="w-[1px] h-6 bg-gradient-to-b from-foreground/20 to-transparent"
+                  animate={{ scaleY: [1, 0.4, 1] }}
+                  transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                  style={{ transformOrigin: "top" }}
+                />
+              </motion.div>
+
+              {/* Progress dots */}
+              <div className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-10 flex flex-col-reverse items-center gap-2.5">
+                {projects.map((p, i) => (
+                  <ProgressDot
+                    key={p.id}
+                    index={i}
+                    total={total}
+                    focusedIndex={focusedIndex}
+                    accent={["0,122,255", "0,198,118", "226,255,0"][p.id % 3]}
+                    onClick={() => handleDotClick(i)}
+                  />
+                ))}
+              </div>
+            </div>
+          </motion.div>
+          ) : (
+            <motion.div
+              key="grid-view"
+              className="absolute inset-0 flex items-center justify-center px-4"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.35, ease: EASE }}
+            >
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-2xl">
+                {projects.map((project, i) => (
+                  <GridCard
+                    key={project.id}
+                    project={project}
+                    index={i}
+                    onSelect={() => {
+                      setSelectOrigin("left");
+                      setSelectedId(project.id);
+                    }}
+                  />
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* Cinematic Fullscreen */}
@@ -331,6 +395,101 @@ function WheelCard({
           />
         </motion.div>
       </div>
+    </motion.div>
+  );
+}
+
+/* ═══════════════════════════════════════════
+   Grid Card — all projects view
+   ═══════════════════════════════════════════ */
+function GridCard({
+  project,
+  index,
+  onSelect,
+}: {
+  project: FullProject;
+  index: number;
+  onSelect: () => void;
+}) {
+  const { id, title, sub_title, period, member, skillData } = project;
+  const shapeVariant = id % 9;
+  const colorIdx = id % 3;
+  const accent = ["0,122,255", "0,198,118", "226,255,0"][colorIdx];
+
+  return (
+    <motion.div
+      onClick={onSelect}
+      className="relative rounded-2xl border border-foreground/[0.08] bg-background/80 backdrop-blur-md p-6 cursor-pointer select-none group"
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.08, duration: 0.4, ease: EASE }}
+      whileHover={{
+        scale: 1.02,
+        borderColor: `rgba(${accent}, 0.2)`,
+        boxShadow: `0 8px 32px -8px rgba(${accent}, 0.12)`,
+      }}
+    >
+      {/* Shape watermark */}
+      <div className="absolute -right-4 -top-4 w-20 h-20 opacity-[0.04] pointer-events-none">
+        <Image
+          src={`/assets/shape-variant-${shapeVariant}.svg`}
+          alt=""
+          width={80}
+          height={80}
+        />
+      </div>
+
+      <div className="flex items-start gap-4">
+        <motion.div layoutId={`project-shape-${id}`} className="w-7 h-7 shrink-0 mt-0.5">
+          <Image
+            src={`/assets/shape-variant-${shapeVariant}.svg`}
+            alt=""
+            width={28}
+            height={28}
+          />
+        </motion.div>
+
+        <div className="flex-1 min-w-0">
+          <motion.h4 layoutId={`project-title-${id}`} className="text-base font-semibold leading-snug mb-1">
+            {parse(title)}
+          </motion.h4>
+
+          <p className="text-xs text-foreground/35 mb-3">
+            {period} · {member}
+          </p>
+
+          <p className="text-sm text-foreground/45 leading-relaxed line-clamp-2 mb-4">
+            {sub_title}
+          </p>
+
+          {/* Skills */}
+          {skillData.length > 0 && (
+            <div className="flex flex-wrap gap-1.5">
+              {skillData.slice(0, 5).map((skill) => (
+                <Image
+                  key={skill.id}
+                  src={skill.blobUrl}
+                  alt={skill.item}
+                  width={18}
+                  height={18}
+                  className="opacity-50 group-hover:opacity-80 transition-opacity"
+                />
+              ))}
+              {skillData.length > 5 && (
+                <span className="text-[10px] text-foreground/25 self-center ml-0.5">
+                  +{skillData.length - 5}
+                </span>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Accent bar */}
+      <div
+        className="absolute bottom-0 left-6 right-6 h-[2px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+        style={{ backgroundColor: `rgba(${accent}, 0.3)` }}
+      />
     </motion.div>
   );
 }
