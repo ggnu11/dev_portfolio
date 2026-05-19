@@ -1,41 +1,40 @@
-import { prisma } from "@/lib/prisma";
+import {
+  intros,
+  skills,
+  experiences,
+  projects,
+  blogs,
+  educations,
+} from "@/data";
 
 export async function getIntros() {
-  return prisma.intro.findMany({ orderBy: { id: "asc" } });
+  return intros;
 }
 
 export async function getSkills(ids?: number[]) {
   if (ids && ids.length > 0) {
-    return prisma.skill.findMany({
-      where: { id: { in: ids } },
-      orderBy: { category: "asc" },
-    });
+    return skills.filter((s) => ids.includes(s.id));
   }
-  return prisma.skill.findMany({ orderBy: { category: "asc" } });
+  return skills;
 }
 
 export async function getExperiences() {
-  return prisma.experience.findMany({ orderBy: { index: "asc" } });
+  return [...experiences].sort((a, b) => a.index - b.index);
 }
 
 export async function getProjects() {
-  return prisma.project.findMany({
-    include: { items: { orderBy: { row_number: "asc" } } },
-    orderBy: { row_number: "asc" },
-  });
+  return [...projects]
+    .sort((a, b) => (a.row_number ?? 0) - (b.row_number ?? 0));
 }
 
 export async function getProjectById(id: number) {
-  return prisma.project.findUnique({
-    where: { id },
-    include: { items: { orderBy: { row_number: "asc" } } },
-  });
+  return projects.find((p) => p.id === id) ?? null;
 }
 
 export async function getBlogs() {
-  return prisma.blog.findMany();
+  return blogs;
 }
 
 export async function getEducations() {
-  return prisma.education.findMany({ orderBy: { id: "asc" } });
+  return educations;
 }
