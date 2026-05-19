@@ -9,7 +9,7 @@ import {
   useTransform,
   useSpring,
 } from "framer-motion";
-import { X, ExternalLink } from "react-feather";
+import { ExternalLink } from "react-feather";
 import SkillItem from "../skill/SkillItem";
 import type { FullProject } from "./types";
 
@@ -56,6 +56,7 @@ export default function ProjectCinematic({
     return () => document.removeEventListener("keydown", handleKey);
   }, [onClose]);
 
+
   return (
     <motion.div
       className="fixed inset-0 z-[999] flex flex-col"
@@ -63,8 +64,9 @@ export default function ProjectCinematic({
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.4, ease: EASE_CINEMATIC }}
+      onClick={onClose}
     >
-      {/* STEP 4: Dark cinematic backdrop */}
+      {/* Dark cinematic backdrop */}
       <motion.div
         className="absolute inset-0 bg-background"
         initial={{ opacity: 0 }}
@@ -73,23 +75,29 @@ export default function ProjectCinematic({
         transition={{ duration: 0.6, ease: EASE_CINEMATIC }}
       />
 
-      {/* Close button */}
-      <motion.button
-        onClick={onClose}
-        className="absolute top-6 right-6 z-[1002] w-10 h-10 rounded-full bg-foreground/10 backdrop-blur-md flex items-center justify-center text-foreground/60 hover:text-foreground hover:bg-foreground/20"
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.8 }}
-        transition={{ delay: 0.5, duration: 0.3 }}
-        style={{ willChange: "transform, opacity" }}
-      >
-        <X size={18} />
-      </motion.button>
+      {/* Scroll progress indicator — right edge */}
+      <div className="absolute right-5 top-1/2 -translate-y-1/2 z-[1004] flex flex-col items-center gap-1">
+        <motion.div
+          className="w-[2px] rounded-full"
+          style={{
+            height: 60,
+            backgroundColor: `rgba(${accent}, 0.1)`,
+          }}
+        >
+          <motion.div
+            className="w-full rounded-full"
+            style={{
+              height: useTransform(scrollYProgress, [0, 1], [0, 60]),
+              backgroundColor: `rgba(${accent}, 0.5)`,
+            }}
+          />
+        </motion.div>
+      </div>
 
       {/* Scrollable content */}
       <motion.div
         ref={scrollRef}
-        className="relative z-[1001] h-full overflow-y-auto overflow-x-hidden"
+        className="relative z-[1001] h-full overflow-y-auto overflow-x-hidden scrollbar-hide"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -114,6 +122,8 @@ export default function ProjectCinematic({
               background: `radial-gradient(ellipse 60% 40% at 50% 30%, rgba(${accent}, 0.08) 0%, transparent 100%)`,
             }}
           />
+
+          <div className="flex flex-col items-center">
 
           {/* Shape icon */}
           <motion.div
@@ -192,6 +202,7 @@ export default function ProjectCinematic({
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 px-5 py-2.5 rounded-full border border-foreground/10 text-foreground/60 text-sm hover:text-foreground hover:border-foreground/30 no-underline transition-colors"
+                  onClick={(e) => e.stopPropagation()}
                 >
                   {link.label}
                   <ExternalLink size={14} />
@@ -199,6 +210,8 @@ export default function ProjectCinematic({
               ))}
             </motion.div>
           )}
+
+          </div>
 
           {/* Scroll indicator */}
           <motion.div

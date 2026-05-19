@@ -68,6 +68,16 @@
   }
 }
 
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 @layer components {
   .section-eyebrow {
     @apply text-primary font-semibold text-sm md:text-base mb-1 text-center;

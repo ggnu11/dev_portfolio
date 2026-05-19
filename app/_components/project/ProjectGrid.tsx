@@ -68,8 +68,13 @@ export default function ProjectGrid({
         const direction = wheelAccum.current > 0 ? 1 : -1;
         wheelAccum.current = 0;
 
-        // Wrap around: last → first, first → last
-        const nextIndex = (idx + direction + total) % total;
+        const nextIndex = idx + direction;
+
+        // At boundaries, stop — don't wrap
+        if (nextIndex < 0 || nextIndex >= total) {
+          e.preventDefault();
+          return;
+        }
 
         e.preventDefault();
         isWheelLocked.current = true;
