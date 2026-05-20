@@ -60,10 +60,10 @@ export default function Header({ className }: { className?: string }) {
             <a
               key={item.id}
               href={`#${item.id}`}
-              className={`px-3 md:px-4 py-1.5 md:py-2 rounded-full text-sm font-medium no-underline transition-colors ${
+              className={`px-3 md:px-4 py-1.5 md:py-2 rounded-full text-sm font-medium no-underline transition-all duration-200 ${
                 activeId === item.id
                   ? "bg-background text-foreground"
-                  : "text-foreground/60"
+                  : "text-foreground/60 hover:text-foreground hover:bg-foreground/[0.05] hover:scale-105"
               }`}
             >
               {item.label}
@@ -93,10 +93,10 @@ export default function Header({ className }: { className?: string }) {
             <a
               key={item.id}
               href={`#${item.id}`}
-              className={`mobile-nav-item px-4 py-2 rounded-lg text-sm font-medium no-underline opacity-0 ${
+              className={`mobile-nav-item px-4 py-2 rounded-lg text-sm font-medium no-underline opacity-0 transition-all duration-200 ${
                 activeId === item.id
                   ? "bg-background text-foreground"
-                  : "text-foreground/60"
+                  : "text-foreground/60 hover:text-foreground hover:bg-foreground/[0.05]"
               }`}
               onClick={() => setIsExpanded(false)}
             >
