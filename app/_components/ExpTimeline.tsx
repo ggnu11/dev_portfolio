@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect, useCallback } from "react";
+import { flushSync } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import parse from "html-react-parser";
 import SkillItem from "./skill/SkillItem";
@@ -63,16 +64,43 @@ export default function ExpTimeline({ entries }: { entries: ExpEntry[] }) {
   const handleFold = useCallback(() => {
     if (isAnimating) return;
     setIsAnimating(true);
-    setIsUnfolded(false);
-    // After fold animation, scroll to the parent <section> element
-    setTimeout(() => {
+
+    const section = document.getElementById("experience");
+    if (!section) {
+      setIsUnfolded(false);
       setIsAnimating(false);
-      const section = sectionRef.current?.closest("section");
-      if (section) {
-        section.scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
+
+    // 1. While still unfolded, smoothly scroll to experience section
+    const targetY = section.getBoundingClientRect().top + window.scrollY
+      - parseFloat(getComputedStyle(section).scrollMarginTop || "0");
+    const startY = window.scrollY;
+    const distance = targetY - startY;
+    const duration = Math.min(1200, Math.max(600, Math.abs(distance) * 0.3));
+    const startTime = performance.now();
+    const easeInOutCubic = (t: number) =>
+      t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+    const step = (now: number) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      window.scrollTo(0, startY + distance * easeInOutCubic(progress));
+
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      } else {
+        // 2. Arrived — now collapse to reel
+        flushSync(() => {
+          setIsUnfolded(false);
+        });
+        // Keep scroll at same position after collapse
+        window.scrollTo(0, targetY);
+        setTimeout(() => setIsAnimating(false), 400);
       }
-    }, 500 + sorted.length * 60);
-  }, [isAnimating, sorted.length]);
+    };
+    requestAnimationFrame(step);
+  }, [isAnimating]);
 
   return (
     <div ref={sectionRef}>
@@ -307,20 +335,12 @@ function ReelView({
       </div>
 
       {/* Unfold button */}
-      <motion.button
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 px-4 py-1.5 rounded-full border border-foreground/10 text-[11px] text-foreground/40 hover:text-foreground/70 hover:border-foreground/20 z-20"
+      <button
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 px-5 py-2 rounded-full text-sm font-medium bg-primary/15 text-primary border border-primary/25 hover:bg-primary/25 hover:border-primary/40 z-20"
         onClick={onUnfold}
-        animate={{ opacity: isHovered ? 1 : 0 }}
-        transition={{ duration: 0.3 }}
       >
-        <motion.span
-          animate={{ y: [0, 3, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-        >
-          ↓
-        </motion.span>
-        {t.experience.viewDetails}
-      </motion.button>
+        ↓ {t.experience.viewDetails}
+      </button>
       </div>
     </div>
   );
@@ -346,13 +366,6 @@ function UnfoldedView({
     <div className="relative w-full max-w-5xl mx-auto">
       {/* Center film strip — unrolling from top */}
       <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-16 md:w-20 pointer-events-none">
-        <motion.div
-          className="absolute inset-0 border-x border-foreground/[0.06]"
-          style={{ transformOrigin: "top" }}
-          initial={{ scaleY: 0, opacity: 0 }}
-          animate={{ scaleY: 1, opacity: 1 }}
-          transition={{ duration: 0.8, ease: EASE_OUT }}
-        />
 
         {/* Sprocket holes — stagger from top */}
         {["left-1", "right-1"].map((pos) => (
@@ -406,19 +419,9 @@ function UnfoldedView({
         <button
           onClick={onFold}
           disabled={isAnimating}
-          className="flex items-center gap-2 px-5 py-2 rounded-full border border-foreground/10 text-xs text-foreground/40 hover:text-foreground/70 hover:border-foreground/20 disabled:opacity-30"
+          className="flex items-center gap-2 px-5 py-2 rounded-full text-sm font-medium bg-primary/15 text-primary border border-primary/25 hover:bg-primary/25 hover:border-primary/40 disabled:opacity-30"
         >
-          <motion.span
-            animate={{ y: [0, -3, 0] }}
-            transition={{
-              duration: 1.5,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          >
-            ↑
-          </motion.span>
-          {t.experience.hideDetails}
+          ↑ {t.experience.hideDetails}
         </button>
       </motion.div>
     </div>
