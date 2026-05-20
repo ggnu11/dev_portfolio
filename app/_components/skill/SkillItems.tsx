@@ -61,7 +61,7 @@ export default function SkillItems({ skills }: { skills: Skill[] }) {
 
       {/* Skills grid — all always visible */}
       <div className="flex flex-wrap gap-5 justify-center max-w-lg">
-        {skills.map((skill, i) => {
+        {skills.map((skill) => {
           const isHighlighted =
             activeCategory === "ALL" || skill.category === activeCategory;
 

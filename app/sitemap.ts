@@ -1,9 +1,7 @@
 import { MetadataRoute } from "next";
-import { prisma } from "@/lib/prisma";
+import { projects } from "@/data";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const projects = await prisma.project.findMany({ select: { id: true } });
-
   const projectUrls = projects.map((p) => ({
     url: `https://ggnu11.github.io/project/${p.id}`,
     lastModified: new Date(),
