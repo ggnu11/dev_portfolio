@@ -3,7 +3,6 @@ import SlideUpInView from "@/_components/SlideUpInView";
 import SectionHeader from "@/_components/SectionHeader";
 import ExpTimeline from "@/_components/ExpTimeline";
 import { getExperiences, getSkills } from "@/utils/api";
-import { parsePrismaJSON } from "@/utils/parsePrisma";
 
 export default async function ExperienceSection() {
   const experiences = await getExperiences();
@@ -20,9 +19,7 @@ export default async function ExperienceSection() {
       subTitle: exp.sub_title,
       period: exp.period,
       items: exp.items,
-      links: exp.links.map((l) =>
-        parsePrismaJSON<{ href: string; label: string }>(l)
-      ),
+      links: exp.links,
       isActive: exp.is_active,
       skills: getSkillsForExp(exp.skill_ids),
       category: exp.category as "WORK" | "PROJECT",

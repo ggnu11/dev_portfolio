@@ -1,6 +1,7 @@
 "use client";
 
 import { useI18n } from "@/i18n/context";
+import { resolveText, type I18nText } from "@/data";
 import SkillItem from "../skill/SkillItem";
 
 type Skill = {
@@ -15,10 +16,10 @@ type Link = {
 };
 
 type Props = {
-  subTitle: string;
+  subTitle: I18nText | string;
   skills: Skill[];
   member: string;
-  period: string;
+  period: I18nText | string;
   links: Link[];
 };
 
@@ -29,7 +30,7 @@ export default function ProjectMetaGrid({
   period,
   links,
 }: Props) {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
 
   return (
     <div className="grid grid-cols-2 gap-4 text-sm mb-6">
@@ -37,7 +38,7 @@ export default function ProjectMetaGrid({
         <span className="text-foreground/50 block mb-1">
           {t.projectDetail.description}
         </span>
-        <span>{subTitle}</span>
+        <span>{resolveText(subTitle, locale)}</span>
       </div>
       <div>
         <span className="text-foreground/50 block mb-1">
@@ -64,7 +65,7 @@ export default function ProjectMetaGrid({
         <span className="text-foreground/50 block mb-1">
           {t.projectDetail.period}
         </span>
-        <span>{period}</span>
+        <span>{resolveText(period, locale)}</span>
       </div>
       {links.length > 0 && (
         <div className="col-span-2">

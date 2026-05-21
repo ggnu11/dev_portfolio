@@ -3,15 +3,18 @@
 import { useRef, useEffect } from "react";
 import { motion, useInView, useAnimate, stagger } from "framer-motion";
 import FeatureItem from "./FeatureItem";
+import { resolveText, type I18nText } from "@/data";
+import { useI18n } from "@/i18n/context";
 
 type IntroData = {
   id: number;
-  title: string;
-  detail: string;
+  title: I18nText | string;
+  detail: I18nText | string;
   blobUrl: string | null;
 };
 
 export default function FeatureItems({ items }: { items: IntroData[] }) {
+  const { locale } = useI18n();
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: true, margin: "-180px" });
   const [scope, animate] = useAnimate<HTMLDivElement>();
@@ -45,8 +48,8 @@ export default function FeatureItems({ items }: { items: IntroData[] }) {
           initial={{ opacity: 0, y: 100 }}
         >
           <FeatureItem
-            title={item.title}
-            detail={item.detail}
+            title={resolveText(item.title, locale)}
+            detail={resolveText(item.detail, locale)}
             blobUrl={item.blobUrl}
           />
         </motion.div>

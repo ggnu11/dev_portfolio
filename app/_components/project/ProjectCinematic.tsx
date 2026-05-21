@@ -12,6 +12,8 @@ import {
 import { ExternalLink } from "react-feather";
 import SkillItem from "../skill/SkillItem";
 import type { FullProject } from "./types";
+import { resolveText } from "@/data";
+import { useI18n } from "@/i18n/context";
 
 const EASE_CINEMATIC = [0.25, 0.46, 0.45, 0.94] as const;
 
@@ -29,6 +31,7 @@ export default function ProjectCinematic({
   cardRect?: DOMRect | null;
   onClose: () => void;
 }) {
+  const { locale } = useI18n();
   const scrollRef = useRef<HTMLDivElement>(null);
   const shapeVariant = project.id % 9;
   const colorIdx = project.id % 3;
@@ -155,7 +158,7 @@ export default function ProjectCinematic({
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.6, ease: EASE_CINEMATIC }}
           >
-            {project.sub_title}
+            {resolveText(project.sub_title, locale)}
           </motion.p>
 
           {/* Meta row */}
@@ -165,7 +168,7 @@ export default function ProjectCinematic({
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.6, ease: EASE_CINEMATIC }}
           >
-            <span>{project.period}</span>
+            <span>{resolveText(project.period, locale)}</span>
             <span className="w-1 h-1 rounded-full bg-foreground/20" />
             <span>{project.member}</span>
           </motion.div>
@@ -245,6 +248,7 @@ export default function ProjectCinematic({
                   item={item}
                   index={idx}
                   accent={accent}
+                  locale={locale}
                   scrollRef={scrollRef}
                 />
               ))}
@@ -261,11 +265,13 @@ function ProjectDetailSection({
   item,
   index,
   accent,
+  locale,
   scrollRef,
 }: {
   item: FullProject["items"][number];
   index: number;
   accent: string;
+  locale: import("@/i18n/dictionaries").Locale;
   scrollRef: React.RefObject<HTMLDivElement | null>;
 }) {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -305,7 +311,7 @@ function ProjectDetailSection({
           {String(index + 1).padStart(2, "0")}
         </span>
         <h3 className="text-xl md:text-2xl font-semibold text-foreground">
-          {item.title}
+          {resolveText(item.title, locale)}
         </h3>
       </div>
 
@@ -329,7 +335,7 @@ function ProjectDetailSection({
               style={{ backgroundColor: `rgba(${accent}, 0.5)` }}
             />
             <p className="text-sm md:text-base text-foreground/60 leading-relaxed">
-              {parse(c)}
+              {parse(resolveText(c, locale))}
             </p>
           </motion.div>
         ))}
@@ -343,7 +349,7 @@ function ProjectDetailSection({
         >
           <Image
             src={item.blobUrl}
-            alt={item.title}
+            alt={resolveText(item.title, locale)}
             width={
               item.image_ratio
                 ? imageRatioMap[item.image_ratio].w

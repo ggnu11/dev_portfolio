@@ -14,6 +14,8 @@ import parse from "html-react-parser";
 import SkillItem from "../skill/SkillItem";
 import ProjectCinematic from "./ProjectCinematic";
 import type { FullProject } from "./types";
+import { resolveText } from "@/data";
+import { useI18n } from "@/i18n/context";
 
 const ANGLE_SPACING = 36;
 const RADIUS = 300;
@@ -25,6 +27,7 @@ export default function ProjectGrid({
 }: {
   projects: FullProject[];
 }) {
+  const { locale } = useI18n();
   const containerRef = useRef<HTMLDivElement>(null);
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [focusedIndex, setFocusedIndex] = useState(0);
@@ -182,6 +185,7 @@ export default function ProjectGrid({
                       index={i}
                       total={total}
                       progress={progress}
+                      locale={locale}
                       onSelect={() => {
                         setSelectedId(project.id);
                       }}
@@ -196,6 +200,7 @@ export default function ProjectGrid({
                       key={focusedProject.id}
                       project={focusedProject}
                       index={focusedIndex}
+                      locale={locale}
                       onSelect={() => {
                         setSelectedId(focusedProject.id);
                       }}
@@ -249,6 +254,7 @@ export default function ProjectGrid({
                     key={project.id}
                     project={project}
                     index={i}
+                    locale={locale}
                     onSelect={() => {
                       setSelectedId(project.id);
                     }}
@@ -281,12 +287,14 @@ function WheelCard({
   index,
   total,
   progress,
+  locale,
   onSelect,
 }: {
   project: FullProject;
   index: number;
   total: number;
   progress: ReturnType<typeof useMotionValue<number>>;
+  locale: import("@/i18n/dictionaries").Locale;
   onSelect: () => void;
 }) {
   const { id, title, period } = project;
@@ -381,7 +389,7 @@ function WheelCard({
             {parse(title)}
           </motion.h4>
 
-          <p className="text-[11px] text-foreground/30 mb-3">{period}</p>
+          <p className="text-[11px] text-foreground/30 mb-3">{resolveText(period, locale)}</p>
 
           {/* Accent bar */}
           <div
@@ -400,10 +408,12 @@ function WheelCard({
 function GridCard({
   project,
   index,
+  locale,
   onSelect,
 }: {
   project: FullProject;
   index: number;
+  locale: import("@/i18n/dictionaries").Locale;
   onSelect: () => void;
 }) {
   const { id, title, sub_title, period, member, skillData } = project;
@@ -450,11 +460,11 @@ function GridCard({
           </motion.h4>
 
           <p className="text-xs text-foreground/35 mb-3">
-            {period} · {member}
+            {resolveText(period, locale)} · {member}
           </p>
 
           <p className="text-sm text-foreground/45 leading-relaxed line-clamp-2 mb-4">
-            {sub_title}
+            {resolveText(sub_title, locale)}
           </p>
 
           {/* Skills */}
@@ -495,10 +505,12 @@ function GridCard({
 function FocusedDetail({
   project,
   index,
+  locale,
   onSelect,
 }: {
   project: FullProject;
   index: number;
+  locale: import("@/i18n/dictionaries").Locale;
   onSelect: () => void;
 }) {
   const { id, title, sub_title, period, member, skillData, links } = project;
@@ -563,7 +575,7 @@ function FocusedDetail({
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.15, duration: 0.4, ease: EASE }}
       >
-        <span>{period}</span>
+        <span>{resolveText(period, locale)}</span>
         <span className="w-1 h-1 rounded-full bg-foreground/15" />
         <span>{member}</span>
       </motion.div>
@@ -575,7 +587,7 @@ function FocusedDetail({
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.4, ease: EASE }}
       >
-        {sub_title}
+        {resolveText(sub_title, locale)}
       </motion.p>
 
       {/* Skills */}

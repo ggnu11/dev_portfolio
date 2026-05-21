@@ -2,6 +2,7 @@ import Image from "next/image";
 import parse from "html-react-parser";
 import { getProjectById, getSkills } from "@/utils/api";
 import { parsePrismaJSON } from "@/utils/parsePrisma";
+import { resolveText } from "@/data";
 import ProjectMetaGrid from "./ProjectMetaGrid";
 import ProjectNotFound from "./ProjectNotFound";
 
@@ -24,7 +25,6 @@ export default async function ProjectModal({ id }: { id: number }) {
 
   return (
     <div className="p-6 md:p-8">
-      {/* Shape icon */}
       <Image
         src={`/assets/shape-variant-${shapeVariant}.svg`}
         alt=""
@@ -33,12 +33,10 @@ export default async function ProjectModal({ id }: { id: number }) {
         className="mb-4"
       />
 
-      {/* Title */}
       <h2 className="text-2xl md:text-3xl font-bold mb-6 text-left">
         {parse(project.title)}
       </h2>
 
-      {/* Metadata grid */}
       <ProjectMetaGrid
         subTitle={project.sub_title}
         skills={skills}
@@ -47,26 +45,24 @@ export default async function ProjectModal({ id }: { id: number }) {
         links={links}
       />
 
-      {/* Divider */}
       <hr className="border-foreground/15 mb-6" />
 
-      {/* Detail items */}
       <ol className="space-y-8">
         {project.items.map((item, idx) => (
           <li key={item.id}>
             <h3 className="text-base md:text-lg font-semibold mb-2">
-              {idx + 1}. {item.title}
+              {idx + 1}. {resolveText(item.title, "kr")}
             </h3>
             <ul className="text-sm text-foreground/80 space-y-1 mb-4">
               {item.content.map((c, i) => (
-                <li key={i}>{parse(c)}</li>
+                <li key={i}>{parse(resolveText(c, "kr"))}</li>
               ))}
             </ul>
             {item.blobUrl && (
               <div className="relative">
                 <Image
                   src={item.blobUrl}
-                  alt={item.title}
+                  alt={resolveText(item.title, "kr")}
                   width={
                     item.image_ratio
                       ? imageRatioMap[item.image_ratio].w

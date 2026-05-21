@@ -6,6 +6,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import parse from "html-react-parser";
 import SkillItem from "./skill/SkillItem";
 import { useI18n } from "@/i18n/context";
+import { resolveText, type I18nText } from "@/data";
+import type { Locale } from "@/i18n/dictionaries";
 
 type Skill = {
   id: number;
@@ -21,10 +23,10 @@ type Link = {
 
 type ExpEntry = {
   id: number;
-  title: string;
-  subTitle?: string | null;
-  period: string;
-  items: string[];
+  title: I18nText | string;
+  subTitle?: I18nText | string | null;
+  period: I18nText | string;
+  items: (I18nText | string)[];
   links: Link[];
   isActive?: boolean | null;
   skills: Skill[];
@@ -35,6 +37,11 @@ const EASE = [0.25, 0.46, 0.45, 0.94] as const;
 const EASE_OUT = [0.16, 1, 0.3, 1] as const;
 const WHEEL_THRESHOLD = 60;
 
+function r(text: I18nText | string | null | undefined, locale: Locale): string {
+  if (!text) return "";
+  return resolveText(text, locale);
+}
+
 function parsePeriod(period: string) {
   const m = period.match(/(\d{4})\.?(\d{2})?/);
   const year = m?.[1] ?? "0000";
@@ -43,11 +50,11 @@ function parsePeriod(period: string) {
 }
 
 export default function ExpTimeline({ entries }: { entries: ExpEntry[] }) {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const sectionRef = useRef<HTMLDivElement>(null);
 
   const sorted = [...entries].sort((a, b) =>
-    parsePeriod(a.period).sort.localeCompare(parsePeriod(b.period).sort)
+    parsePeriod(r(a.period, locale)).sort.localeCompare(parsePeriod(r(b.period, locale)).sort)
   );
 
   const [isUnfolded, setIsUnfolded] = useState(false);
@@ -57,7 +64,6 @@ export default function ExpTimeline({ entries }: { entries: ExpEntry[] }) {
     if (isAnimating) return;
     setIsAnimating(true);
     setIsUnfolded(true);
-    // Animation completes after stagger
     setTimeout(() => setIsAnimating(false), 600 + sorted.length * 100);
   }, [isAnimating, sorted.length]);
 
@@ -72,7 +78,6 @@ export default function ExpTimeline({ entries }: { entries: ExpEntry[] }) {
       return;
     }
 
-    // 1. While still unfolded, smoothly scroll to experience section
     const targetY = section.getBoundingClientRect().top + window.scrollY
       - parseFloat(getComputedStyle(section).scrollMarginTop || "0");
     const startY = window.scrollY;
@@ -90,11 +95,9 @@ export default function ExpTimeline({ entries }: { entries: ExpEntry[] }) {
       if (progress < 1) {
         requestAnimationFrame(step);
       } else {
-        // 2. Arrived — now collapse to reel
         flushSync(() => {
           setIsUnfolded(false);
         });
-        // Keep scroll at same position after collapse
         window.scrollTo(0, targetY);
         setTimeout(() => setIsAnimating(false), 400);
       }
@@ -117,7 +120,7 @@ export default function ExpTimeline({ entries }: { entries: ExpEntry[] }) {
             }}
             transition={{ duration: 0.5, ease: EASE_OUT }}
           >
-            <ReelView entries={sorted} t={t} onUnfold={handleUnfold} />
+            <ReelView entries={sorted} t={t} locale={locale} onUnfold={handleUnfold} />
           </motion.div>
         ) : (
           <motion.div
@@ -130,6 +133,7 @@ export default function ExpTimeline({ entries }: { entries: ExpEntry[] }) {
             <UnfoldedView
               entries={sorted}
               t={t}
+              locale={locale}
               onFold={handleFold}
               isAnimating={isAnimating}
             />
@@ -146,10 +150,12 @@ export default function ExpTimeline({ entries }: { entries: ExpEntry[] }) {
 function ReelView({
   entries,
   t,
+  locale,
   onUnfold,
 }: {
   entries: ExpEntry[];
   t: ReturnType<typeof useI18n>["t"];
+  locale: Locale;
   onUnfold: () => void;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -188,7 +194,6 @@ function ReelView({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Hover bg — outside overflow-hidden so it bleeds naturally */}
       <motion.div
         className="absolute -inset-10 pointer-events-none rounded-[60px]"
         animate={{ opacity: isHovered ? 1 : 0 }}
@@ -205,7 +210,6 @@ function ReelView({
       >
 
       <div className="relative h-full flex items-center">
-        {/* Left card */}
         <div className="flex-1 flex justify-end pr-6 md:pr-10">
           <AnimatePresence mode="wait">
             {side === "left" && (
@@ -216,15 +220,13 @@ function ReelView({
                 exit={{ opacity: 0, x: -50 }}
                 transition={{ duration: 0.45, ease: EASE }}
               >
-                <CompactCard entry={focusedEntry} side="left" t={t} />
+                <CompactCard entry={focusedEntry} side="left" t={t} locale={locale} />
               </motion.div>
             )}
           </AnimatePresence>
         </div>
 
-        {/* Center: 3D Film Reel — fully transparent */}
         <div className="relative w-28 md:w-36 shrink-0 flex items-center justify-center">
-          {/* Sprocket holes */}
           {[-26, 20].map((offset, si) => (
             <div
               key={si}
@@ -240,7 +242,6 @@ function ReelView({
             </div>
           ))}
 
-          {/* 3D rotating reel — no background, no masks */}
           <div
             className="relative w-full h-56 md:h-64"
             style={{ perspective: "400px" }}
@@ -253,7 +254,7 @@ function ReelView({
             >
               {entries.map((entry, idx) => {
                 const accentRgb = getAccent(entry.category);
-                const { year, month } = parsePeriod(entry.period);
+                const { year, month } = parsePeriod(r(entry.period, locale));
                 const offset = idx - focusedIndex;
 
                 return (
@@ -310,13 +311,11 @@ function ReelView({
             </motion.div>
           </div>
 
-          {/* Frame counter */}
           <span className="absolute bottom-4 text-[8px] text-foreground/15">
             {focusedIndex + 1} / {total}
           </span>
         </div>
 
-        {/* Right card */}
         <div className="flex-1 flex justify-start pl-6 md:pl-10">
           <AnimatePresence mode="wait">
             {side === "right" && (
@@ -327,14 +326,13 @@ function ReelView({
                 exit={{ opacity: 0, x: 50 }}
                 transition={{ duration: 0.45, ease: EASE }}
               >
-                <CompactCard entry={focusedEntry} side="right" t={t} />
+                <CompactCard entry={focusedEntry} side="right" t={t} locale={locale} />
               </motion.div>
             )}
           </AnimatePresence>
         </div>
       </div>
 
-      {/* Unfold button */}
       <button
         className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 px-5 py-2 rounded-full text-sm font-medium bg-primary/15 text-primary border border-primary/25 hover:bg-primary/25 hover:border-primary/40 z-20"
         onClick={onUnfold}
@@ -352,11 +350,13 @@ function ReelView({
 function UnfoldedView({
   entries,
   t,
+  locale,
   onFold,
   isAnimating,
 }: {
   entries: ExpEntry[];
   t: ReturnType<typeof useI18n>["t"];
+  locale: Locale;
   onFold: () => void;
   isAnimating: boolean;
 }) {
@@ -364,10 +364,7 @@ function UnfoldedView({
 
   return (
     <div className="relative w-full max-w-5xl mx-auto">
-      {/* Center film strip — unrolling from top */}
       <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-16 md:w-20 pointer-events-none">
-
-        {/* Sprocket holes — stagger from top */}
         {["left-1", "right-1"].map((pos) => (
           <div
             key={pos}
@@ -392,7 +389,6 @@ function UnfoldedView({
         ))}
       </div>
 
-      {/* Entries — sequential reveal */}
       <div className="relative flex flex-col">
         {entries.map((entry, idx) => (
           <UnfoldedEntry
@@ -401,11 +397,11 @@ function UnfoldedView({
             index={idx}
             side={idx % 2 === 0 ? "left" : "right"}
             t={t}
+            locale={locale}
           />
         ))}
       </div>
 
-      {/* Fold button */}
       <motion.div
         className="relative flex justify-center py-10"
         initial={{ opacity: 0, y: 20 }}
@@ -433,18 +429,19 @@ function UnfoldedEntry({
   index,
   side,
   t,
+  locale,
 }: {
   entry: ExpEntry;
   index: number;
   side: "left" | "right";
   t: ReturnType<typeof useI18n>["t"];
+  locale: Locale;
 }) {
   const accentRgb = getAccent(entry.category);
   const categoryLabel =
     entry.category === "WORK" ? t.experience.work : t.experience.project;
-  const { year, month } = parsePeriod(entry.period);
+  const { year, month } = parsePeriod(r(entry.period, locale));
 
-  // Each entry appears sequentially — "unrolling" delay
   const entryDelay = 0.15 + index * 0.1;
 
   return (
@@ -460,7 +457,6 @@ function UnfoldedEntry({
       }}
       style={{ overflow: "hidden" }}
     >
-      {/* Left content */}
       <div className="flex-1 flex justify-end pr-6 md:pr-10 py-6">
         {side === "left" ? (
           <motion.div
@@ -478,6 +474,7 @@ function UnfoldedEntry({
               side="left"
               categoryLabel={categoryLabel}
               accentRgb={accentRgb}
+              locale={locale}
             />
           </motion.div>
         ) : (
@@ -485,7 +482,6 @@ function UnfoldedEntry({
         )}
       </div>
 
-      {/* Center — year.month on the strip */}
       <div className="relative w-16 md:w-20 shrink-0 flex items-center justify-center z-10">
         <motion.div
           className="flex flex-col items-center"
@@ -527,7 +523,6 @@ function UnfoldedEntry({
         </motion.div>
       </div>
 
-      {/* Right content */}
       <div className="flex-1 flex justify-start pl-6 md:pl-10 py-6">
         {side === "right" ? (
           <motion.div
@@ -545,6 +540,7 @@ function UnfoldedEntry({
               side="right"
               categoryLabel={categoryLabel}
               accentRgb={accentRgb}
+              locale={locale}
             />
           </motion.div>
         ) : (
@@ -561,10 +557,12 @@ function CompactCard({
   entry,
   side,
   t,
+  locale,
 }: {
   entry: ExpEntry;
   side: "left" | "right";
   t: ReturnType<typeof useI18n>["t"];
+  locale: Locale;
 }) {
   const accentRgb = getAccent(entry.category);
   const categoryLabel =
@@ -594,11 +592,11 @@ function CompactCard({
         <h3
           className={`text-sm md:text-base font-semibold leading-snug ${align}`}
         >
-          {entry.title}
+          {r(entry.title, locale)}
         </h3>
         {entry.subTitle && (
           <p className={`text-xs text-foreground/45 mt-1 ${align}`}>
-            {parse(entry.subTitle)}
+            {parse(r(entry.subTitle, locale))}
           </p>
         )}
         {entry.skills.length > 0 && (
@@ -623,11 +621,13 @@ function DetailCard({
   side,
   categoryLabel,
   accentRgb,
+  locale,
 }: {
   entry: ExpEntry;
   side: "left" | "right";
   categoryLabel: string;
   accentRgb: string;
+  locale: Locale;
 }) {
   const align = side === "left" ? "text-right" : "text-left";
   const flexAlign = side === "left" ? "justify-end" : "justify-start";
@@ -649,16 +649,16 @@ function DetailCard({
         >
           {categoryLabel}
         </span>
-        <span className="text-[11px] text-foreground/30">{entry.period}</span>
+        <span className="text-[11px] text-foreground/30">{r(entry.period, locale)}</span>
       </div>
       <h3
         className={`text-sm md:text-base font-semibold leading-snug ${align}`}
       >
-        {entry.title}
+        {r(entry.title, locale)}
       </h3>
       {entry.subTitle && (
         <p className={`text-xs text-foreground/45 mt-1 ${align}`}>
-          {parse(entry.subTitle)}
+          {parse(r(entry.subTitle, locale))}
         </p>
       )}
       {entry.skills.length > 0 && (
@@ -679,7 +679,7 @@ function DetailCard({
         >
           {entry.items.map((item, idx) => (
             <p key={idx} className="text-xs text-foreground/50 leading-relaxed">
-              {parse(item)}
+              {parse(r(item, locale))}
             </p>
           ))}
         </div>

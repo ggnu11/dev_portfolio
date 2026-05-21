@@ -1,3 +1,5 @@
+import type { I18nText } from "@/data";
+
 export type ProjectLink = {
   href: string;
   label: string;
@@ -5,8 +7,8 @@ export type ProjectLink = {
 
 export type ProjectItemType = {
   id: number;
-  title: string;
-  content: string[];
+  title: I18nText | string;
+  content: (I18nText | string)[];
   blobUrl: string | null;
   row_number: number | null;
   image_ratio: "PORTRAIT" | "LANDSCAPE" | "SQUARE" | null;
@@ -15,8 +17,8 @@ export type ProjectItemType = {
 export type ProjectType = {
   id: number;
   title: string;
-  sub_title: string;
-  period: string;
+  sub_title: I18nText | string;
+  period: I18nText | string;
   member: string;
   skills: string[];
   links: ProjectLink[];
@@ -35,8 +37,8 @@ export type SkillData = {
 export type FullProject = {
   id: number;
   title: string;
-  sub_title: string;
-  period: string;
+  sub_title: I18nText | string;
+  period: I18nText | string;
   member: string;
   skillData: SkillData[];
   links: ProjectLink[];
