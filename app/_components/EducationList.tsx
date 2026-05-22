@@ -23,7 +23,7 @@ export default function EducationList({
 }: {
   educations: EducationData[];
 }) {
-  const { locale, t } = useI18n();
+  const { locale } = useI18n();
 
   const eduItems = educations.filter((e) => e.category === "EDUCATION");
   const certItems = educations.filter((e) => e.category === "CERTIFICATION");
