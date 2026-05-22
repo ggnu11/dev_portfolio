@@ -25,9 +25,11 @@ const imageRatioMap = {
 
 export default function ProjectCinematic({
   project,
+  layoutPrefix = "project",
   onClose,
 }: {
   project: FullProject;
+  layoutPrefix?: "wheel" | "detail" | "project";
   cardRect?: DOMRect | null;
   onClose: () => void;
 }) {
@@ -130,7 +132,7 @@ export default function ProjectCinematic({
 
           {/* Shape icon */}
           <motion.div
-            layoutId={`project-shape-${project.id}`}
+            layoutId={`${layoutPrefix}-shape-${project.id}`}
             className="mb-8"
             transition={{ duration: 0.6, ease: EASE_CINEMATIC }}
           >
@@ -144,7 +146,7 @@ export default function ProjectCinematic({
 
           {/* Title - shared element */}
           <motion.h1
-            layoutId={`project-title-${project.id}`}
+            layoutId={`${layoutPrefix}-title-${project.id}`}
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground text-center leading-tight mb-6 max-w-3xl"
             transition={{ duration: 0.6, ease: EASE_CINEMATIC }}
           >

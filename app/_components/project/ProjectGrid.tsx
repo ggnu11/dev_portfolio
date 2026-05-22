@@ -41,6 +41,8 @@ export default function ProjectGrid({
   const wheelAccum = useRef(0);
   const isWheelLocked = useRef(false);
 
+  const clickSourceRef = useRef<"project" | "detail">("project");
+
   const handleClose = useCallback(() => setSelectedId(null), []);
 
   useEffect(() => {
@@ -187,6 +189,7 @@ export default function ProjectGrid({
                       progress={progress}
                       locale={locale}
                       onSelect={() => {
+                        clickSourceRef.current = "project";
                         setSelectedId(project.id);
                       }}
                     />
@@ -202,6 +205,7 @@ export default function ProjectGrid({
                       index={focusedIndex}
                       locale={locale}
                       onSelect={() => {
+                        clickSourceRef.current = "detail";
                         setSelectedId(focusedProject.id);
                       }}
                     />
@@ -256,6 +260,7 @@ export default function ProjectGrid({
                     index={i}
                     locale={locale}
                     onSelect={() => {
+                      clickSourceRef.current = "project";
                       setSelectedId(project.id);
                     }}
                   />
@@ -271,6 +276,7 @@ export default function ProjectGrid({
         {selectedProject && (
           <ProjectCinematic
             project={selectedProject}
+            layoutPrefix={clickSourceRef.current}
             onClose={handleClose}
           />
         )}
@@ -547,6 +553,19 @@ function FocusedDetail({
         />
       </motion.div>
 
+      {/* Shape icon */}
+      <motion.div
+        layoutId={`detail-shape-${id}`}
+        className="w-7 h-7 mb-4"
+      >
+        <Image
+          src={`/assets/shape-variant-${shapeVariant}.svg`}
+          alt=""
+          width={28}
+          height={28}
+        />
+      </motion.div>
+
       {/* Project number */}
       <motion.span
         className="inline-block text-[11px] tracking-[0.25em] uppercase mb-5 font-medium"
@@ -560,6 +579,7 @@ function FocusedDetail({
 
       {/* Title */}
       <motion.h2
+        layoutId={`detail-title-${id}`}
         className="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight mb-4"
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
