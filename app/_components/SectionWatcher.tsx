@@ -34,6 +34,9 @@ export function SectionWatchProvider({ children }: { children: ReactNode }) {
 
       sections.forEach((el, id) => {
         const rect = el.getBoundingClientRect();
+        // 섹션이 뷰포트에 조금이라도 보일 때만 후보로 취급
+        if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+
         const sectionCenter = rect.top + rect.height / 2;
         const distance = Math.abs(sectionCenter - viewportCenter);
 
@@ -43,9 +46,7 @@ export function SectionWatchProvider({ children }: { children: ReactNode }) {
         }
       });
 
-      if (closestId) {
-        setActiveId(closestId);
-      }
+      setActiveId(closestId);
     };
 
     handleScroll();
