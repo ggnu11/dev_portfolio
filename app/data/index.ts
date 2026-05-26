@@ -9,29 +9,37 @@ export function resolveText(text: I18nText | string, locale: Locale): string {
 
 // ─── Skills ───
 export const skills = [
+  // FRONTEND
   { id: 1, category: "FRONTEND", items: [] as string[], item: "HTML5", blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" },
   { id: 2, category: "FRONTEND", items: [] as string[], item: "CSS3", blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" },
   { id: 3, category: "FRONTEND", items: [] as string[], item: "JavaScript", blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" },
   { id: 4, category: "FRONTEND", items: [] as string[], item: "TypeScript", blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" },
+  // FRONTEND_LIBRARY
   { id: 5, category: "FRONTEND_LIBRARY", items: [] as string[], item: "React", blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
-  { id: 6, category: "FRONTEND_LIBRARY", items: [] as string[], item: "React Router", blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/reactrouter/reactrouter-original.svg" },
+  { id: 6, category: "FRONTEND_LIBRARY", items: [] as string[], item: "Next.js", blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" },
   { id: 7, category: "FRONTEND_LIBRARY", items: [] as string[], item: "Tailwind CSS", blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" },
-  { id: 8, category: "FRONTEND_LIBRARY", items: [] as string[], item: "Styled Components", blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" },
-  { id: 9, category: "FRONTEND_LIBRARY", items: [] as string[], item: "Framer Motion", blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/framermotion/framermotion-original.svg" },
-  { id: 10, category: "FRONTEND_LIBRARY", items: [] as string[], item: "Recoil", blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
+  { id: 8, category: "FRONTEND_LIBRARY", items: [] as string[], item: "Emotion", blobUrl: "/assets/emotion.svg" },
+  { id: 9, category: "FRONTEND_LIBRARY", items: [] as string[], item: "Framer Motion", blobUrl: "/assets/framer-motion.svg" },
+  { id: 10, category: "FRONTEND_LIBRARY", items: [] as string[], item: "React Router", blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/reactrouter/reactrouter-original.svg" },
+  { id: 21, category: "FRONTEND_LIBRARY", items: [] as string[], item: "ECharts", blobUrl: "/assets/echart.svg" },
+  { id: 22, category: "FRONTEND_LIBRARY", items: [] as string[], item: "TanStack Query", blobUrl: "/assets/react-query.svg" },
+  { id: 23, category: "FRONTEND_LIBRARY", items: [] as string[], item: "Zustand", blobUrl: "/assets/zustand.svg" },
+  { id: 24, category: "FRONTEND_LIBRARY", items: [] as string[], item: "React Hook Form", blobUrl: "/assets/react-hook-form.svg" },
+  { id: 25, category: "FRONTEND_LIBRARY", items: [] as string[], item: "Zod", blobUrl: "/assets/zod.svg" },
+  { id: 26, category: "FRONTEND_LIBRARY", items: [] as string[], item: "i18next", blobUrl: "/assets/i18next.svg" },
+  { id: 27, category: "FRONTEND_LIBRARY", items: [] as string[], item: "MUI", blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/materialui/materialui-original.svg" },
+  // ENV
   { id: 11, category: "ENV", items: [] as string[], item: "Git", blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" },
-  { id: 12, category: "ENV", items: [] as string[], item: "Webpack", blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/webpack/webpack-original.svg" },
   { id: 13, category: "ENV", items: [] as string[], item: "Vite", blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vitejs/vitejs-original.svg" },
   { id: 14, category: "ENV", items: [] as string[], item: "Firebase", blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-original.svg" },
   { id: 15, category: "ENV", items: [] as string[], item: "GitHub Actions", blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/githubactions/githubactions-original.svg" },
   { id: 16, category: "ENV", items: [] as string[], item: "Node.js", blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" },
-  { id: 17, category: "ENV", items: [] as string[], item: "Express", blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" },
+  { id: 17, category: "ENV", items: [] as string[], item: "Express", blobUrl: "/assets/express.svg" },
   { id: 18, category: "ENV", items: [] as string[], item: "MongoDB", blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" },
   { id: 19, category: "ENV", items: [] as string[], item: "Supabase", blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/supabase/supabase-original.svg" },
+  { id: 28, category: "ENV", items: [] as string[], item: "Axios", blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/axios/axios-plain.svg" },
+  // DESIGN
   { id: 20, category: "DESIGN", items: [] as string[], item: "Figma", blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" },
-  { id: 21, category: "FRONTEND_LIBRARY", items: [] as string[], item: "ECharts", blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apachecharts/apachecharts-original.svg" },
-  { id: 22, category: "FRONTEND_LIBRARY", items: [] as string[], item: "React Query", blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/reactrouter/reactrouter-original.svg" },
-  { id: 23, category: "FRONTEND_LIBRARY", items: [] as string[], item: "Zustand", blobUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" },
 ];
 
 // ─── Intros ───
@@ -79,7 +87,7 @@ export const experiences = [
       { kr: "코드 유지보수, 성능 최적화, UI/UX 개선 담당", jp: "コードメンテナンス、パフォーマンス最適化、UI/UX改善担当" },
     ],
     links: [] as { href: string; label: string }[],
-    is_active: true, index: 1, skill_ids: [4, 5, 8, 21], category: "WORK",
+    is_active: true, index: 1, skill_ids: [4, 5, 7, 21, 22, 23, 24, 25, 26, 28], category: "WORK",
   },
   {
     id: 2,
@@ -119,7 +127,7 @@ export const experiences = [
       { kr: "Framer Motion 인터랙티브 애니메이션 구현", jp: "Framer Motionインタラクティブアニメーション実装" },
     ],
     links: [{ href: "https://ggnu11.github.io/site-dash/", label: "Live Demo" }],
-    is_active: true, index: 4, skill_ids: [4, 5, 7, 9, 16, 17, 19, 23], category: "PROJECT",
+    is_active: true, index: 4, skill_ids: [4, 5, 7, 9, 16, 17, 19, 23, 25, 28], category: "PROJECT",
   },
   {
     id: 5,
@@ -149,7 +157,7 @@ export const experiences = [
       { kr: "Netlify(프론트) + Render(백엔드) 배포 아키텍처", jp: "Netlify（フロント）+ Render（バックエンド）デプロイアーキテクチャ" },
     ],
     links: [{ href: "https://abc-company1216.netlify.app", label: "Live Demo" }],
-    is_active: false, index: 6, skill_ids: [5, 7, 16, 17, 18], category: "PROJECT",
+    is_active: false, index: 6, skill_ids: [5, 7, 8, 16, 17, 18, 27, 28], category: "PROJECT",
   },
 ];
 
@@ -160,7 +168,7 @@ export const projects = [
     sub_title: { kr: "React 19 + Express.js 풀스택 프로젝트 대시보드", jp: "React 19 + Express.jsフルスタックプロジェクトダッシュボード" },
     period: "2025.05", member: "Solo Project", skills: [] as string[],
     links: [{ href: "https://ggnu11.github.io/site-dash/", label: "Live Demo" }],
-    skill_ids: [4, 5, 7, 9, 16, 17, 19, 23], row_number: 1,
+    skill_ids: [4, 5, 7, 9, 16, 17, 19, 23, 25, 28], row_number: 1,
     items: [
       { id: 1, title: { kr: "인증 및 아키텍처", jp: "認証及びアーキテクチャ" }, content: [
         { kr: "Google OAuth 2.0 + JWT 토큰 기반 인증 시스템 구현", jp: "Google OAuth 2.0 + JWTトークンベースの認証システム実装" },
@@ -200,7 +208,7 @@ export const projects = [
     sub_title: { kr: "모던 웹 기술 기반 풀스택 회사 소개 웹사이트", jp: "モダンWeb技術ベースのフルスタック会社紹介ウェブサイト" },
     period: "2025.01", member: "Solo Project", skills: [] as string[],
     links: [{ href: "https://abc-company1216.netlify.app", label: "Live Demo" }],
-    skill_ids: [5, 7, 16, 17, 18], row_number: 3,
+    skill_ids: [5, 7, 8, 16, 17, 18, 27, 28], row_number: 3,
     items: [
       { id: 5, title: { kr: "풀스택 구조", jp: "フルスタック構造" }, content: [
         { kr: "React 반응형 UI/UX 프론트엔드", jp: "ReactレスポンシブUI/UXフロントエンド" },
@@ -219,7 +227,7 @@ export const projects = [
     sub_title: { kr: "Next.js 14 기반 개인 포트폴리오 웹사이트", jp: "Next.js 14ベースの個人ポートフォリオウェブサイト" },
     period: { kr: "2025.03 - 현재", jp: "2025.03 - 現在" }, member: "Solo Project", skills: [] as string[],
     links: [{ href: "https://github.com/ggnu11", label: "GitHub" }],
-    skill_ids: [4, 5, 7, 9], row_number: 4,
+    skill_ids: [4, 5, 6, 7, 9], row_number: 4,
     items: [
       { id: 7, title: { kr: "프론트엔드", jp: "フロントエンド" }, content: [
         { kr: "Next.js 14 App Router + React 18 서버/클라이언트 컴포넌트", jp: "Next.js 14 App Router + React 18 サーバー/クライアントコンポーネント" },

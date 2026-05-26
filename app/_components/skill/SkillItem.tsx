@@ -30,7 +30,13 @@ export default function SkillItem({
         "opacity-15 blur-md": !isActive,
       })}
     >
-      <Image src={iconUrl} alt={name} width={px} height={px} />
+      <Image
+        src={iconUrl}
+        alt={name}
+        width={px}
+        height={px}
+        className="object-contain rounded-lg"
+      />
       <span className="absolute top-full mt-1 bg-foreground/75 text-background rounded text-xs md:text-sm px-2 py-0.5 whitespace-nowrap invisible group-hover:visible">
         {name}
       </span>
