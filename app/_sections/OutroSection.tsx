@@ -12,11 +12,7 @@ export default function OutroSection() {
         {t.outro.message}
       </p>
       <div className="w-full max-w-xs sm:max-w-sm md:w-80 rounded-2xl bg-dark/5 dark:bg-light/10 p-4 sm:p-6">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
-          <div>
-            <span className="text-foreground/40 block mb-1">{t.outro.phone}</span>
-            <span className="text-foreground/80">010-8934-7661</span>
-          </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
           <div>
             <span className="text-foreground/40 block mb-1">{t.outro.email}</span>
             <a

@@ -91,12 +91,12 @@ export const experiences = [
   },
   {
     id: 2,
-    title: { kr: "한국 소프트웨어 인재 개발원", jp: "韓国ソフトウェア人材開発院" },
-    sub_title: { kr: "JAVA 개발자 양성과정 수료", jp: "JAVA開発者養成課程修了" },
-    period: { kr: "2022.10 - 2023.04", jp: "2022.10 - 2023.04" },
+    title: { kr: "국비 지원 풀스택 개발 과정", jp: "国費支援フルスタック開発課程" },
+    sub_title: { kr: "한국 소프트웨어 인재 개발원 · JAVA 개발자 양성과정 수료", jp: "韓国ソフトウェア人材開発院 · JAVA開発者養成課程修了" },
+    period: { kr: "2022.06 - 2022.12", jp: "2022.06 - 2022.12" },
     items: [
-      { kr: "정부 지원 풀스택 개발 교육 과정 (6개월 집중)", jp: "政府支援フルスタック開発教育課程（6ヶ月集中）" },
-      { kr: "HTML, CSS, JavaScript 웹 개발 기초부터 심화까지 학습", jp: "HTML, CSS, JavaScript Web開発の基礎から応用まで学習" },
+      { kr: "6개월간의 국비 IT 교육을 통해 웹 개발을 본격적으로 시작", jp: "6ヶ月間の国費IT教育を通じてWeb開発を本格的に開始" },
+      { kr: "HTML, CSS, JavaScript를 기반으로 UI/UX 설계와 구현에 집중", jp: "HTML, CSS, JavaScriptを基盤にUI/UX設計と実装に集中" },
       { kr: "팀 프로젝트를 통한 실전 개발 경험 습득", jp: "チームプロジェクトを通じた実践開発経験の習得" },
     ],
     links: [] as { href: string; label: string }[],
@@ -106,10 +106,10 @@ export const experiences = [
     id: 3,
     title: { kr: "일본 체류 (하마마츠 & 오사카)", jp: "日本滞在（浜松＆大阪）" },
     sub_title: { kr: "일본어 학습 및 게임 프로그래밍", jp: "日本語学習及びゲームプログラミング" },
-    period: { kr: "2021.03 - 2022.10", jp: "2021.03 - 2022.10" },
+    period: { kr: "2021.03 - 2022.05", jp: "2021.03 - 2022.05" },
     items: [
       { kr: "하마마츠 일본어 학교에서 일본어 집중 학습", jp: "浜松日本語学校での日本語集中学習" },
-      { kr: "오사카 휴먼 아카데미 게임 프로그래밍학과 수학 (Unity, C#)", jp: "大阪ヒューマンアカデミー ゲームプログラミング学科修学（Unity, C#）" },
+      { kr: "오사카 휴먼 아카데미 게임 프로그래밍학과 수학 (Unity, C#) — 중퇴", jp: "大阪ヒューマンアカデミー ゲームプログラミング学科修学（Unity, C#）— 中退" },
       { kr: "다문화 환경에서의 적응력 및 커뮤니케이션 능력 향상", jp: "多文化環境での適応力及びコミュニケーション能力の向上" },
     ],
     links: [] as { href: string; label: string }[],
@@ -119,7 +119,7 @@ export const experiences = [
     id: 4,
     title: "SiteDash",
     sub_title: { kr: "풀스택 웹 애플리케이션 (프로젝트 대시보드)", jp: "フルスタックWebアプリケーション（プロジェクトダッシュボード）" },
-    period: { kr: "2025.05", jp: "2025.05" },
+    period: "2025.06 - 2025.12",
     items: [
       { kr: "React 19 + TypeScript 프론트엔드, Express.js 백엔드 개발", jp: "React 19 + TypeScriptフロントエンド、Express.jsバックエンド開発" },
       { kr: "Google OAuth 2.0 + JWT 인증 구현", jp: "Google OAuth 2.0 + JWT認証実装" },
@@ -149,7 +149,7 @@ export const experiences = [
     id: 6,
     title: "ABC Company Site",
     sub_title: { kr: "풀스택 웹 애플리케이션 (회사 소개 사이트)", jp: "フルスタックWebアプリケーション（会社紹介サイト）" },
-    period: { kr: "2025.01", jp: "2025.01" },
+    period: "2025.07",
     items: [
       { kr: "React 프론트엔드 + Express.js RESTful API 백엔드", jp: "Reactフロントエンド + Express.js RESTful APIバックエンド" },
       { kr: "MongoDB Atlas 클라우드 데이터베이스 연동", jp: "MongoDB Atlasクラウドデータベース連携" },
@@ -157,20 +157,20 @@ export const experiences = [
       { kr: "Netlify(프론트) + Render(백엔드) 배포 아키텍처", jp: "Netlify（フロント）+ Render（バックエンド）デプロイアーキテクチャ" },
     ],
     links: [{ href: "https://abc-company1216.netlify.app", label: "Live Demo" }],
-    is_active: false, index: 6, skill_ids: [5, 7, 8, 16, 17, 18, 27, 28], category: "PROJECT",
+    is_active: false, index: 6, skill_ids: [5, 7, 16, 17, 18, 28], category: "PROJECT",
   },
   {
     id: 7,
     title: "My Recipe",
     sub_title: { kr: "개인 요리 레시피 관리 웹 애플리케이션", jp: "個人料理レシピ管理Webアプリケーション" },
-    period: { kr: "2025.05 - 현재", jp: "2025.05 - 現在" },
+    period: { kr: "2026.05 - 현재", jp: "2026.05 - 現在" },
     items: [
       { kr: "Pinterest 스타일 UI/UX 디자인을 참고한 시네마틱 씬 전환 구현", jp: "PinterestスタイルUI/UXデザインを参考にしたシネマティックシーン遷移実装" },
       { kr: "Framer Motion 기반 트레인 애니메이션 및 인터랙티브 모션", jp: "Framer Motionベースのトレインアニメーション及びインタラクティブモーション" },
       { kr: "카테고리별 레시피 관리 (한식, 중식, 양식)", jp: "カテゴリ別レシピ管理（韓食、中華、洋食）" },
       { kr: "Next.js 15 App Router + React 19 최신 스택 적용", jp: "Next.js 15 App Router + React 19最新スタック適用" },
     ],
-    links: [] as { href: string; label: string }[],
+    links: [{ href: "https://my-recipe-self.vercel.app/", label: "Live Demo" }],
     is_active: true, index: 7, skill_ids: [4, 5, 6, 7, 9, 23], category: "PROJECT",
   },
 ];
@@ -180,7 +180,7 @@ export const projects = [
   {
     id: 1, title: "<em>SiteDash</em>",
     sub_title: { kr: "React 19 + Express.js 풀스택 프로젝트 대시보드", jp: "React 19 + Express.jsフルスタックプロジェクトダッシュボード" },
-    period: "2025.05", member: "Solo Project", skills: [] as string[],
+    period: "2025.06 - 2025.12", member: "Solo Project", skills: [] as string[],
     links: [{ href: "https://ggnu11.github.io/site-dash/", label: "Live Demo" }],
     skill_ids: [4, 5, 7, 9, 16, 17, 19, 23, 25, 28], row_number: 1,
     items: [
@@ -188,9 +188,11 @@ export const projects = [
         { kr: "Google OAuth 2.0 + JWT 토큰 기반 인증 시스템 구현", jp: "Google OAuth 2.0 + JWTトークンベースの認証システム実装" },
         { kr: "FSD (Feature-Sliced Design) 아키텍처로 확장 가능한 구조 설계", jp: "FSD（Feature-Sliced Design）アーキテクチャで拡張可能な構造設計" },
         { kr: "Supabase PostgreSQL 데이터베이스 연동", jp: "Supabase PostgreSQLデータベース連携" },
+        { kr: "CORS 설정을 통한 안전한 프론트엔드-백엔드 통신", jp: "CORS設定による安全なフロントエンド-バックエンド通信" },
       ], projectId: 1, blobUrl: null, row_number: 1, image_ratio: null },
       { id: 2, title: { kr: "UI/UX 및 배포", jp: "UI/UX及びデプロイ" }, content: [
         { kr: "Framer Motion 인터랙티브 애니메이션 구현", jp: "Framer Motionインタラクティブアニメーション実装" },
+        { kr: "Zustand를 활용한 실시간 상태 관리", jp: "Zustandを活用したリアルタイム状態管理" },
         { kr: "shadcn/ui + Tailwind CSS 반응형 디자인", jp: "shadcn/ui + Tailwind CSSレスポンシブデザイン" },
         { kr: "Frontend: GitHub Pages / Backend: Railway 배포", jp: "Frontend: GitHub Pages / Backend: Railwayデプロイ" },
       ], projectId: 1, blobUrl: null, row_number: 2, image_ratio: null },
@@ -220,9 +222,9 @@ export const projects = [
   {
     id: 3, title: "ABC <em>Company</em> Site",
     sub_title: { kr: "모던 웹 기술 기반 풀스택 회사 소개 웹사이트", jp: "モダンWeb技術ベースのフルスタック会社紹介ウェブサイト" },
-    period: "2025.01", member: "Solo Project", skills: [] as string[],
+    period: "2025.07", member: "Solo Project", skills: [] as string[],
     links: [{ href: "https://abc-company1216.netlify.app", label: "Live Demo" }],
-    skill_ids: [5, 7, 8, 16, 17, 18, 27, 28], row_number: 3,
+    skill_ids: [5, 7, 16, 17, 18, 28], row_number: 3,
     items: [
       { id: 5, title: { kr: "풀스택 구조", jp: "フルスタック構造" }, content: [
         { kr: "React 반응형 UI/UX 프론트엔드", jp: "ReactレスポンシブUI/UXフロントエンド" },
@@ -237,30 +239,11 @@ export const projects = [
     ],
   },
   {
-    id: 4, title: "Dev <em>Portfolio</em>",
-    sub_title: { kr: "Next.js 14 기반 개인 포트폴리오 웹사이트", jp: "Next.js 14ベースの個人ポートフォリオウェブサイト" },
-    period: { kr: "2025.03 - 현재", jp: "2025.03 - 現在" }, member: "Solo Project", skills: [] as string[],
-    links: [{ href: "https://github.com/ggnu11", label: "GitHub" }],
-    skill_ids: [4, 5, 6, 7, 9], row_number: 4,
-    items: [
-      { id: 7, title: { kr: "프론트엔드", jp: "フロントエンド" }, content: [
-        { kr: "Next.js 14 App Router + React 18 서버/클라이언트 컴포넌트", jp: "Next.js 14 App Router + React 18 サーバー/クライアントコンポーネント" },
-        { kr: "Framer Motion 기반 SVG 초성 애니메이션 (ㅊㅇㅎ)", jp: "Framer MotionベースSVG初声アニメーション（ㅊㅇㅎ）" },
-        { kr: "한국어/일본어 클라이언트 사이드 i18n", jp: "韓国語/日本語クライアントサイドi18n" },
-        { kr: "다크모드/라이트모드 자동 전환", jp: "ダークモード/ライトモード自動切替" },
-      ], projectId: 4, blobUrl: null, row_number: 1, image_ratio: null },
-      { id: 8, title: { kr: "백엔드 & 인프라", jp: "バックエンド＆インフラ" }, content: [
-        { kr: "정적 데이터 기반 서버 컴포넌트 아키텍처", jp: "静的データベースサーバーコンポーネントアーキテクチャ" },
-        { kr: "Intercepting Routes를 활용한 프로젝트 모달", jp: "Intercepting Routesを活用したプロジェクトモーダル" },
-      ], projectId: 4, blobUrl: null, row_number: 2, image_ratio: null },
-    ],
-  },
-  {
     id: 5, title: "My <em>Recipe</em>",
     sub_title: { kr: "Pinterest 스타일 개인 요리 레시피 관리 앱", jp: "Pinterestスタイル個人料理レシピ管理アプリ" },
-    period: { kr: "2025.05 - 현재", jp: "2025.05 - 現在" }, member: "Solo Project", skills: [] as string[],
-    links: [] as { href: string; label: string }[],
-    skill_ids: [4, 5, 6, 7, 9, 23], row_number: 5,
+    period: { kr: "2026.05 - 현재", jp: "2026.05 - 現在" }, member: "Solo Project", skills: [] as string[],
+    links: [{ href: "https://my-recipe-self.vercel.app/", label: "Live Demo" }],
+    skill_ids: [4, 5, 6, 7, 9, 23], row_number: 4,
     items: [
       { id: 9, title: { kr: "UI/UX 및 모션", jp: "UI/UX及びモーション" }, content: [
         { kr: "Pinterest에서 영감을 받은 시네마틱 씬 전환 시스템 (SceneManager)", jp: "Pinterestからインスピレーションを得たシネマティックシーン遷移システム（SceneManager）" },
@@ -276,21 +259,12 @@ export const projects = [
   },
 ];
 
-// ─── Blogs ───
-export const blogs = [
-  { id: 1, title: "React Server Components 이해하기", date: "2024.01.15", forwardLink: "https://velog.io", bgImageUrl: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&q=80" },
-  { id: 2, title: "TypeScript로 더 나은 DX 만들기", date: "2023.11.20", forwardLink: "https://velog.io", bgImageUrl: "https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=600&q=80" },
-  { id: 3, title: "Framer Motion으로 애니메이션 구현하기", date: "2023.09.05", forwardLink: "https://velog.io", bgImageUrl: "https://images.unsplash.com/photo-1550439062-609e1531270e?w=600&q=80" },
-  { id: 4, title: "WebSocket 실시간 통신 구축 가이드", date: "2024.03.12", forwardLink: "https://velog.io", bgImageUrl: "https://images.unsplash.com/photo-1507721999472-8ed4421c4af2?w=600&q=80" },
-  { id: 5, title: "ECharts로 데이터 시각화하기", date: "2024.05.28", forwardLink: "https://velog.io", bgImageUrl: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80" },
-  { id: 6, title: "Next.js App Router 심층 분석", date: "2024.02.10", forwardLink: "https://velog.io", bgImageUrl: "https://images.unsplash.com/photo-1484417894907-623942c8ee29?w=600&q=80" },
-];
 
 // ─── Education ───
 export const educations = [
-  { id: 1, title: { kr: "서울 사이버대학교", jp: "ソウルサイバー大学" }, sub_title: { kr: "컴퓨터공학 전공", jp: "コンピュータ工学専攻" }, period: "2021 - 2025", items: [] as I18nText[], category: "EDUCATION" },
-  { id: 2, title: { kr: "오사카 휴먼 아카데미", jp: "大阪ヒューマンアカデミー" }, sub_title: { kr: "게임 프로그래밍학과", jp: "ゲームプログラミング学科" }, period: "2022.01 - 2022.10", items: [{ kr: "Unity, C# 기반 게임 프로그래밍 학습", jp: "Unity, C#ベースのゲームプログラミング学習" }], category: "EDUCATION" },
+  { id: 1, title: { kr: "서울 사이버대학교", jp: "ソウルサイバー大学" }, sub_title: { kr: "컴퓨터공학 전공", jp: "コンピュータ工学専攻" }, period: "2021 - 2025", items: [{ kr: "재학생 대상 멘토·멘티 활동", jp: "在学生対象メンター・メンティー活動" }], category: "EDUCATION" },
   { id: 3, title: { kr: "하마마츠 일본어 학교", jp: "浜松日本語学校" }, sub_title: { kr: "일본어 집중 학습", jp: "日本語集中学習" }, period: "2021.03 - 2021.12", items: [] as I18nText[], category: "EDUCATION" },
+  { id: 8, title: { kr: "한국 소프트웨어 인재 개발원", jp: "韓国ソフトウェア人材開発院" }, sub_title: { kr: "JAVA 개발자 양성과정 수료 (국비 IT 교육)", jp: "JAVA開発者養成課程修了（国費IT教育）" }, period: "2022.06 - 2022.12", items: [{ kr: "6개월 집중 풀스택 웹 개발 교육", jp: "6ヶ月集中フルスタックWeb開発教育" }], category: "EDUCATION" },
   { id: 4, title: { kr: "정보처리기사", jp: "情報処理技師" }, sub_title: { kr: "한국산업인력공단", jp: "韓国産業人力公団" }, period: { kr: "2025.09 (예정)", jp: "2025.09（予定）" }, items: [] as I18nText[], category: "CERTIFICATION" },
   { id: 5, title: "SQL Developer (SQLD)", sub_title: { kr: "한국데이터산업진흥원", jp: "韓国データ産業振興院" }, period: { kr: "2025.06 (예정)", jp: "2025.06（予定）" }, items: [] as I18nText[], category: "CERTIFICATION" },
   { id: 6, title: "JLPT N2", sub_title: { kr: "일본어능력시험", jp: "日本語能力試験" }, period: "2022.01", items: [] as I18nText[], category: "CERTIFICATION" },

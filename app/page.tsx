@@ -6,7 +6,7 @@ import IntroSection from "@/_sections/IntroSection";
 import SkillSection from "@/_sections/SkillSection";
 import ExperienceSection from "@/_sections/ExperienceSection";
 import ProjectSection from "@/_sections/ProjectSection";
-import BlogSection from "@/_sections/BlogSection";
+
 import EducationSection from "@/_sections/EducationSection";
 import OutroSection from "@/_sections/OutroSection";
 
@@ -21,7 +21,6 @@ export default function Home() {
           <SkillSection />
           <ExperienceSection />
           <ProjectSection />
-          <BlogSection />
           <EducationSection />
           <OutroSection />
         </main>

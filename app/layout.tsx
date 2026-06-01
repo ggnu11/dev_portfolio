@@ -16,6 +16,9 @@ export const metadata: Metadata = {
   description: "프론트엔드 개발자 최영훈 포트폴리오",
   keywords: ["frontend", "프론트엔드", "개발자", "포트폴리오", "최영훈"],
   alternates: { canonical: "/" },
+  icons: {
+    icon: "/portfolio.svg",
+  },
 };
 
 export default function RootLayout({

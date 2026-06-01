@@ -3,7 +3,6 @@ import {
   skills,
   experiences,
   projects,
-  blogs,
   educations,
 } from "@/data";
 
@@ -31,9 +30,6 @@ export async function getProjectById(id: number) {
   return projects.find((p) => p.id === id) ?? null;
 }
 
-export async function getBlogs() {
-  return blogs;
-}
 
 export async function getEducations() {
   return educations;
