@@ -159,6 +159,20 @@ export const experiences = [
     links: [{ href: "https://abc-company1216.netlify.app", label: "Live Demo" }],
     is_active: false, index: 6, skill_ids: [5, 7, 8, 16, 17, 18, 27, 28], category: "PROJECT",
   },
+  {
+    id: 7,
+    title: "My Recipe",
+    sub_title: { kr: "개인 요리 레시피 관리 웹 애플리케이션", jp: "個人料理レシピ管理Webアプリケーション" },
+    period: { kr: "2025.05 - 현재", jp: "2025.05 - 現在" },
+    items: [
+      { kr: "Pinterest 스타일 UI/UX 디자인을 참고한 시네마틱 씬 전환 구현", jp: "PinterestスタイルUI/UXデザインを参考にしたシネマティックシーン遷移実装" },
+      { kr: "Framer Motion 기반 트레인 애니메이션 및 인터랙티브 모션", jp: "Framer Motionベースのトレインアニメーション及びインタラクティブモーション" },
+      { kr: "카테고리별 레시피 관리 (한식, 중식, 양식)", jp: "カテゴリ別レシピ管理（韓食、中華、洋食）" },
+      { kr: "Next.js 15 App Router + React 19 최신 스택 적용", jp: "Next.js 15 App Router + React 19最新スタック適用" },
+    ],
+    links: [] as { href: string; label: string }[],
+    is_active: true, index: 7, skill_ids: [4, 5, 6, 7, 9, 23], category: "PROJECT",
+  },
 ];
 
 // ─── Projects ───
@@ -239,6 +253,25 @@ export const projects = [
         { kr: "정적 데이터 기반 서버 컴포넌트 아키텍처", jp: "静的データベースサーバーコンポーネントアーキテクチャ" },
         { kr: "Intercepting Routes를 활용한 프로젝트 모달", jp: "Intercepting Routesを活用したプロジェクトモーダル" },
       ], projectId: 4, blobUrl: null, row_number: 2, image_ratio: null },
+    ],
+  },
+  {
+    id: 5, title: "My <em>Recipe</em>",
+    sub_title: { kr: "Pinterest 스타일 개인 요리 레시피 관리 앱", jp: "Pinterestスタイル個人料理レシピ管理アプリ" },
+    period: { kr: "2025.05 - 현재", jp: "2025.05 - 現在" }, member: "Solo Project", skills: [] as string[],
+    links: [] as { href: string; label: string }[],
+    skill_ids: [4, 5, 6, 7, 9, 23], row_number: 5,
+    items: [
+      { id: 9, title: { kr: "UI/UX 및 모션", jp: "UI/UX及びモーション" }, content: [
+        { kr: "Pinterest에서 영감을 받은 시네마틱 씬 전환 시스템 (SceneManager)", jp: "Pinterestからインスピレーションを得たシネマティックシーン遷移システム（SceneManager）" },
+        { kr: "Framer Motion 트레인 애니메이션, 카드 호버/탭 인터랙션", jp: "Framer Motionトレインアニメーション、カードホバー/タップインタラクション" },
+        { kr: "Lenis 기반 스무스 스크롤 및 필름 스타일 레이아웃", jp: "Lenisベースのスムーススクロール及びフィルムスタイルレイアウト" },
+      ], projectId: 5, blobUrl: null, row_number: 1, image_ratio: null },
+      { id: 10, title: { kr: "기능 및 구조", jp: "機能及び構造" }, content: [
+        { kr: "카테고리별 레시피 관리 (한식, 중식, 양식)", jp: "カテゴリ別レシピ管理（韓食、中華、洋食）" },
+        { kr: "Next.js 15 App Router + React 19 + Zustand 상태관리", jp: "Next.js 15 App Router + React 19 + Zustand状態管理" },
+        { kr: "History API 기반 SPA 네비게이션 (브라우저 뒤로가기 지원)", jp: "History APIベースSPAナビゲーション（ブラウザバック対応）" },
+      ], projectId: 5, blobUrl: null, row_number: 2, image_ratio: null },
     ],
   },
 ];
