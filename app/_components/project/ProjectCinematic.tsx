@@ -81,7 +81,7 @@ export default function ProjectCinematic({
       />
 
       {/* Scroll progress indicator — right edge */}
-      <div className="absolute right-5 top-1/2 -translate-y-1/2 z-[1004] flex flex-col items-center gap-1">
+      <div className="absolute right-3 sm:right-5 top-1/2 -translate-y-1/2 z-[1004] flex flex-col items-center gap-1">
         <motion.div
           className="w-[2px] rounded-full"
           style={{
@@ -110,7 +110,7 @@ export default function ProjectCinematic({
       >
         {/* ═══ HERO SECTION ═══ */}
         <motion.div
-          className="relative min-h-screen flex flex-col items-center justify-center px-6 md:px-12"
+          className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 md:px-12"
           style={{
             opacity: springHeaderOpacity,
             scale: springHeaderScale,
@@ -242,7 +242,7 @@ export default function ProjectCinematic({
           {/* Gradient transition from hero to content */}
           <div className="h-32 bg-gradient-to-b from-transparent to-background" />
 
-          <div className="bg-background px-6 md:px-12 pb-32">
+          <div className="bg-background px-4 sm:px-6 md:px-12 pb-16 sm:pb-24 md:pb-32">
             <div className="max-w-3xl mx-auto">
               {project.items.map((item, idx) => (
                 <ProjectDetailSection
@@ -297,7 +297,7 @@ function ProjectDetailSection({
   return (
     <motion.div
       ref={sectionRef}
-      className="py-16 md:py-24"
+      className="py-10 sm:py-16 md:py-24"
       style={{
         opacity: springOpacity,
         y: springY,
@@ -307,7 +307,7 @@ function ProjectDetailSection({
       {/* Section number + title */}
       <div className="flex items-baseline gap-4 mb-8">
         <span
-          className="text-5xl md:text-7xl font-bold"
+          className="text-3xl sm:text-5xl md:text-7xl font-bold"
           style={{ color: `rgba(${accent}, 0.15)` }}
         >
           {String(index + 1).padStart(2, "0")}
@@ -369,7 +369,7 @@ function ProjectDetailSection({
 
       {/* Divider line */}
       <motion.div
-        className="mt-16 md:mt-24 h-[1px] w-full"
+        className="mt-10 sm:mt-16 md:mt-24 h-[1px] w-full"
         style={{
           background: `linear-gradient(to right, transparent, rgba(${accent}, 0.15), transparent)`,
         }}

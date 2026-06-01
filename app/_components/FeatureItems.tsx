@@ -39,7 +39,7 @@ export default function FeatureItems({ items }: { items: IntroData[] }) {
         (containerRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
         (scope as React.MutableRefObject<HTMLDivElement | null>).current = el;
       }}
-      className="flex flex-col md:flex-row gap-16 md:gap-8"
+      className="flex flex-col md:flex-row gap-8 sm:gap-12 md:gap-8"
     >
       {items.map((item) => (
         <motion.div

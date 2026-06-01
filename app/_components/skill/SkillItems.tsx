@@ -27,7 +27,7 @@ export default function SkillItems({ skills }: { skills: Skill[] }) {
   return (
     <div className="flex flex-col items-center gap-8 w-full">
       {/* Category filter buttons */}
-      <div className="flex flex-wrap justify-center gap-2">
+      <div className="flex flex-wrap justify-center gap-1.5 sm:gap-2">
         {CATEGORIES.map((cat) => {
           const isActive = activeCategory === cat.key;
           return (
@@ -60,7 +60,7 @@ export default function SkillItems({ skills }: { skills: Skill[] }) {
       </div>
 
       {/* Skills grid — all always visible */}
-      <div className="flex flex-wrap gap-5 justify-center max-w-lg">
+      <div className="flex flex-wrap gap-3 sm:gap-4 md:gap-5 justify-center max-w-xs sm:max-w-sm md:max-w-lg">
         {skills.map((skill) => {
           const isHighlighted =
             activeCategory === "ALL" || skill.category === activeCategory;
@@ -81,6 +81,7 @@ export default function SkillItems({ skills }: { skills: Skill[] }) {
                 alt={skill.item}
                 width={40}
                 height={40}
+                className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10"
               />
               <span className="absolute -bottom-5 left-1/2 -translate-x-1/2 bg-foreground/80 text-background rounded px-1.5 py-0.5 text-[10px] whitespace-nowrap invisible group-hover:visible z-30">
                 {skill.item}

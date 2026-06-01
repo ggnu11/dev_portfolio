@@ -14,7 +14,7 @@ export default function Home() {
   return (
     <SplashIntro>
       <SectionWatchProvider>
-        <main className="w-full min-w-96 max-w-screen-lg min-h-screen mx-auto px-5 md:px-8 lg:px-10 flex flex-col items-center relative">
+        <main className="w-full max-w-screen-lg min-h-screen mx-auto px-4 sm:px-6 md:px-8 lg:px-10 flex flex-col items-center relative">
           <MainSection />
           <Header className="mb-10" />
           <IntroSection />

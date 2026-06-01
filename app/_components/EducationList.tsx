@@ -29,7 +29,7 @@ export default function EducationList({
   const certItems = educations.filter((e) => e.category === "CERTIFICATION");
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:gap-12">
       {/* ═══ LEFT: Education — Bento Cards ═══ */}
       <div className="space-y-0">
         <motion.div
@@ -79,7 +79,7 @@ export default function EducationList({
           </h3>
         </motion.div>
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {certItems.map((cert, i) => (
             <FlipBadge
               key={cert.id}

@@ -142,7 +142,7 @@ export default function ProjectGrid({
       {/* Fixed-height container for both views */}
       <div
         ref={containerRef}
-        className="relative w-full h-[80vh] md:h-[50vh]"
+        className="relative w-full h-[60vh] sm:h-[70vh] md:h-[50vh]"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
@@ -169,7 +169,7 @@ export default function ProjectGrid({
             <div className="relative h-full w-full overflow-hidden rounded-3xl">
               <div className="relative h-full flex items-center">
                 {/* ═══ LEFT: Clock Wheel ═══ */}
-                <div className="relative w-full md:w-[42%] h-full flex items-center">
+                <div className="relative w-full sm:w-[55%] md:w-[42%] h-full flex items-center">
                   <div
                     className="absolute rounded-full border border-foreground/[0.03] pointer-events-none hidden md:block"
                     style={{
@@ -197,7 +197,7 @@ export default function ProjectGrid({
                 </div>
 
                 {/* ═══ RIGHT: Focused Detail ═══ */}
-                <div className="hidden md:flex flex-1 items-center justify-center px-8 lg:px-14">
+                <div className="hidden sm:flex flex-1 items-center justify-center px-4 sm:px-6 md:px-8 lg:px-14">
                   <AnimatePresence mode="wait">
                     <FocusedDetail
                       key={focusedProject.id}
@@ -229,7 +229,7 @@ export default function ProjectGrid({
               </motion.div>
 
               {/* Progress dots */}
-              <div className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-10 flex flex-col-reverse items-center gap-2.5">
+              <div className="absolute right-2 sm:right-4 md:right-8 top-1/2 -translate-y-1/2 z-10 flex flex-col-reverse items-center gap-2">
                 {projects.map((p, i) => (
                   <ProgressDot
                     key={p.id}
@@ -360,7 +360,7 @@ function WheelCard({
         <motion.div
           layoutId={`project-card-${id}`}
           onClick={onSelect}
-          className="w-[180px] md:w-[220px] p-5 rounded-2xl border border-foreground/[0.08] bg-background/80 backdrop-blur-md cursor-pointer select-none group"
+          className="w-[150px] sm:w-[180px] md:w-[220px] p-4 sm:p-5 rounded-2xl border border-foreground/[0.08] bg-background/80 backdrop-blur-md cursor-pointer select-none group"
           whileHover={{ scale: 1.04 }}
           transition={{ duration: 0.3 }}
         >
@@ -430,7 +430,7 @@ function GridCard({
   return (
     <motion.div
       onClick={onSelect}
-      className="relative rounded-2xl border border-foreground/[0.08] bg-background/80 backdrop-blur-md p-6 cursor-pointer select-none group"
+      className="relative rounded-2xl border border-foreground/[0.08] bg-background/80 backdrop-blur-md p-4 sm:p-5 md:p-6 cursor-pointer select-none group"
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.08, duration: 0.4, ease: EASE }}
@@ -527,7 +527,7 @@ function FocusedDetail({
   return (
     <motion.div
       onClick={onSelect}
-      className="relative max-w-md w-full rounded-2xl border border-foreground/[0.08] bg-background/60 backdrop-blur-md p-8 lg:p-10 cursor-pointer"
+      className="relative max-w-md w-full rounded-2xl border border-foreground/[0.08] bg-background/60 backdrop-blur-md p-5 sm:p-6 md:p-8 lg:p-10 cursor-pointer"
       initial={{ opacity: 0, x: 50 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -40 }}
@@ -580,7 +580,7 @@ function FocusedDetail({
       {/* Title */}
       <motion.h2
         layoutId={`detail-title-${id}`}
-        className="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight mb-4"
+        className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold leading-tight mb-4"
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1, duration: 0.5, ease: EASE }}

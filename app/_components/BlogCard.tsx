@@ -24,7 +24,7 @@ export default function BlogCard({
       href={forwardLink}
       target="_blank"
       rel="noopener noreferrer"
-      className="group relative w-full h-fit md:h-64 xl:h-72 rounded-md md:rounded-lg overflow-hidden no-underline block"
+      className="group relative w-full h-44 sm:h-52 md:h-64 xl:h-72 rounded-lg overflow-hidden no-underline block"
     >
       <Image
         src={bgImageUrl}

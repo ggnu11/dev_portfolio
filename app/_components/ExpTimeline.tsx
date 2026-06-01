@@ -206,11 +206,11 @@ function ReelView({
 
       <div
         ref={containerRef}
-        className="relative h-[65vh] md:h-[55vh] overflow-hidden"
+        className="relative h-[55vh] sm:h-[60vh] md:h-[55vh] overflow-hidden"
       >
 
-      <div className="relative h-full flex items-center">
-        <div className="flex-1 flex justify-end pr-6 md:pr-10">
+      <div className="relative h-full flex flex-col sm:flex-row items-center">
+        <div className="hidden sm:flex flex-1 justify-end pr-4 sm:pr-6 md:pr-10">
           <AnimatePresence mode="wait">
             {side === "left" && (
               <motion.div
@@ -226,7 +226,7 @@ function ReelView({
           </AnimatePresence>
         </div>
 
-        <div className="relative w-28 md:w-36 shrink-0 flex items-center justify-center">
+        <div className="relative w-full sm:w-28 md:w-36 shrink-0 flex items-center justify-center">
           {[-26, 20].map((offset, si) => (
             <div
               key={si}
@@ -316,7 +316,7 @@ function ReelView({
           </span>
         </div>
 
-        <div className="flex-1 flex justify-start pl-6 md:pl-10">
+        <div className="hidden sm:flex flex-1 justify-start pl-4 sm:pl-6 md:pl-10">
           <AnimatePresence mode="wait">
             {side === "right" && (
               <motion.div
@@ -331,10 +331,25 @@ function ReelView({
             )}
           </AnimatePresence>
         </div>
+
+        {/* Mobile: card below the reel */}
+        <div className="sm:hidden w-full px-4 mt-4">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={focusedEntry.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.4, ease: EASE }}
+            >
+              <CompactCard entry={focusedEntry} side="left" t={t} locale={locale} />
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </div>
 
       <button
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 px-5 py-2 rounded-full text-sm font-medium bg-primary/15 text-primary border border-primary/25 hover:bg-primary/25 hover:border-primary/40 z-20"
+        className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 px-4 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium bg-primary/15 text-primary border border-primary/25 hover:bg-primary/25 hover:border-primary/40 z-20"
         onClick={onUnfold}
       >
         ↓ {t.experience.viewDetails}
@@ -364,7 +379,7 @@ function UnfoldedView({
 
   return (
     <div className="relative w-full max-w-5xl mx-auto">
-      <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-16 md:w-20 pointer-events-none">
+      <div className="absolute left-4 sm:left-1/2 sm:-translate-x-1/2 top-0 bottom-0 w-8 sm:w-16 md:w-20 pointer-events-none">
         {["left-1", "right-1"].map((pos) => (
           <div
             key={pos}
@@ -446,7 +461,7 @@ function UnfoldedEntry({
 
   return (
     <motion.div
-      className="relative flex items-stretch min-h-[140px]"
+      className="relative flex items-stretch min-h-[100px] sm:min-h-[140px]"
       initial={{ opacity: 0, height: 0 }}
       animate={{ opacity: 1, height: "auto" }}
       transition={{
@@ -457,7 +472,7 @@ function UnfoldedEntry({
       }}
       style={{ overflow: "hidden" }}
     >
-      <div className="flex-1 flex justify-end pr-6 md:pr-10 py-6">
+      <div className="hidden sm:flex flex-1 justify-end pr-4 sm:pr-6 md:pr-10 py-6">
         {side === "left" ? (
           <motion.div
             className="w-full max-w-sm"
@@ -482,7 +497,7 @@ function UnfoldedEntry({
         )}
       </div>
 
-      <div className="relative w-16 md:w-20 shrink-0 flex items-center justify-center z-10">
+      <div className="relative w-8 sm:w-16 md:w-20 shrink-0 flex items-center justify-center z-10">
         <motion.div
           className="flex flex-col items-center"
           initial={{ opacity: 0, scale: 0, rotateX: -90 }}
@@ -523,7 +538,8 @@ function UnfoldedEntry({
         </motion.div>
       </div>
 
-      <div className="flex-1 flex justify-start pl-6 md:pl-10 py-6">
+      {/* Desktop: right side card */}
+      <div className="hidden sm:flex flex-1 justify-start pl-4 sm:pl-6 md:pl-10 py-6">
         {side === "right" ? (
           <motion.div
             className="w-full max-w-sm"
@@ -546,6 +562,28 @@ function UnfoldedEntry({
         ) : (
           <div />
         )}
+      </div>
+
+      {/* Mobile: always show card on right of timeline */}
+      <div className="sm:hidden flex-1 pl-4 py-4">
+        <motion.div
+          className="w-full"
+          initial={{ opacity: 0, x: 30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{
+            delay: entryDelay + 0.15,
+            duration: 0.55,
+            ease: EASE_OUT,
+          }}
+        >
+          <DetailCard
+            entry={entry}
+            side="right"
+            categoryLabel={categoryLabel}
+            accentRgb={accentRgb}
+            locale={locale}
+          />
+        </motion.div>
       </div>
     </motion.div>
   );

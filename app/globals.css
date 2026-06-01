@@ -48,7 +48,7 @@
   }
 
   section {
-    @apply w-full pt-16 pb-24 md:pt-20 md:pb-32 lg:pt-20 lg:pb-40;
+    @apply w-full pt-12 pb-16 sm:pt-14 sm:pb-20 md:pt-20 md:pb-32 lg:pt-20 lg:pb-40;
     scroll-margin-top: 5rem;
   }
 

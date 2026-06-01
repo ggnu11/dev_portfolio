@@ -12,7 +12,7 @@ export default async function BlogSection() {
     <SectionWatcher id="blog">
       <SlideUpInView className="flex flex-col items-center">
         <SectionHeader section="blog" />
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 w-full mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8 w-full mb-8">
           {blogs.map((blog) => (
             <BlogCard
               key={blog.id}

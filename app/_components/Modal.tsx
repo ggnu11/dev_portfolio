@@ -44,7 +44,7 @@ export default function Modal({ children }: { children: ReactNode }) {
         <RemoveScroll>
           <motion.div
             ref={contentRef}
-            className="relative w-96 md:w-[688px] h-[600px] bg-background border border-foreground/15 rounded-md md:rounded-lg overflow-y-auto z-modal-content"
+            className="relative w-[calc(100vw-2rem)] sm:w-96 md:w-[688px] h-[80vh] sm:h-[600px] bg-background border border-foreground/15 rounded-lg overflow-y-auto z-modal-content"
             initial={{ opacity: 0, translateY: 20, scale: 0.95 }}
             animate={{ opacity: 1, translateY: 0, scale: 1 }}
             exit={{ opacity: 0, translateY: 20, scale: 0.9 }}
