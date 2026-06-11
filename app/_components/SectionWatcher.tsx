@@ -28,25 +28,29 @@ export function SectionWatchProvider({ children }: { children: ReactNode }) {
 
     // Use scroll-based detection for more accurate tracking
     const handleScroll = () => {
-      const viewportCenter = window.innerHeight / 2;
-      let closestId = "";
-      let closestDist = Infinity;
+      const offset = 120; // sticky header + margin
+      let currentId = "";
 
       sections.forEach((el, id) => {
         const rect = el.getBoundingClientRect();
-        // 섹션이 뷰포트에 조금이라도 보일 때만 후보로 취급
-        if (rect.bottom < 0 || rect.top > window.innerHeight) return;
-
-        const sectionCenter = rect.top + rect.height / 2;
-        const distance = Math.abs(sectionCenter - viewportCenter);
-
-        if (distance < closestDist) {
-          closestId = id;
-          closestDist = distance;
+        if (rect.top <= offset) {
+          currentId = id;
         }
       });
 
-      setActiveId(closestId);
+      // If no section passed the offset, pick the first visible one
+      if (!currentId) {
+        let closestDist = Infinity;
+        sections.forEach((el, id) => {
+          const rect = el.getBoundingClientRect();
+          if (rect.top >= 0 && rect.top < closestDist) {
+            closestDist = rect.top;
+            currentId = id;
+          }
+        });
+      }
+
+      setActiveId(currentId);
     };
 
     handleScroll();

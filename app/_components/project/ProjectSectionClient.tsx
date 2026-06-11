@@ -1,8 +1,6 @@
 "use client";
 
 import { SectionWatcher } from "@/_components/SectionWatcher";
-import SlideUpInView from "@/_components/SlideUpInView";
-import SectionHeader from "@/_components/SectionHeader";
 import ProjectGrid from "./ProjectGrid";
 import type { FullProject } from "./types";
 
@@ -13,10 +11,7 @@ export default function ProjectSectionClient({
 }) {
   return (
     <SectionWatcher id="project">
-      <SlideUpInView className="flex flex-col items-center">
-        <SectionHeader section="project" />
-        <ProjectGrid projects={projects} />
-      </SlideUpInView>
+      <ProjectGrid projects={projects} />
     </SectionWatcher>
   );
 }

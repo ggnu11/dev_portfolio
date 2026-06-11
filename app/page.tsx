@@ -1,8 +1,6 @@
 import { SectionWatchProvider } from "@/_components/SectionWatcher";
-import SplashIntro from "@/_components/SplashIntro";
 import Header from "@/_components/Header";
 import MainSection from "@/_sections/MainSection";
-import IntroSection from "@/_sections/IntroSection";
 import SkillSection from "@/_sections/SkillSection";
 import ExperienceSection from "@/_sections/ExperienceSection";
 import ProjectSection from "@/_sections/ProjectSection";
@@ -12,19 +10,16 @@ import OutroSection from "@/_sections/OutroSection";
 
 export default function Home() {
   return (
-    <SplashIntro>
-      <SectionWatchProvider>
-        <main className="w-full max-w-screen-lg min-h-screen mx-auto px-4 sm:px-6 md:px-8 lg:px-10 flex flex-col items-center relative">
-          <MainSection />
-          <Header className="mb-10" />
-          <IntroSection />
-          <SkillSection />
-          <ExperienceSection />
-          <ProjectSection />
-          <EducationSection />
-          <OutroSection />
-        </main>
-      </SectionWatchProvider>
-    </SplashIntro>
+    <SectionWatchProvider>
+      <main className="w-full max-w-screen-lg min-h-screen mx-auto px-4 sm:px-6 md:px-8 lg:px-10 flex flex-col items-center relative">
+        <MainSection />
+        <Header className="mb-10" />
+        <SkillSection />
+        <ExperienceSection />
+        <ProjectSection />
+        <EducationSection />
+        <OutroSection />
+      </main>
+    </SectionWatchProvider>
   );
 }

@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { ChevronRight } from "react-feather";
 import parse from "html-react-parser";
-import SkillItem from "./skill/SkillItem";
 import { useI18n } from "@/i18n/context";
 
 type Skill = {
@@ -69,12 +68,12 @@ export default function ExpCard({
         {skills.length > 0 && (
           <div className="flex flex-wrap gap-2 mt-3">
             {skills.map((skill) => (
-              <SkillItem
+              <span
                 key={skill.id}
-                name={skill.item}
-                iconUrl={skill.blobUrl}
-                size="xs"
-              />
+                className="text-[12px] font-semibold px-2.5 py-0.5 rounded-full bg-[#00C676] text-white border border-[#00C676]"
+              >
+                {skill.item}
+              </span>
             ))}
           </div>
         )}

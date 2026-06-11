@@ -10,7 +10,6 @@ import {
   useSpring,
 } from "framer-motion";
 import { ExternalLink } from "react-feather";
-import SkillItem from "../skill/SkillItem";
 import type { FullProject } from "./types";
 import { resolveText } from "@/data";
 import { useI18n } from "@/i18n/context";
@@ -64,7 +63,7 @@ export default function ProjectCinematic({
 
   return (
     <motion.div
-      className="fixed inset-0 z-[999] flex flex-col"
+      className="fixed inset-0 z-[999] flex flex-col cursor-back"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -183,12 +182,12 @@ export default function ProjectCinematic({
             transition={{ delay: 0.6, duration: 0.6, ease: EASE_CINEMATIC }}
           >
             {project.skillData.map((skill) => (
-              <SkillItem
+              <span
                 key={skill.id}
-                name={skill.item}
-                iconUrl={skill.blobUrl}
-                size="sm"
-              />
+                className="text-sm font-semibold px-3 py-1 rounded-full bg-[#00C676] text-white border border-[#00C676]"
+              >
+                {skill.item}
+              </span>
             ))}
           </motion.div>
 
@@ -206,7 +205,7 @@ export default function ProjectCinematic({
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-full border border-foreground/10 text-foreground/60 text-sm hover:text-foreground hover:border-foreground/30 no-underline transition-colors"
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-full border border-foreground/10 text-foreground/60 text-sm hover:text-foreground hover:border-foreground/30 no-underline transition-colors cursor-pointer"
                   onClick={(e) => e.stopPropagation()}
                 >
                   {link.label}

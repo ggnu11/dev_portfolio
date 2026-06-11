@@ -1,13 +1,11 @@
 "use client";
 
-import { useRef, useState, useEffect, useCallback } from "react";
-import { flushSync } from "react-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import parse from "html-react-parser";
-import SkillItem from "./skill/SkillItem";
 import { useI18n } from "@/i18n/context";
 import { resolveText, type I18nText } from "@/data";
 import type { Locale } from "@/i18n/dictionaries";
+import SkillKeywords from "./SkillKeywords";
 
 type Skill = {
   id: number;
@@ -30,719 +28,171 @@ type ExpEntry = {
   links: Link[];
   isActive?: boolean | null;
   skills: Skill[];
-  category: "WORK" | "PROJECT";
 };
-
-const EASE = [0.25, 0.46, 0.45, 0.94] as const;
-const EASE_OUT = [0.16, 1, 0.3, 1] as const;
-const WHEEL_THRESHOLD = 60;
 
 function r(text: I18nText | string | null | undefined, locale: Locale): string {
   if (!text) return "";
   return resolveText(text, locale);
 }
 
-function parsePeriod(period: string) {
-  const m = period.match(/(\d{4})\.?(\d{2})?/);
-  const year = m?.[1] ?? "0000";
-  const month = m?.[2] ?? "01";
-  return { year, month, sort: `${year}.${month}` };
+function parsePeriodMonths(period: string): number {
+  const parts = period.split("-").map((s) => s.trim());
+  const parseDate = (s: string) => {
+    const m = s.match(/(\d{4})\.?\s*(\d{2})?/);
+    if (!m) return null;
+    return { year: parseInt(m[1]), month: parseInt(m[2] ?? "1") };
+  };
+  const start = parseDate(parts[0]);
+  if (!start) return 0;
+  const isOngoing = parts[1]?.includes("현재") || parts[1]?.includes("現在");
+  const end = isOngoing
+    ? { year: new Date().getFullYear(), month: new Date().getMonth() + 1 }
+    : parseDate(parts[1] ?? "");
+  if (!end) return 0;
+  let months = (end.year - start.year) * 12 + (end.month - start.month);
+  if (months < 1) months = 1;
+  return months;
 }
 
-export default function ExpTimeline({ entries }: { entries: ExpEntry[] }) {
-  const { t, locale } = useI18n();
-  const sectionRef = useRef<HTMLDivElement>(null);
+function formatDuration(months: number): string {
+  const y = Math.floor(months / 12);
+  const m = months % 12;
+  if (y > 0 && m > 0) return `${y}년 ${m}개월`;
+  if (y > 0) return `${y}년`;
+  return `${m}개월`;
+}
 
-  const sorted = [...entries].sort((a, b) =>
-    parsePeriod(r(a.period, locale)).sort.localeCompare(parsePeriod(r(b.period, locale)).sort)
-  );
-
-  const [isUnfolded, setIsUnfolded] = useState(false);
-  const [isAnimating, setIsAnimating] = useState(false);
-
-  const handleUnfold = useCallback(() => {
-    if (isAnimating) return;
-    setIsAnimating(true);
-    setIsUnfolded(true);
-    setTimeout(() => setIsAnimating(false), 600 + sorted.length * 100);
-  }, [isAnimating, sorted.length]);
-
-  const handleFold = useCallback(() => {
-    if (isAnimating) return;
-    setIsAnimating(true);
-
-    const section = document.getElementById("experience");
-    if (!section) {
-      setIsUnfolded(false);
-      setIsAnimating(false);
-      return;
-    }
-
-    const targetY = section.getBoundingClientRect().top + window.scrollY
-      - parseFloat(getComputedStyle(section).scrollMarginTop || "0");
-    const startY = window.scrollY;
-    const distance = targetY - startY;
-    const duration = Math.min(1200, Math.max(600, Math.abs(distance) * 0.3));
-    const startTime = performance.now();
-    const easeInOutCubic = (t: number) =>
-      t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-
-    const step = (now: number) => {
-      const elapsed = now - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      window.scrollTo(0, startY + distance * easeInOutCubic(progress));
-
-      if (progress < 1) {
-        requestAnimationFrame(step);
-      } else {
-        flushSync(() => {
-          setIsUnfolded(false);
-        });
-        window.scrollTo(0, targetY);
-        setTimeout(() => setIsAnimating(false), 400);
-      }
-    };
-    requestAnimationFrame(step);
-  }, [isAnimating]);
-
+/* ─── Section Header ─── */
+function SectionTitle({ title }: { title: string }) {
   return (
-    <div ref={sectionRef}>
-      <AnimatePresence mode="wait" initial={false}>
-        {!isUnfolded ? (
-          <motion.div
-            key="reel"
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{
-              opacity: 0,
-              scale: 1.02,
-              transition: { duration: 0.3, ease: EASE },
-            }}
-            transition={{ duration: 0.5, ease: EASE_OUT }}
-          >
-            <ReelView entries={sorted} t={t} locale={locale} onUnfold={handleUnfold} />
-          </motion.div>
-        ) : (
-          <motion.div
-            key="unfolded"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0, transition: { duration: 0.3, ease: EASE } }}
-            transition={{ duration: 0.4, ease: EASE }}
-          >
-            <UnfoldedView
-              entries={sorted}
-              t={t}
-              locale={locale}
-              onFold={handleFold}
-              isAnimating={isAnimating}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
+    <div className="mb-10 md:mb-14">
+      <h2 className="!text-left text-sm md:text-base font-bold tracking-[0.2em] uppercase text-primary mb-3">
+        {title}
+      </h2>
+      <div className="h-[2px] bg-foreground/20" />
     </div>
   );
 }
 
-/* ═══════════════════════════════════════════════
-   REEL VIEW
-   ═══════════════════════════════════════════════ */
-function ReelView({
-  entries,
-  t,
-  locale,
-  onUnfold,
-}: {
-  entries: ExpEntry[];
-  t: ReturnType<typeof useI18n>["t"];
-  locale: Locale;
-  onUnfold: () => void;
-}) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [focusedIndex, setFocusedIndex] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
-  const wheelAccum = useRef(0);
-  const total = entries.length;
-
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-    const handleWheel = (e: WheelEvent) => {
-      if (!isHovered) return;
-      e.preventDefault();
-      wheelAccum.current += e.deltaY;
-      if (Math.abs(wheelAccum.current) >= WHEEL_THRESHOLD) {
-        const dir = wheelAccum.current > 0 ? -1 : 1;
-        wheelAccum.current = 0;
-        setFocusedIndex((prev) => {
-          const next = prev + dir;
-          if (next < 0 || next >= total) return prev;
-          return next;
-        });
-      }
-    };
-    el.addEventListener("wheel", handleWheel, { passive: false });
-    return () => el.removeEventListener("wheel", handleWheel);
-  }, [isHovered, total]);
-
-  const focusedEntry = entries[focusedIndex];
-  const side: "left" | "right" = focusedIndex % 2 === 0 ? "left" : "right";
-
-  return (
-    <div
-      className="relative w-full max-w-5xl mx-auto"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <motion.div
-        className="absolute -inset-10 pointer-events-none rounded-[60px]"
-        animate={{ opacity: isHovered ? 1 : 0 }}
-        transition={{ duration: 0.4 }}
-        style={{
-          background:
-            "radial-gradient(ellipse at center, rgba(var(--foreground-rgb), 0.2) 0%, rgba(var(--foreground-rgb), 0.08) 40%, transparent 70%)",
-        }}
-      />
-
-      <div
-        ref={containerRef}
-        className="relative h-[55vh] sm:h-[60vh] md:h-[55vh] overflow-hidden"
-      >
-
-      <div className="relative h-full flex flex-col sm:flex-row items-center">
-        <div className="hidden sm:flex flex-1 justify-end pr-4 sm:pr-6 md:pr-10">
-          <AnimatePresence mode="wait">
-            {side === "left" && (
-              <motion.div
-                key={focusedEntry.id}
-                initial={{ opacity: 0, x: -50 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -50 }}
-                transition={{ duration: 0.45, ease: EASE }}
-              >
-                <CompactCard entry={focusedEntry} side="left" t={t} locale={locale} />
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-
-        <div className="relative w-full sm:w-28 md:w-36 shrink-0 flex items-center justify-center">
-          {[-26, 20].map((offset, si) => (
-            <div
-              key={si}
-              className="absolute inset-y-0 flex flex-col justify-between py-8"
-              style={{ left: "50%", transform: `translateX(${offset}px)` }}
-            >
-              {Array.from({ length: 8 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="w-1.5 h-3 rounded-[1px] bg-foreground/[0.04]"
-                />
-              ))}
-            </div>
-          ))}
-
-          <div
-            className="relative w-full h-56 md:h-64"
-            style={{ perspective: "400px" }}
-          >
-            <motion.div
-              className="absolute inset-0 flex items-center justify-center"
-              style={{ transformStyle: "preserve-3d" }}
-              animate={{ rotateX: -focusedIndex * 45 }}
-              transition={{ duration: 0.6, ease: EASE_OUT }}
-            >
-              {entries.map((entry, idx) => {
-                const accentRgb = getAccent(entry.category);
-                const { year, month } = parsePeriod(r(entry.period, locale));
-                const offset = idx - focusedIndex;
-
-                return (
-                  <button
-                    key={entry.id}
-                    className="absolute flex flex-col items-center justify-center w-full cursor-pointer"
-                    style={{
-                      transformStyle: "preserve-3d",
-                      transform: `rotateX(${idx * 45}deg) translateZ(100px)`,
-                      backfaceVisibility: "hidden",
-                    }}
-                    onClick={() => setFocusedIndex(idx)}
-                  >
-                    <span
-                      className="text-2xl md:text-3xl font-bold tracking-tight transition-colors duration-300"
-                      style={{
-                        color:
-                          offset === 0
-                            ? `rgba(${accentRgb}, 0.9)`
-                            : `rgba(var(--foreground-rgb), ${Math.max(0.08, 0.25 - Math.abs(offset) * 0.08)})`,
-                      }}
-                    >
-                      {year}
-                    </span>
-                    <span
-                      className="text-[10px] md:text-xs mt-0.5 transition-colors duration-300"
-                      style={{
-                        color:
-                          offset === 0
-                            ? `rgba(${accentRgb}, 0.5)`
-                            : `rgba(var(--foreground-rgb), ${Math.max(0.05, 0.15 - Math.abs(offset) * 0.05)})`,
-                      }}
-                    >
-                      .{month}
-                    </span>
-                    {entry.isActive && offset === 0 && (
-                      <motion.div
-                        className="w-1.5 h-1.5 rounded-full mt-1.5"
-                        style={{
-                          backgroundColor: `rgba(${accentRgb}, 0.8)`,
-                          boxShadow: `0 0 10px rgba(${accentRgb}, 0.4)`,
-                        }}
-                        animate={{ scale: [1, 1.3, 1] }}
-                        transition={{
-                          duration: 2,
-                          repeat: Infinity,
-                          ease: "easeInOut",
-                        }}
-                      />
-                    )}
-                  </button>
-                );
-              })}
-            </motion.div>
-          </div>
-
-          <span className="absolute bottom-4 text-[8px] text-foreground/15">
-            {focusedIndex + 1} / {total}
-          </span>
-        </div>
-
-        <div className="hidden sm:flex flex-1 justify-start pl-4 sm:pl-6 md:pl-10">
-          <AnimatePresence mode="wait">
-            {side === "right" && (
-              <motion.div
-                key={focusedEntry.id}
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 50 }}
-                transition={{ duration: 0.45, ease: EASE }}
-              >
-                <CompactCard entry={focusedEntry} side="right" t={t} locale={locale} />
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-
-        {/* Mobile: card below the reel */}
-        <div className="sm:hidden w-full px-4 mt-4">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={focusedEntry.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.4, ease: EASE }}
-            >
-              <CompactCard entry={focusedEntry} side="left" t={t} locale={locale} />
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </div>
-
-      <button
-        className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 px-4 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium bg-primary/15 text-primary border border-primary/25 hover:bg-primary/25 hover:border-primary/40 z-20"
-        onClick={onUnfold}
-      >
-        ↓ {t.experience.viewDetails}
-      </button>
-      </div>
-    </div>
-  );
-}
-
-/* ═══════════════════════════════════════════════
-   UNFOLDED VIEW — film strip unrolled
-   ═══════════════════════════════════════════════ */
-function UnfoldedView({
-  entries,
-  t,
-  locale,
-  onFold,
-  isAnimating,
-}: {
-  entries: ExpEntry[];
-  t: ReturnType<typeof useI18n>["t"];
-  locale: Locale;
-  onFold: () => void;
-  isAnimating: boolean;
-}) {
-  const totalEntries = entries.length;
-
-  return (
-    <div className="relative w-full max-w-5xl mx-auto">
-      <div className="absolute left-4 sm:left-1/2 sm:-translate-x-1/2 top-0 bottom-0 w-8 sm:w-16 md:w-20 pointer-events-none">
-        {["left-1", "right-1"].map((pos) => (
-          <div
-            key={pos}
-            className={`absolute ${pos} top-0 bottom-0 flex flex-col justify-between py-4`}
-          >
-            {Array.from({ length: Math.max(totalEntries * 3, 12) }).map(
-              (_, i) => (
-                <motion.div
-                  key={i}
-                  className="w-1.5 h-3 rounded-[1px] bg-foreground/[0.04]"
-                  initial={{ opacity: 0, scaleY: 0 }}
-                  animate={{ opacity: 1, scaleY: 1 }}
-                  transition={{
-                    delay: 0.2 + i * 0.025,
-                    duration: 0.25,
-                    ease: EASE,
-                  }}
-                />
-              )
-            )}
-          </div>
-        ))}
-      </div>
-
-      <div className="relative flex flex-col">
-        {entries.map((entry, idx) => (
-          <UnfoldedEntry
-            key={entry.id}
-            entry={entry}
-            index={idx}
-            side={idx % 2 === 0 ? "left" : "right"}
-            t={t}
-            locale={locale}
-          />
-        ))}
-      </div>
-
-      <motion.div
-        className="relative flex justify-center py-10"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{
-          delay: 0.3 + totalEntries * 0.1,
-          duration: 0.5,
-          ease: EASE,
-        }}
-      >
-        <button
-          onClick={onFold}
-          disabled={isAnimating}
-          className="flex items-center gap-2 px-5 py-2 rounded-full text-sm font-medium bg-primary/15 text-primary border border-primary/25 hover:bg-primary/25 hover:border-primary/40 disabled:opacity-30"
-        >
-          ↑ {t.experience.hideDetails}
-        </button>
-      </motion.div>
-    </div>
-  );
-}
-
-function UnfoldedEntry({
+/* ─── Company Card ─── */
+function CompanyCard({
   entry,
-  index,
-  side,
-  t,
   locale,
+  index,
 }: {
   entry: ExpEntry;
-  index: number;
-  side: "left" | "right";
-  t: ReturnType<typeof useI18n>["t"];
   locale: Locale;
+  index: number;
 }) {
-  const accentRgb = getAccent(entry.category);
-  const categoryLabel =
-    entry.category === "WORK" ? t.experience.work : t.experience.project;
-  const { year, month } = parsePeriod(r(entry.period, locale));
-
-  const entryDelay = 0.15 + index * 0.1;
+  const period = r(entry.period, locale);
+  const months = parsePeriodMonths(period);
+  const duration = months > 0 ? formatDuration(months) : "";
 
   return (
     <motion.div
-      className="relative flex items-stretch min-h-[100px] sm:min-h-[140px]"
-      initial={{ opacity: 0, height: 0 }}
-      animate={{ opacity: 1, height: "auto" }}
-      transition={{
-        delay: entryDelay,
-        duration: 0.5,
-        ease: EASE_OUT,
-        height: { delay: entryDelay, duration: 0.4, ease: EASE_OUT },
-      }}
-      style={{ overflow: "hidden" }}
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.45, delay: index * 0.04 }}
+      className="mb-14 md:mb-16 border-l-2 border-foreground/10 pl-6 md:pl-8"
     >
-      <div className="hidden sm:flex flex-1 justify-end pr-4 sm:pr-6 md:pr-10 py-6">
-        {side === "left" ? (
-          <motion.div
-            className="w-full max-w-sm"
-            initial={{ opacity: 0, x: -50, rotateY: 15 }}
-            animate={{ opacity: 1, x: 0, rotateY: 0 }}
-            transition={{
-              delay: entryDelay + 0.15,
-              duration: 0.55,
-              ease: EASE_OUT,
-            }}
-          >
-            <DetailCard
-              entry={entry}
-              side="left"
-              categoryLabel={categoryLabel}
-              accentRgb={accentRgb}
-              locale={locale}
-            />
-          </motion.div>
-        ) : (
-          <div />
-        )}
-      </div>
+      {/* Period */}
+      <p className="text-sm text-foreground/45 font-medium mb-2">{period}</p>
 
-      <div className="relative w-8 sm:w-16 md:w-20 shrink-0 flex items-center justify-center z-10">
-        <motion.div
-          className="flex flex-col items-center"
-          initial={{ opacity: 0, scale: 0, rotateX: -90 }}
-          animate={{ opacity: 1, scale: 1, rotateX: 0 }}
-          transition={{
-            delay: entryDelay,
-            duration: 0.45,
-            ease: EASE_OUT,
-          }}
-        >
-          <span
-            className="text-lg md:text-xl font-bold"
-            style={{ color: `rgba(${accentRgb}, 0.8)` }}
-          >
-            {year}
-          </span>
-          <span
-            className="text-[10px]"
-            style={{ color: `rgba(${accentRgb}, 0.4)` }}
-          >
-            .{month}
-          </span>
-          {entry.isActive && (
-            <motion.div
-              className="w-1.5 h-1.5 rounded-full mt-1"
-              style={{
-                backgroundColor: `rgba(${accentRgb}, 0.8)`,
-                boxShadow: `0 0 8px rgba(${accentRgb}, 0.4)`,
-              }}
-              animate={{ scale: [1, 1.3, 1] }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            />
-          )}
-        </motion.div>
-      </div>
-
-      {/* Desktop: right side card */}
-      <div className="hidden sm:flex flex-1 justify-start pl-4 sm:pl-6 md:pl-10 py-6">
-        {side === "right" ? (
-          <motion.div
-            className="w-full max-w-sm"
-            initial={{ opacity: 0, x: 50, rotateY: -15 }}
-            animate={{ opacity: 1, x: 0, rotateY: 0 }}
-            transition={{
-              delay: entryDelay + 0.15,
-              duration: 0.55,
-              ease: EASE_OUT,
-            }}
-          >
-            <DetailCard
-              entry={entry}
-              side="right"
-              categoryLabel={categoryLabel}
-              accentRgb={accentRgb}
-              locale={locale}
-            />
-          </motion.div>
-        ) : (
-          <div />
-        )}
-      </div>
-
-      {/* Mobile: always show card on right of timeline */}
-      <div className="sm:hidden flex-1 pl-4 py-4">
-        <motion.div
-          className="w-full"
-          initial={{ opacity: 0, x: 30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{
-            delay: entryDelay + 0.15,
-            duration: 0.55,
-            ease: EASE_OUT,
-          }}
-        >
-          <DetailCard
-            entry={entry}
-            side="right"
-            categoryLabel={categoryLabel}
-            accentRgb={accentRgb}
-            locale={locale}
-          />
-        </motion.div>
-      </div>
-    </motion.div>
-  );
-}
-
-/* ─── Shared Cards ─── */
-
-function CompactCard({
-  entry,
-  side,
-  t,
-  locale,
-}: {
-  entry: ExpEntry;
-  side: "left" | "right";
-  t: ReturnType<typeof useI18n>["t"];
-  locale: Locale;
-}) {
-  const accentRgb = getAccent(entry.category);
-  const categoryLabel =
-    entry.category === "WORK" ? t.experience.work : t.experience.project;
-  const align = side === "left" ? "text-right" : "text-left";
-  const flexAlign = side === "left" ? "justify-end" : "justify-start";
-
-  return (
-    <div className="w-full max-w-xs">
-      <div
-        className="rounded-2xl border border-foreground/[0.06] p-5"
-        style={{
-          background: `linear-gradient(145deg, rgba(${accentRgb}, 0.04) 0%, transparent 50%)`,
-        }}
-      >
-        <div className={`flex items-center gap-2 mb-2 ${flexAlign}`}>
-          <span
-            className="text-[10px] font-semibold tracking-wider uppercase px-2 py-0.5 rounded-full"
-            style={{
-              backgroundColor: `rgba(${accentRgb}, 0.1)`,
-              color: `rgba(${accentRgb}, 0.8)`,
-            }}
-          >
-            {categoryLabel}
-          </span>
-        </div>
-        <h3
-          className={`text-sm md:text-base font-semibold leading-snug ${align}`}
-        >
-          {r(entry.title, locale)}
+      {/* Company Header */}
+      <div className="flex flex-wrap items-center gap-2.5 mb-1">
+        <h3 className="text-xl md:text-2xl font-bold leading-snug">
+          {parse(r(entry.title, locale))}
         </h3>
-        {entry.subTitle && (
-          <p className={`text-xs text-foreground/45 mt-1 ${align}`}>
-            {parse(r(entry.subTitle, locale))}
-          </p>
+        {entry.isActive && (
+          <span className="text-xs font-semibold px-2.5 py-0.5 rounded-md border border-primary/40 text-primary">
+            {locale === "kr" ? "재직 중" : "在職中"}
+          </span>
         )}
-        {entry.skills.length > 0 && (
-          <div className={`flex flex-wrap gap-1.5 mt-3 ${flexAlign}`}>
-            {entry.skills.map((skill) => (
-              <SkillItem
-                key={skill.id}
-                name={skill.item}
-                iconUrl={skill.blobUrl}
-                size="xs"
-              />
-            ))}
-          </div>
+        {duration && (
+          <span className="text-xs font-medium px-2.5 py-0.5 rounded-md border border-foreground/15 text-foreground/45">
+            {duration}
+          </span>
         )}
       </div>
-    </div>
-  );
-}
 
-function DetailCard({
-  entry,
-  side,
-  categoryLabel,
-  accentRgb,
-  locale,
-}: {
-  entry: ExpEntry;
-  side: "left" | "right";
-  categoryLabel: string;
-  accentRgb: string;
-  locale: Locale;
-}) {
-  const align = side === "left" ? "text-right" : "text-left";
-  const flexAlign = side === "left" ? "justify-end" : "justify-start";
-
-  return (
-    <div
-      className="rounded-2xl border border-foreground/[0.06] p-5"
-      style={{
-        background: `linear-gradient(145deg, rgba(${accentRgb}, 0.04) 0%, transparent 50%)`,
-      }}
-    >
-      <div className={`flex items-center gap-2 mb-2 ${flexAlign}`}>
-        <span
-          className="text-[10px] font-semibold tracking-wider uppercase px-2 py-0.5 rounded-full"
-          style={{
-            backgroundColor: `rgba(${accentRgb}, 0.1)`,
-            color: `rgba(${accentRgb}, 0.8)`,
-          }}
-        >
-          {categoryLabel}
-        </span>
-        <span className="text-[11px] text-foreground/30">{r(entry.period, locale)}</span>
-      </div>
-      <h3
-        className={`text-sm md:text-base font-semibold leading-snug ${align}`}
-      >
-        {r(entry.title, locale)}
-      </h3>
+      {/* Role / Sub-title */}
       {entry.subTitle && (
-        <p className={`text-xs text-foreground/45 mt-1 ${align}`}>
-          {parse(r(entry.subTitle, locale))}
+        <p className="text-[15px] text-foreground/55 mt-2 font-medium">
+          {r(entry.subTitle, locale)}
         </p>
       )}
-      {entry.skills.length > 0 && (
-        <div className={`flex flex-wrap gap-1.5 mt-3 ${flexAlign}`}>
-          {entry.skills.map((skill) => (
-            <SkillItem
-              key={skill.id}
-              name={skill.item}
-              iconUrl={skill.blobUrl}
-              size="xs"
-            />
-          ))}
-        </div>
-      )}
+
+      {/* Items */}
       {entry.items.length > 0 && (
-        <div
-          className={`space-y-1.5 mt-4 pt-3 border-t border-foreground/[0.06] ${align}`}
-        >
-          {entry.items.map((item, idx) => (
-            <p key={idx} className="text-xs text-foreground/50 leading-relaxed">
-              {parse(r(item, locale))}
-            </p>
+        <ul className="list-none pl-0 space-y-2 mt-4">
+          {entry.items.map((item, i) => (
+            <li
+              key={i}
+              className="text-[15px] leading-relaxed text-foreground/75 pl-5 -indent-5"
+            >
+              <span className="text-foreground/35 mr-2.5">•</span>
+              {r(item, locale)}
+            </li>
           ))}
+        </ul>
+      )}
+
+      {/* Skill Keywords */}
+      {entry.skills.length > 0 && (
+        <div className="mt-4">
+          <SkillKeywords skills={entry.skills} />
         </div>
       )}
+
+      {/* Links */}
       {entry.links.length > 0 && (
-        <div className={`flex flex-wrap gap-3 mt-3 ${flexAlign}`}>
-          {entry.links.map((link) => (
+        <div className="flex flex-wrap gap-3 mt-4">
+          {entry.links.map((link, i) => (
             <a
-              key={link.href}
+              key={i}
               href={link.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs text-primary"
+              className="text-sm text-primary hover:text-primary/80 no-underline"
             >
-              {link.label}
+              {link.label} ↗
             </a>
           ))}
         </div>
       )}
-    </div>
+    </motion.div>
   );
 }
 
-function getAccent(category: string) {
-  return category === "WORK"
-    ? "var(--color-primary)"
-    : "var(--color-secondary)";
+/* ─── Main Timeline ─── */
+export default function ExpTimeline({ entries }: { entries: ExpEntry[] }) {
+  const { locale } = useI18n();
+
+  const totalMonths = entries.reduce((sum, entry) => {
+    const period = r(entry.period, locale);
+    return sum + parsePeriodMonths(period);
+  }, 0);
+
+  return (
+    <div className="w-full max-w-screen-lg mx-auto px-4 sm:px-6">
+      <SectionTitle title="EXPERIENCE" />
+
+      {/* Total Duration */}
+      {totalMonths > 0 && (
+        <div className="flex items-center gap-3 mb-12">
+          <span className="text-xs font-bold tracking-[0.15em] uppercase text-foreground/50">
+            TOTAL
+          </span>
+          <span className="text-base font-bold text-primary">
+            총 {formatDuration(totalMonths)}
+          </span>
+        </div>
+      )}
+
+      {entries.map((entry, i) => (
+        <CompanyCard key={entry.id} entry={entry} locale={locale} index={i} />
+      ))}
+    </div>
+  );
 }

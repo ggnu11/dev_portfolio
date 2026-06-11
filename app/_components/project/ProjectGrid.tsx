@@ -1,700 +1,135 @@
 "use client";
 
-import { useRef, useState, useCallback, useEffect } from "react";
-import {
-  motion,
-  useTransform,
-  useSpring,
-  useMotionValue,
-  AnimatePresence,
-  LayoutGroup,
-} from "framer-motion";
-import Image from "next/image";
+import { motion } from "framer-motion";
 import parse from "html-react-parser";
-import SkillItem from "../skill/SkillItem";
-import ProjectCinematic from "./ProjectCinematic";
 import type { FullProject } from "./types";
-import { resolveText } from "@/data";
+import { resolveText, type I18nText } from "@/data";
 import { useI18n } from "@/i18n/context";
+import type { Locale } from "@/i18n/dictionaries";
+import SkillKeywords from "../SkillKeywords";
 
-const ANGLE_SPACING = 36;
-const RADIUS = 300;
-const EASE = [0.25, 0.46, 0.45, 0.94] as const;
-const WHEEL_THRESHOLD = 50;
+function r(text: I18nText | string | null | undefined, locale: Locale): string {
+  if (!text) return "";
+  return resolveText(text, locale);
+}
 
+/* ─── Section Header (left-aligned, reference style) ─── */
+function SectionTitle({ title }: { title: string }) {
+  return (
+    <div className="mb-10 md:mb-14">
+      <h2 className="!text-left text-sm md:text-base font-bold tracking-[0.2em] uppercase text-primary mb-3">
+        {title}
+      </h2>
+      <div className="h-[2px] bg-foreground/20" />
+    </div>
+  );
+}
+
+/* ─── Single Project Entry ─── */
+function ProjectEntry({
+  project,
+  locale,
+  index,
+}: {
+  project: FullProject;
+  locale: Locale;
+  index: number;
+}) {
+  const hasLinks = project.links.length > 0;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.45, delay: index * 0.04 }}
+      className="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-1 md:gap-10 py-10 md:py-12 border-b border-foreground/10 first:pt-0 last:border-b-0"
+    >
+      {/* Left: Period */}
+      <div className="mb-1 md:mb-0 md:pt-0.5">
+        <span className="text-[15px] font-bold text-foreground/80 whitespace-nowrap">
+          {r(project.period, locale)}
+        </span>
+      </div>
+
+      {/* Right: Content */}
+      <div className="flex flex-col gap-4">
+        {/* Title */}
+        <h4 className="text-xl font-bold leading-snug">
+          {parse(project.title)}
+        </h4>
+
+        {/* Sub-title (company/role) */}
+        <p className="text-[15px] italic text-foreground/45 -mt-1">
+          {r(project.sub_title, locale)}
+        </p>
+
+        {/* Detail sections */}
+        {project.items.map((section) => (
+          <ul
+            key={section.id}
+            className="list-none indent-0 pl-0 space-y-2.5"
+          >
+            {section.content.map((item, i) => {
+              const text = r(item, locale);
+              return (
+                <li
+                  key={i}
+                  className="text-[15px] leading-relaxed text-foreground/80 pl-5 -indent-5"
+                >
+                  <span className="text-foreground/40 mr-2.5">•</span>
+                  {text}
+                </li>
+              );
+            })}
+          </ul>
+        ))}
+
+        {/* Skill Keywords */}
+        {project.skillData.length > 0 && (
+          <SkillKeywords skills={project.skillData} />
+        )}
+
+        {/* Links */}
+        {hasLinks && (
+          <div className="flex flex-wrap gap-3 mt-1">
+            {project.links.map((link, i) => (
+              <a
+                key={i}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-primary hover:text-primary/80 no-underline"
+              >
+                {link.label} ↗
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+    </motion.div>
+  );
+}
+
+/* ─── Project Grid (Timeline style) ─── */
 export default function ProjectGrid({
   projects,
 }: {
   projects: FullProject[];
 }) {
   const { locale } = useI18n();
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [selectedId, setSelectedId] = useState<number | null>(null);
-  const [focusedIndex, setFocusedIndex] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
-  const [viewMode, setViewMode] = useState<"wheel" | "grid">("wheel");
-  const selectedProject = projects.find((p) => p.id === selectedId) ?? null;
-  const total = projects.length;
-
-  // Motion value driven by wheel events (0 ~ 1)
-  const progress = useMotionValue(0);
-  const wheelAccum = useRef(0);
-  const isWheelLocked = useRef(false);
-
-  const clickSourceRef = useRef<"project" | "detail">("project");
-
-  const handleClose = useCallback(() => setSelectedId(null), []);
-
-  useEffect(() => {
-    document.body.style.overflow = selectedId !== null ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [selectedId]);
-
-  // Native wheel handler (non-passive) so preventDefault works
-  const focusedIndexRef = useRef(focusedIndex);
-  focusedIndexRef.current = focusedIndex;
-
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-
-    const handleWheel = (e: WheelEvent) => {
-      if (viewMode === "grid") return;
-
-      if (isWheelLocked.current) {
-        e.preventDefault();
-        return;
-      }
-
-      const idx = focusedIndexRef.current;
-      wheelAccum.current += e.deltaY;
-
-      if (Math.abs(wheelAccum.current) >= WHEEL_THRESHOLD) {
-        const direction = wheelAccum.current > 0 ? -1 : 1;
-        wheelAccum.current = 0;
-
-        const nextIndex = idx + direction;
-
-        // At boundaries, stop — don't wrap
-        if (nextIndex < 0 || nextIndex >= total) {
-          e.preventDefault();
-          return;
-        }
-
-        e.preventDefault();
-        isWheelLocked.current = true;
-
-        setFocusedIndex(nextIndex);
-        progress.set(nextIndex / (total - 1));
-
-        setTimeout(() => {
-          isWheelLocked.current = false;
-        }, 400);
-      } else {
-        e.preventDefault();
-      }
-    };
-
-    el.addEventListener("wheel", handleWheel, { passive: false });
-    return () => el.removeEventListener("wheel", handleWheel);
-  }, [total, progress, viewMode]);
-
-  // Also support clicking progress dots
-  const handleDotClick = useCallback(
-    (index: number) => {
-      setFocusedIndex(index);
-      progress.set(index / (total - 1));
-    },
-    [total, progress]
-  );
-
-  const focusedProject = projects[focusedIndex];
 
   return (
-    <LayoutGroup>
-      {/* View mode toggle — centered */}
-      <div className="flex justify-center mb-4">
-        <button
-          onClick={() => setViewMode(viewMode === "wheel" ? "grid" : "wheel")}
-          className="flex items-center gap-2 px-5 py-2 rounded-full text-sm font-medium transition-all bg-primary/15 text-primary border border-primary/25 hover:bg-primary/25 hover:border-primary/40"
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            {viewMode === "wheel" ? (
-              <>
-                <rect x="3" y="3" width="7" height="7" rx="1" />
-                <rect x="14" y="3" width="7" height="7" rx="1" />
-                <rect x="3" y="14" width="7" height="7" rx="1" />
-                <rect x="14" y="14" width="7" height="7" rx="1" />
-              </>
-            ) : (
-              <>
-                <circle cx="12" cy="12" r="9" />
-                <path d="M12 8v8M8 12h8" />
-              </>
-            )}
-          </svg>
-          {viewMode === "wheel" ? "View All" : "Wheel"}
-        </button>
-      </div>
-
-      {/* Fixed-height container for both views */}
-      <div
-        ref={containerRef}
-        className="relative w-full h-[60vh] sm:h-[70vh] md:h-[50vh]"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        <AnimatePresence mode="wait">
-          {viewMode === "wheel" ? (
-            <motion.div
-              key="wheel-view"
-              className="absolute inset-0 rounded-3xl"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.35, ease: EASE }}
-            >
-            {/* Hover-activated background */}
-            <motion.div
-              className="absolute -inset-10 pointer-events-none"
-              animate={{ opacity: isHovered ? 1 : 0 }}
-              transition={{ duration: 0.5, ease: EASE }}
-              style={{
-                background: "radial-gradient(ellipse at center, rgba(var(--foreground-rgb), 0.2) 0%, rgba(var(--foreground-rgb), 0.08) 40%, transparent 70%)",
-              }}
-            />
-
-            <div className="relative h-full w-full overflow-hidden rounded-3xl">
-              <div className="relative h-full flex items-center">
-                {/* ═══ LEFT: Clock Wheel ═══ */}
-                <div className="relative w-full sm:w-[55%] md:w-[42%] h-full flex items-center">
-                  <div
-                    className="absolute rounded-full border border-foreground/[0.03] pointer-events-none hidden md:block"
-                    style={{
-                      width: RADIUS * 2,
-                      height: RADIUS * 2,
-                      left: -RADIUS,
-                      top: `calc(50% - ${RADIUS}px)`,
-                    }}
-                  />
-
-                  {projects.map((project, i) => (
-                    <WheelCard
-                      key={project.id}
-                      project={project}
-                      index={i}
-                      total={total}
-                      progress={progress}
-                      locale={locale}
-                      onSelect={() => {
-                        clickSourceRef.current = "project";
-                        setSelectedId(project.id);
-                      }}
-                    />
-                  ))}
-                </div>
-
-                {/* ═══ RIGHT: Focused Detail ═══ */}
-                <div className="hidden sm:flex flex-1 items-center justify-center px-4 sm:px-6 md:px-8 lg:px-14">
-                  <AnimatePresence mode="wait">
-                    <FocusedDetail
-                      key={focusedProject.id}
-                      project={focusedProject}
-                      index={focusedIndex}
-                      locale={locale}
-                      onSelect={() => {
-                        clickSourceRef.current = "detail";
-                        setSelectedId(focusedProject.id);
-                      }}
-                    />
-                  </AnimatePresence>
-                </div>
-              </div>
-
-              {/* Scroll hint */}
-              <motion.div
-                className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1 }}
-              >
-                <motion.div
-                  className="w-[1px] h-6 bg-gradient-to-b from-foreground/20 to-transparent"
-                  animate={{ scaleY: [1, 0.4, 1] }}
-                  transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-                  style={{ transformOrigin: "top" }}
-                />
-              </motion.div>
-
-              {/* Progress dots */}
-              <div className="absolute right-2 sm:right-4 md:right-8 top-1/2 -translate-y-1/2 z-10 flex flex-col-reverse items-center gap-2">
-                {projects.map((p, i) => (
-                  <ProgressDot
-                    key={p.id}
-                    index={i}
-                    total={total}
-                    focusedIndex={focusedIndex}
-                    accent={["0,122,255", "0,198,118", "226,255,0"][p.id % 3]}
-                    onClick={() => handleDotClick(i)}
-                  />
-                ))}
-              </div>
-            </div>
-          </motion.div>
-          ) : (
-            <motion.div
-              key="grid-view"
-              className="absolute inset-0 flex items-center justify-center px-4"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.35, ease: EASE }}
-            >
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-2xl">
-                {projects.map((project, i) => (
-                  <GridCard
-                    key={project.id}
-                    project={project}
-                    index={i}
-                    locale={locale}
-                    onSelect={() => {
-                      clickSourceRef.current = "project";
-                      setSelectedId(project.id);
-                    }}
-                  />
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-
-      {/* Cinematic Fullscreen */}
-      <AnimatePresence>
-        {selectedProject && (
-          <ProjectCinematic
-            project={selectedProject}
-            layoutPrefix={clickSourceRef.current}
-            onClose={handleClose}
-          />
-        )}
-      </AnimatePresence>
-    </LayoutGroup>
-  );
-}
-
-/* ═══════════════════════════════════════════
-   Wheel Card — positioned on the arc
-   ═══════════════════════════════════════════ */
-function WheelCard({
-  project,
-  index,
-  total,
-  progress,
-  locale,
-  onSelect,
-}: {
-  project: FullProject;
-  index: number;
-  total: number;
-  progress: ReturnType<typeof useMotionValue<number>>;
-  locale: import("@/i18n/dictionaries").Locale;
-  onSelect: () => void;
-}) {
-  const { id, title, period } = project;
-  const shapeVariant = id % 9;
-  const colorIdx = id % 3;
-  const accentColors = ["0,122,255", "0,198,118", "226,255,0"];
-  const accent = accentColors[colorIdx];
-
-  // Angle from 3 o'clock (0°)
-  const angle = useTransform(progress, (v: number) => {
-    const activeFloat = v * (total - 1);
-    return (index - activeFloat) * ANGLE_SPACING;
-  });
-
-  // Position on arc (center at left edge, y centered)
-  const x = useTransform(angle, (a: number) => {
-    const rad = (a * Math.PI) / 180;
-    return RADIUS * Math.cos(rad);
-  });
-  const y = useTransform(angle, (a: number) => {
-    const rad = (a * Math.PI) / 180;
-    return -RADIUS * Math.sin(rad);
-  });
-
-  // Visual depth based on distance from focus
-  const absAngle = useTransform(angle, (a: number) => Math.abs(a));
-  const blur = useTransform(absAngle, [0, 20, 60, 120], [0, 2, 8, 12]);
-  const cardOpacity = useTransform(absAngle, [0, 15, 70, 120], [1, 0.8, 0.25, 0.05]);
-  const cardScale = useTransform(absAngle, [0, 20, 80], [1, 0.88, 0.7]);
-
-  // Spring everything
-  const cfg = { stiffness: 120, damping: 20, mass: 0.8 };
-  const sx = useSpring(x, cfg);
-  const sy = useSpring(y, cfg);
-  const sBlur = useSpring(blur, cfg);
-  const sOpacity = useSpring(cardOpacity, cfg);
-  const sScale = useSpring(cardScale, cfg);
-  const filterStr = useTransform(sBlur, (b) => `blur(${b}px)`);
-
-  return (
-    <motion.div
-      className="absolute"
-      style={{
-        left: 0,
-        top: "50%",
-        x: sx,
-        y: sy,
-        opacity: sOpacity,
-        scale: sScale,
-        filter: filterStr,
-        willChange: "transform, opacity, filter",
-        zIndex: useTransform(absAngle, (a) => Math.round(40 - a)),
-      }}
-    >
-      {/* Inner wrapper to center the card on its arc point */}
-      <div style={{ transform: "translate(-50%, -50%)" }}>
-        <motion.div
-          layoutId={`project-card-${id}`}
-          onClick={onSelect}
-          className="w-[150px] sm:w-[180px] md:w-[220px] p-4 sm:p-5 rounded-2xl border border-foreground/[0.08] bg-background/80 backdrop-blur-md cursor-pointer select-none group"
-          whileHover={{ scale: 1.04 }}
-          transition={{ duration: 0.3 }}
-        >
-          {/* Accent glow on focused card */}
-          <motion.div
-            className="absolute inset-0 rounded-2xl pointer-events-none"
-            style={{
-              boxShadow: useTransform(
-                absAngle,
-                [0, 15],
-                [
-                  `0 8px 40px -8px rgba(${accent}, 0.15), inset 0 0 0 1px rgba(${accent}, 0.1)`,
-                  "0 0 0 0 transparent",
-                ]
-              ),
-            }}
-          />
-
-          <motion.div layoutId={`project-shape-${id}`} className="w-7 h-7 mb-3">
-            <Image
-              src={`/assets/shape-variant-${shapeVariant}.svg`}
-              alt=""
-              width={28}
-              height={28}
-            />
-          </motion.div>
-
-          <motion.h4
-            layoutId={`project-title-${id}`}
-            className="text-sm md:text-base font-semibold leading-snug mb-1.5"
-          >
-            {parse(title)}
-          </motion.h4>
-
-          <p className="text-[11px] text-foreground/30 mb-3">{resolveText(period, locale)}</p>
-
-          {/* Accent bar */}
-          <div
-            className="h-[2px] w-6 rounded-full"
-            style={{ backgroundColor: `rgba(${accent}, 0.35)` }}
-          />
-        </motion.div>
-      </div>
-    </motion.div>
-  );
-}
-
-/* ═══════════════════════════════════════════
-   Grid Card — all projects view
-   ═══════════════════════════════════════════ */
-function GridCard({
-  project,
-  index,
-  locale,
-  onSelect,
-}: {
-  project: FullProject;
-  index: number;
-  locale: import("@/i18n/dictionaries").Locale;
-  onSelect: () => void;
-}) {
-  const { id, title, sub_title, period, member, skillData } = project;
-  const shapeVariant = id % 9;
-  const colorIdx = id % 3;
-  const accent = ["0,122,255", "0,198,118", "226,255,0"][colorIdx];
-
-  return (
-    <motion.div
-      onClick={onSelect}
-      className="relative rounded-2xl border border-foreground/[0.08] bg-background/80 backdrop-blur-md p-4 sm:p-5 md:p-6 cursor-pointer select-none group"
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.08, duration: 0.4, ease: EASE }}
-      whileHover={{
-        scale: 1.02,
-        borderColor: `rgba(${accent}, 0.2)`,
-        boxShadow: `0 8px 32px -8px rgba(${accent}, 0.12)`,
-      }}
-    >
-      {/* Shape watermark */}
-      <div className="absolute -right-4 -top-4 w-20 h-20 opacity-[0.04] pointer-events-none">
-        <Image
-          src={`/assets/shape-variant-${shapeVariant}.svg`}
-          alt=""
-          width={80}
-          height={80}
+    <div className="w-full max-w-screen-lg mx-auto px-4 sm:px-6">
+      <SectionTitle title="PROJECT" />
+      {projects.map((project, i) => (
+        <ProjectEntry
+          key={project.id}
+          project={project}
+          locale={locale}
+          index={i}
         />
-      </div>
-
-      <div className="flex items-start gap-4">
-        <motion.div layoutId={`project-shape-${id}`} className="w-7 h-7 shrink-0 mt-0.5">
-          <Image
-            src={`/assets/shape-variant-${shapeVariant}.svg`}
-            alt=""
-            width={28}
-            height={28}
-          />
-        </motion.div>
-
-        <div className="flex-1 min-w-0">
-          <motion.h4 layoutId={`project-title-${id}`} className="text-base font-semibold leading-snug mb-1">
-            {parse(title)}
-          </motion.h4>
-
-          <p className="text-xs text-foreground/35 mb-3">
-            {resolveText(period, locale)} · {member}
-          </p>
-
-          <p className="text-sm text-foreground/45 leading-relaxed line-clamp-2 mb-4">
-            {resolveText(sub_title, locale)}
-          </p>
-
-          {/* Skills */}
-          {skillData.length > 0 && (
-            <div className="flex flex-wrap gap-1.5">
-              {skillData.slice(0, 5).map((skill) => (
-                <Image
-                  key={skill.id}
-                  src={skill.blobUrl}
-                  alt={skill.item}
-                  width={18}
-                  height={18}
-                  className="opacity-50 group-hover:opacity-80 transition-opacity"
-                />
-              ))}
-              {skillData.length > 5 && (
-                <span className="text-[10px] text-foreground/25 self-center ml-0.5">
-                  +{skillData.length - 5}
-                </span>
-              )}
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Accent bar */}
-      <div
-        className="absolute bottom-0 left-6 right-6 h-[2px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-        style={{ backgroundColor: `rgba(${accent}, 0.3)` }}
-      />
-    </motion.div>
-  );
-}
-
-/* ═══════════════════════════════════════════
-   Focused Detail — right panel
-   ═══════════════════════════════════════════ */
-function FocusedDetail({
-  project,
-  index,
-  locale,
-  onSelect,
-}: {
-  project: FullProject;
-  index: number;
-  locale: import("@/i18n/dictionaries").Locale;
-  onSelect: () => void;
-}) {
-  const { id, title, sub_title, period, member, skillData, links } = project;
-  const colorIdx = id % 3;
-  const accent = ["0,122,255", "0,198,118", "226,255,0"][colorIdx];
-  const shapeVariant = id % 9;
-
-  return (
-    <motion.div
-      onClick={onSelect}
-      className="relative max-w-md w-full rounded-2xl border border-foreground/[0.08] bg-background/60 backdrop-blur-md p-5 sm:p-6 md:p-8 lg:p-10 cursor-pointer"
-      initial={{ opacity: 0, x: 50 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -40 }}
-      transition={{ duration: 0.5, ease: EASE }}
-      whileHover={{
-        scale: 1.02,
-        borderColor: `rgba(${accent}, 0.2)`,
-        boxShadow: `0 8px 32px -8px rgba(${accent}, 0.12)`,
-      }}
-    >
-      {/* Decorative large shape watermark */}
-      <motion.div
-        className="absolute -right-8 -top-16 w-40 h-40 opacity-[0.04] pointer-events-none"
-        initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
-        animate={{ opacity: 0.04, scale: 1, rotate: 0 }}
-        transition={{ delay: 0.3, duration: 0.8 }}
-      >
-        <Image
-          src={`/assets/shape-variant-${shapeVariant}.svg`}
-          alt=""
-          width={160}
-          height={160}
-        />
-      </motion.div>
-
-      {/* Shape icon */}
-      <motion.div
-        layoutId={`detail-shape-${id}`}
-        className="w-7 h-7 mb-4"
-      >
-        <Image
-          src={`/assets/shape-variant-${shapeVariant}.svg`}
-          alt=""
-          width={28}
-          height={28}
-        />
-      </motion.div>
-
-      {/* Project number */}
-      <motion.span
-        className="inline-block text-[11px] tracking-[0.25em] uppercase mb-5 font-medium"
-        style={{ color: `rgba(${accent}, 0.5)` }}
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.05, duration: 0.4, ease: EASE }}
-      >
-        Project {String(index + 1).padStart(2, "0")}
-      </motion.span>
-
-      {/* Title */}
-      <motion.h2
-        layoutId={`detail-title-${id}`}
-        className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold leading-tight mb-4"
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1, duration: 0.5, ease: EASE }}
-      >
-        {parse(title)}
-      </motion.h2>
-
-      {/* Period & Member */}
-      <motion.div
-        className="flex items-center gap-3 text-sm text-foreground/30 mb-5"
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.15, duration: 0.4, ease: EASE }}
-      >
-        <span>{resolveText(period, locale)}</span>
-        <span className="w-1 h-1 rounded-full bg-foreground/15" />
-        <span>{member}</span>
-      </motion.div>
-
-      {/* Description */}
-      <motion.p
-        className="text-sm md:text-base text-foreground/45 leading-relaxed mb-7"
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2, duration: 0.4, ease: EASE }}
-      >
-        {resolveText(sub_title, locale)}
-      </motion.p>
-
-      {/* Skills */}
-      {skillData.length > 0 && (
-        <motion.div
-          className="flex flex-wrap gap-3 mb-8"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25, duration: 0.4, ease: EASE }}
-        >
-          {skillData.map((skill, i) => (
-            <motion.div
-              key={skill.id}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.3 + i * 0.04, duration: 0.3 }}
-            >
-              <SkillItem name={skill.item} iconUrl={skill.blobUrl} size="sm" />
-            </motion.div>
-          ))}
-        </motion.div>
-      )}
-
-      {/* Links */}
-      {links.length > 0 && (
-        <motion.div
-          className="flex flex-wrap gap-3 mb-8"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.35, duration: 0.4, ease: EASE }}
-        >
-          {links.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs px-3 py-1.5 rounded-full border border-foreground/10 text-foreground/40 hover:text-foreground/70 hover:border-foreground/20 no-underline transition-colors"
-            >
-              {link.label}
-            </a>
-          ))}
-        </motion.div>
-      )}
-
-      {/* Accent divider */}
-      <motion.div
-        className="h-[1px] w-12"
-        style={{ backgroundColor: `rgba(${accent}, 0.15)`, transformOrigin: "left" }}
-        initial={{ scaleX: 0 }}
-        animate={{ scaleX: 1 }}
-        transition={{ delay: 0.4, duration: 0.6 }}
-      />
-    </motion.div>
-  );
-}
-
-/* ═══════════════════════════════════════════
-   Progress Dot
-   ═══════════════════════════════════════════ */
-function ProgressDot({
-  index,
-  focusedIndex,
-  accent,
-  onClick,
-}: {
-  index: number;
-  total: number;
-  focusedIndex: number;
-  accent: string;
-  onClick: () => void;
-}) {
-  const isActive = index === focusedIndex;
-
-  return (
-    <motion.div
-      className="w-2 h-2 rounded-full ring-1 ring-foreground/10 cursor-pointer"
-      animate={{
-        scale: isActive ? 1 : 0.5,
-        opacity: isActive ? 1 : 0.35,
-      }}
-      transition={{ type: "spring", stiffness: 300, damping: 25 }}
-      style={{
-        backgroundColor: `rgba(${accent}, 1)`,
-        boxShadow: isActive ? `0 0 6px rgba(${accent}, 0.4)` : "none",
-      }}
-      onClick={onClick}
-    />
+      ))}
+    </div>
   );
 }
