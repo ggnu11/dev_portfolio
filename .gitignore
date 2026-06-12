@@ -36,3 +36,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# archive / analysis docs
+PROJECT_MASTER_ARCHIVE*
+wiki.md
+
