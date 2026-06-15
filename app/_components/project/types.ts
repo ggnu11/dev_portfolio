@@ -43,4 +43,5 @@ export type FullProject = {
   skillData: SkillData[];
   links: ProjectLink[];
   items: ProjectItemType[];
+  category: "COMPANY" | "PERSONAL";
 };

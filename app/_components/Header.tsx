@@ -10,7 +10,7 @@ import { useSectionWatch } from "./SectionWatcher";
 import { useOnClickOutside } from "@/utils/useOnClickOutside";
 import { useI18n } from "@/i18n/context";
 
-const NAV_KEYS = ["skill", "experience", "project", "education"] as const;
+const NAV_KEYS = ["experience", "project", "skill", "documentation", "japan", "education"] as const;
 
 export default function Header({ className }: { className?: string }) {
   const { activeId } = useSectionWatch();
@@ -23,7 +23,7 @@ export default function Header({ className }: { className?: string }) {
 
   const navItems = NAV_KEYS.map((key) => ({
     id: key,
-    label: t.nav[key === "skill" ? "skills" : key === "project" ? "projects" : key] as string,
+    label: t.nav[key === "skill" ? "skills" : key === "project" ? "projects" : (key as keyof typeof t.nav)] as string,
   }));
 
   const toggleMenu = useCallback(async () => {

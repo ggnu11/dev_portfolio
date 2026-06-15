@@ -4,6 +4,8 @@ import {
   experiences,
   projects,
   educations,
+  documentations,
+  japanTimeline,
 } from "@/data";
 
 export async function getIntros() {
@@ -33,4 +35,12 @@ export async function getProjectById(id: number) {
 
 export async function getEducations() {
   return educations;
+}
+
+export async function getDocumentations() {
+  return documentations;
+}
+
+export async function getJapanTimeline() {
+  return japanTimeline;
 }

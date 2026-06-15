@@ -8,6 +8,8 @@ const dictionaries = {
       projects: "프로젝트",
       blog: "블로그",
       education: "교육",
+      documentation: "문서화",
+      japan: "일본 경험",
     },
     hero: {
       greeting: "안녕하세요,",
@@ -35,13 +37,24 @@ const dictionaries = {
     project: {
       eyebrow: "프로젝트",
       title: "만들어 온 것들",
+      company: "회사 프로젝트",
+      personal: "개인 프로젝트",
       showMore: "더 보기",
+      showLess: "접기",
     },
     blog: {
       eyebrow: "블로그",
       title: "작성한 글",
       viewDetails: "자세히 보기",
       goToBlog: "블로그 바로가기",
+    },
+    documentation: {
+      eyebrow: "문서화 & 품질",
+      title: "문서화 & 품질 관리",
+    },
+    japan: {
+      eyebrow: "일본 경험",
+      title: "일본 생활 & 커뮤니케이션",
     },
     education: {
       eyebrow: "교육",
@@ -71,6 +84,8 @@ const dictionaries = {
       projects: "プロジェクト",
       blog: "ブログ",
       education: "教育",
+      documentation: "ドキュメント",
+      japan: "日本経験",
     },
     hero: {
       greeting: "こんにちは、",
@@ -98,13 +113,24 @@ const dictionaries = {
     project: {
       eyebrow: "プロジェクト",
       title: "作ってきたもの",
+      company: "会社プロジェクト",
+      personal: "個人プロジェクト",
       showMore: "もっと見る",
+      showLess: "閉じる",
     },
     blog: {
       eyebrow: "ブログ",
       title: "書いた記事",
       viewDetails: "詳細を見る",
       goToBlog: "ブログへ",
+    },
+    documentation: {
+      eyebrow: "ドキュメント & 品質",
+      title: "ドキュメント & 品質管理",
+    },
+    japan: {
+      eyebrow: "日本経験",
+      title: "日本生活 & コミュニケーション",
     },
     education: {
       eyebrow: "教育",
