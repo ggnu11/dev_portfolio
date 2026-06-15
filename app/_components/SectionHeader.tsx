@@ -2,7 +2,7 @@
 
 import { useI18n } from "@/i18n/context";
 
-type SectionKey = "intro" | "skill" | "experience" | "project" | "blog" | "education" | "documentation" | "japan";
+type SectionKey = "introduce" | "intro" | "skill" | "experience" | "project" | "blog" | "education" | "documentation" | "japan";
 
 export default function SectionHeader({ section }: { section: SectionKey }) {
   const { t } = useI18n();
