@@ -44,4 +44,5 @@ export type FullProject = {
   links: ProjectLink[];
   items: ProjectItemType[];
   category: "COMPANY" | "PERSONAL";
+  tier?: "FEATURED" | "CORE";
 };

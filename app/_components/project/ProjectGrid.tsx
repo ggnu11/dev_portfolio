@@ -41,7 +41,6 @@ function CategorySwitch({
   return (
     <div className="flex justify-center mb-10">
       <div className="relative flex items-center bg-foreground/5 rounded-full p-1">
-        {/* Sliding indicator */}
         <motion.div
           className="absolute top-1 bottom-1 rounded-full bg-primary"
           initial={false}
@@ -69,7 +68,33 @@ function CategorySwitch({
   );
 }
 
-/* ─── Single Project Entry ─── */
+/* ─── Group Divider ─── */
+function GroupDivider({
+  title,
+  description,
+}: {
+  title: string;
+  description?: string;
+}) {
+  return (
+    <div className="pt-10 pb-6 md:pt-14 md:pb-8">
+      <div className="flex items-center gap-4 mb-2">
+        <div className="h-px flex-1 bg-foreground/10" />
+        <h3 className="text-xs md:text-sm font-bold tracking-[0.15em] uppercase text-primary whitespace-nowrap">
+          {title}
+        </h3>
+        <div className="h-px flex-1 bg-foreground/10" />
+      </div>
+      {description && (
+        <p className="text-center text-[13px] text-foreground/40 mt-2">
+          {description}
+        </p>
+      )}
+    </div>
+  );
+}
+
+/* ─── Full Project Entry (Featured) ─── */
 function ProjectEntry({
   project,
   locale,
@@ -148,6 +173,82 @@ function ProjectEntry({
   );
 }
 
+/* ─── Compact Project Entry (Core) ─── */
+function CoreProjectEntry({
+  project,
+  locale,
+  index,
+}: {
+  project: FullProject;
+  locale: Locale;
+  index: number;
+}) {
+  const hasLinks = project.links.length > 0;
+  const topItems = project.items.flatMap((s) => s.content).slice(0, 2);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -8 }}
+      transition={{ duration: 0.3, delay: index * 0.03 }}
+      className="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-1 md:gap-10 py-6 md:py-8 border-b border-foreground/10 last:border-b-0"
+    >
+      <div className="mb-1 md:mb-0 md:pt-0.5">
+        <span className="text-[13px] font-bold text-foreground/60 whitespace-nowrap">
+          {r(project.period, locale)}
+        </span>
+      </div>
+
+      <div className="flex flex-col gap-2.5">
+        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+          <h4 className="text-base font-bold leading-snug">
+            {parse(project.title)}
+          </h4>
+          <span className="text-[13px] text-foreground/40">
+            {r(project.sub_title, locale)}
+          </span>
+        </div>
+
+        <ul className="list-none indent-0 pl-0 space-y-1.5">
+          {topItems.map((item, i) => {
+            const text = r(item, locale);
+            return (
+              <li
+                key={i}
+                className="text-[14px] leading-relaxed text-foreground/65 pl-4 -indent-4"
+              >
+                <span className="text-foreground/30 mr-2">•</span>
+                {text}
+              </li>
+            );
+          })}
+        </ul>
+
+        {project.skillData.length > 0 && (
+          <SkillKeywords skills={project.skillData} />
+        )}
+
+        {hasLinks && (
+          <div className="flex flex-wrap gap-3">
+            {project.links.map((link, i) => (
+              <a
+                key={i}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-primary hover:text-primary/80 no-underline"
+              >
+                {link.label} ↗
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+    </motion.div>
+  );
+}
+
 const PAGE_SIZE = 3;
 const CONTAINER_HEIGHT = "max-h-[75vh]";
 
@@ -166,10 +267,16 @@ export default function ProjectGrid({
   const companyProjects = projects.filter((p) => p.category === "COMPANY");
   const personalProjects = projects.filter((p) => p.category === "PERSONAL");
 
+  const featuredProjects = companyProjects.filter((p) => p.tier === "FEATURED");
+  const coreProjects = companyProjects.filter((p) => p.tier === "CORE");
+
   const currentProjects =
     activeCategory === "COMPANY" ? companyProjects : personalProjects;
-  const visibleProjects = currentProjects.slice(0, visibleCount);
-  const hasMore = visibleCount < currentProjects.length;
+  const isCompany = activeCategory === "COMPANY";
+
+  // For personal projects, use paginated view
+  const visiblePersonal = personalProjects.slice(0, visibleCount);
+  const hasMore = !isCompany && visibleCount < personalProjects.length;
 
   const handleCategoryChange = (cat: "COMPANY" | "PERSONAL") => {
     setActiveCategory(cat);
@@ -178,8 +285,8 @@ export default function ProjectGrid({
   };
 
   const loadMore = useCallback(() => {
-    setVisibleCount((prev) => Math.min(prev + PAGE_SIZE, currentProjects.length));
-  }, [currentProjects.length]);
+    setVisibleCount((prev) => Math.min(prev + PAGE_SIZE, personalProjects.length));
+  }, [personalProjects.length]);
 
   useEffect(() => {
     const sentinel = sentinelRef.current;
@@ -219,24 +326,59 @@ export default function ProjectGrid({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
-            {visibleProjects.map((project, i) => (
-              <ProjectEntry
-                key={project.id}
-                project={project}
-                locale={locale}
-                index={i}
-              />
-            ))}
+            {isCompany ? (
+              <>
+                {/* Featured Projects Group */}
+                <GroupDivider title={t.project.featured} />
+                {featuredProjects.map((project, i) => (
+                  <ProjectEntry
+                    key={project.id}
+                    project={project}
+                    locale={locale}
+                    index={i}
+                  />
+                ))}
+
+                {/* Core EMS/NMS Projects Group */}
+                {coreProjects.length > 0 && (
+                  <>
+                    <GroupDivider
+                      title={t.project.core}
+                      description={t.project.coreDesc}
+                    />
+                    {coreProjects.map((project, i) => (
+                      <CoreProjectEntry
+                        key={project.id}
+                        project={project}
+                        locale={locale}
+                        index={i}
+                      />
+                    ))}
+                  </>
+                )}
+              </>
+            ) : (
+              <>
+                {visiblePersonal.map((project, i) => (
+                  <ProjectEntry
+                    key={project.id}
+                    project={project}
+                    locale={locale}
+                    index={i}
+                  />
+                ))}
+              </>
+            )}
           </motion.div>
         </AnimatePresence>
 
-        {/* Sentinel for infinite scroll */}
+        {/* Sentinel for infinite scroll (personal only) */}
         {hasMore && <div ref={sentinelRef} className="h-1" />}
 
         {/* Bottom indicator */}
-        {!hasMore && currentProjects.length > PAGE_SIZE && (
+        {!hasMore && !isCompany && personalProjects.length > PAGE_SIZE && (
           <p className="text-center text-xs text-foreground/30 py-6">
-            {visibleCount} / {currentProjects.length}
+            {visibleCount} / {personalProjects.length}
           </p>
         )}
       </div>

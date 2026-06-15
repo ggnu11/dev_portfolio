@@ -13,9 +13,9 @@ const dictionaries = {
     },
     hero: {
       greeting: "안녕하세요,",
-      role: "프론트엔드 개발자",
+      role: "프론트엔드 엔지니어",
       name: "최영훈",
-      subtitle: "모던 기술로 매끄러운 웹 경험을 만듭니다.",
+      subtitle: "통신 관제 시스템 10개+를 1인으로 설계·운영하며, 실시간 데이터 처리와 레거시 현대화를 주도한 프론트엔드 엔지니어입니다.",
       cta: "이력서 다운로드",
     },
     intro: {
@@ -39,6 +39,9 @@ const dictionaries = {
       title: "만들어 온 것들",
       company: "회사 프로젝트",
       personal: "개인 프로젝트",
+      featured: "대표 프로젝트",
+      core: "운영 관제 시스템",
+      coreDesc: "위 대표 프로젝트 외에도 아래 EMS/NMS 시스템을 단독으로 설계·운영하였습니다.",
       showMore: "더 보기",
       showLess: "접기",
     },
@@ -89,9 +92,9 @@ const dictionaries = {
     },
     hero: {
       greeting: "こんにちは、",
-      role: "フロントエンド開発者",
+      role: "フロントエンドエンジニア",
       name: "チェ・ヨンフン",
-      subtitle: "モダン技術で滑らかなWeb体験を作ります。",
+      subtitle: "通信管制システム10件以上を単独で設計・運用し、リアルタイムデータ処理とレガシー刷新を推進したフロントエンドエンジニアです。",
       cta: "履歴書ダウンロード",
     },
     intro: {
@@ -115,6 +118,9 @@ const dictionaries = {
       title: "作ってきたもの",
       company: "会社プロジェクト",
       personal: "個人プロジェクト",
+      featured: "代表プロジェクト",
+      core: "運用管制システム",
+      coreDesc: "上記の代表プロジェクト以外にも、以下のEMS/NMSシステムを単独で設計・運用しました。",
       showMore: "もっと見る",
       showLess: "閉じる",
     },

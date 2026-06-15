@@ -45,10 +45,37 @@ export const skills = [
 export const intros = [
   {
     id: 1,
-    title: { kr: "사용자 중심 개발", jp: "ユーザー中心の開発" },
+    title: { kr: "실시간 관제 시스템", jp: "リアルタイム管制システム" },
     detail: {
-      kr: "React 기반의 사용자 중심 웹 서비스 개발에 집중합니다. 직관적인 인터페이스와 매끄러운 사용자 경험을 최우선으로 생각합니다.",
-      jp: "Reactベースのユーザー中心Webサービス開発に集中しています。直感的なインターフェースと滑らかなユーザー体験を最優先に考えています。",
+      kr: "WebSocket(STOMP) 15개+ 토픽 기반 실시간 모니터링 시스템 설계·운영. 알람·차트·장비 상태를 끊김 없이 스트리밍하고, 절체(Failover) 시 자동 복구까지 구현합니다.",
+      jp: "WebSocket（STOMP）15個以上のトピックベースのリアルタイムモニタリングシステム設計・運用。アラーム・チャート・設備状態を途切れなくストリーミングし、切替（Failover）時の自動復旧まで実装します。",
+    },
+    blobUrl: null,
+  },
+  {
+    id: 2,
+    title: { kr: "성능 최적화 · 레거시 현대화", jp: "パフォーマンス最適化・レガシー刷新" },
+    detail: {
+      kr: "3만 건 데이터 렌더링 최적화(API 50% 감소)부터 4년 레거시 12단계 마이그레이션(빌드 6배↑, -11,389줄)까지. 측정 가능한 수치로 개선을 증명합니다.",
+      jp: "3万件データレンダリング最適化（API 50%削減）から4年レガシー12段階マイグレーション（ビルド6倍↑、-11,389行）まで。測定可能な数値で改善を証明します。",
+    },
+    blobUrl: null,
+  },
+  {
+    id: 3,
+    title: { kr: "운영 안정화 · 장애 대응", jp: "運用安定化・障害対応" },
+    detail: {
+      kr: "장애 분석 프로세스 정립으로 대응 시간 50% 단축. WebSocket 절체 자동 복구 설계, 웹 보안 강화, 인수시험 전건 100% 통과. 서비스를 멈추지 않는 것에 집중합니다.",
+      jp: "障害分析プロセス確立で対応時間50%短縮。WebSocket切替自動復旧設計、Webセキュリティ強化、受入試験全件100%通過。サービスを止めないことに集中します。",
+    },
+    blobUrl: null,
+  },
+  {
+    id: 4,
+    title: { kr: "1인 풀사이클 · 문서화", jp: "1人フルサイクル・ドキュメント" },
+    detail: {
+      kr: "설계→개발→테스트→문서화→인수시험→장애 대응까지 1인 전담. VuePress 매뉴얼 6건, 기능 Wiki, 테스트케이스 구축으로 팀의 지식 자산을 남깁니다.",
+      jp: "設計→開発→テスト→文書化→受入試験→障害対応まで1人専任。VuePresマニュアル6件、機能Wiki、テストケース構築でチームの知識資産を残します。",
     },
     blobUrl: null,
   },
@@ -62,14 +89,13 @@ export const experiences = [
     sub_title: { kr: "UX솔루션팀 · 프론트엔드 엔지니어 (1인 전담)", jp: "UXソリューションチーム · フロントエンドエンジニア（1人専任）" },
     period: { kr: "2023.06 - 현재", jp: "2023.06 - 現在" },
     items: [
-      { kr: "통신사 Core Network EMS 관제 시스템 20개+ 프로젝트의 프론트엔드 설계·개발·운영을 1인으로 전담", jp: "通信社Core Network EMS管制システム20件以上プロジェクトのフロントエンド設計・開発・運用を1人で専任" },
-      { kr: "WebSocket(STOMP) 15개+ 토픽 기반 실시간 알람·장비 상태·리소스 모니터링 시스템 구축", jp: "WebSocket（STOMP）15件以上のトピックベースのリアルタイムアラーム・設備状態・リソースモニタリングシステム構築" },
-      { kr: "3만 건 알람 데이터 렌더링 병목을 React.memo + 가상 스크롤로 해결, API 호출 50% 감소", jp: "3万件アラームデータのレンダリングボトルネックをReact.memo + 仮想スクロールで解決、API呼び出し50%削減" },
-      { kr: "장애 분석 프로세스 정립 및 WebSocket 절체 재연결 로직 설계로 대응 시간 약 50% 단축", jp: "障害分析プロセス確立及びWebSocket切替再接続ロジック設計で対応時間約50%短縮" },
-      { kr: "4년+ 레거시 시스템 12단계 마이그레이션 주도 (빌드 40초→6.7초, 코드 -11,389줄)", jp: "4年以上のレガシーシステム12段階マイグレーション主導（ビルド40秒→6.7秒、コード-11,389行）" },
-      { kr: "KendoReact(유료) 전면 제거 → 커스텀 Table + shadcn/ui로 교체 (50개 화면, 라이선스 비용 절감)", jp: "KendoReact（有料）全面除去→カスタムTable + shadcn/uiに置換（50画面、ライセンスコスト削減）" },
-      { kr: "VuePress 운영 매뉴얼 6건 작성, 테스트케이스·기능명세서 구축으로 인수시험 전건 100% 통과", jp: "VuePress運用マニュアル6件作成、テストケース・機能仕様書構築で受入試験全件100%通過" },
-      { kr: "React 16~19 전 버전 실무 경험 (MobX → Recoil → Zustand 세대별 상태관리 전환 포함)", jp: "React 16〜19全バージョン実務経験（MobX→Recoil→Zustand世代別状態管理転換含む）" },
+      { kr: "통신 관제 시스템 10개+ 프로젝트의 프론트엔드 설계·개발·운영·장애 대응을 1인으로 전담", jp: "通信管制システム10件以上プロジェクトのフロントエンド設計・開発・運用・障害対応を1人で専任" },
+      { kr: "3만 건 실시간 데이터 렌더링 최적화 — React.memo + 가상 스크롤로 API 호출 50% 감소", jp: "3万件リアルタイムデータレンダリング最適化 — React.memo + 仮想スクロールでAPI呼び出し50%削減" },
+      { kr: "WebSocket(STOMP) 15개+ 토픽 기반 관제 시스템 구축 + 절체(Failover) 자동 복구 설계", jp: "WebSocket（STOMP）15件以上トピックベース管制システム構築 + 切替（Failover）自動復旧設計" },
+      { kr: "장애 분석 프로세스 정립 + WebSocket 재연결 설계로 대응 시간 50% 단축", jp: "障害分析プロセス確立 + WebSocket再接続設計で対応時間50%短縮" },
+      { kr: "12단계 레거시 마이그레이션 주도 — 빌드 6배↑, 유료 라이선스 전면 제거, 코드 -11,389줄", jp: "12段階レガシーマイグレーション主導 — ビルド6倍↑、有料ライセンス全面除去、コード-11,389行" },
+      { kr: "운영 매뉴얼 6건 + 테스트케이스 구축으로 KT 등 통신사 인수시험 전건 100% 통과", jp: "運用マニュアル6件 + テストケース構築でKT等通信社受入試験全件100%通過" },
+      { kr: "백엔드 5명과 REST/WebSocket API 설계 협의 및 Mock 서버 자체 구축으로 독립 개발 환경 확보", jp: "バックエンド5名とREST/WebSocket API設計協議及びMockサーバー自体構築で独立開発環境確保" },
     ],
     links: [] as { href: string; label: string }[],
     is_active: true, index: 1,
@@ -80,6 +106,7 @@ export const experiences = [
 
 // ─── Projects ───
 export type ProjectCategory = "COMPANY" | "PERSONAL";
+export type ProjectTier = "FEATURED" | "CORE";
 
 export const projects = [
   // ── Personal Projects ──
@@ -104,7 +131,7 @@ export const projects = [
   },
   // ── IPAGEON - Major Projects ──
   {
-    id: 1, title: "<em>POTS</em> EMS 실시간 관제", category: "COMPANY" as ProjectCategory,
+    id: 1, title: "실시간 통신 장비 <em>관제</em> 시스템", category: "COMPANY" as ProjectCategory, tier: "FEATURED" as ProjectTier,
     sub_title: { kr: "WebSocket 기반 대규모 EMS 프론트엔드 단독 개발 (800 commits)", jp: "WebSocketベース大規模EMSフロントエンド単独開発（800コミット）" },
     period: { kr: "2023.09 - 현재", jp: "2023.09 - 現在" }, member: "Frontend Solo", skills: [] as string[],
     links: [] as { href: string; label: string }[],
@@ -125,7 +152,7 @@ export const projects = [
     ],
   },
   {
-    id: 2, title: "EMS <em>대규모</em> 마이그레이션", category: "COMPANY" as ProjectCategory,
+    id: 2, title: "관제 시스템 <em>대규모</em> 현대화", category: "COMPANY" as ProjectCategory, tier: "FEATURED" as ProjectTier,
     sub_title: { kr: "12단계 체계적 기술 스택 전환 (419파일, -11,389줄)", jp: "12段階体系的技術スタック転換（419ファイル、-11,389行）" },
     period: "2025.02 - 2025.06", member: "Frontend Solo", skills: [] as string[],
     links: [] as { href: string; label: string }[],
@@ -146,7 +173,7 @@ export const projects = [
     ],
   },
   {
-    id: 6, title: "메시징 <em>게이트웨이</em> 관제 시스템", category: "COMPANY" as ProjectCategory,
+    id: 6, title: "메시징 플랫폼 <em>통합 관제</em> 시스템", category: "COMPANY" as ProjectCategory, tier: "FEATURED" as ProjectTier,
     sub_title: { kr: "다크모드·ReactFlow Call Flow·네트워크 스위치 모니터링 (1,670 commits)", jp: "ダークモード・ReactFlow Call Flow・ネットワークスイッチモニタリング（1,670コミット）" },
     period: "2023.11 - 2025.05", member: "Frontend Solo", skills: [] as string[],
     links: [] as { href: string; label: string }[],
@@ -205,23 +232,25 @@ export const projects = [
     ],
   },
   {
-    id: 19, title: "ABC <em>Company</em> Site", category: "PERSONAL" as ProjectCategory,
-    sub_title: { kr: "React + Express.js + MongoDB 풀스택 회사 웹사이트", jp: "React + Express.js + MongoDBフルスタック会社Webサイト" },
+    id: 20, title: "ABC <em>Company</em> Site", category: "PERSONAL" as ProjectCategory,
+    sub_title: { kr: "React + Express.js 풀스택 회사 웹사이트", jp: "React + Express.jsフルスタック企業Webサイト" },
     period: "2025.01", member: "Solo Project", skills: [] as string[],
-    links: [{ href: "https://abc-company1216.netlify.app", label: "Live Demo" }],
+    links: [
+      { href: "https://abc-company1216.netlify.app", label: "Live Demo" },
+    ],
     skill_ids: [5, 7, 16, 17, 18, 28], row_number: 7,
     items: [
       { id: 34, title: { kr: "주요 특징", jp: "主な特徴" }, content: [
-        { kr: "React 기반 모던 UI/UX 반응형 디자인 구현", jp: "ReactベースのモダンUI/UXレスポンシブデザイン実装" },
-        { kr: "Express.js RESTful API + MongoDB Atlas 클라우드 DB 연동", jp: "Express.js RESTful API + MongoDB AtlasクラウドDB連携" },
-        { kr: "JWT 기반 인증 시스템 및 Mongoose ODM 스키마 관리", jp: "JWTベース認証システム及びMongoose ODMスキーマ管理" },
-        { kr: "Frontend: Netlify / Backend: Render 분리 배포", jp: "Frontend: Netlify / Backend: Render分離デプロイ" },
-      ], projectId: 19, blobUrl: null, row_number: 1, image_ratio: null },
+        { kr: "React + Express.js 풀스택 구조로 회사 소개 웹사이트 구현", jp: "React + Express.jsフルスタック構造で企業紹介Webサイト実装" },
+        { kr: "MongoDB + Mongoose ODM 기반 데이터 관리 및 JWT 인증 구현", jp: "MongoDB + Mongoose ODMベースのデータ管理及びJWT認証実装" },
+        { kr: "Tailwind CSS 반응형 디자인 + 모던 UI/UX 구현", jp: "Tailwind CSSレスポンシブデザイン + モダンUI/UX実装" },
+        { kr: "Netlify(Frontend) + Render(Backend) 배포 환경 구성", jp: "Netlify（Frontend）+ Render（Backend）デプロイ環境構成" },
+      ], projectId: 20, blobUrl: null, row_number: 1, image_ratio: null },
     ],
   },
   // ── IPAGEON - Additional Projects ──
   {
-    id: 7, title: "메시징 <em>플랫폼</em> EMS", category: "COMPANY" as ProjectCategory,
+    id: 7, title: "통합 알람·Trace <em>모니터링</em> 시스템", category: "COMPANY" as ProjectCategory, tier: "CORE" as ProjectTier,
     sub_title: { kr: "WebSocket 실시간 통신·알람·Trace·CLI 전담 개발 (369 commits)", jp: "WebSocketリアルタイム通信・アラーム・Trace・CLI専任開発（369コミット）" },
     period: { kr: "2023.09 - 현재", jp: "2023.09 - 現在" }, member: "Frontend Solo", skills: [] as string[],
     links: [] as { href: string; label: string }[],
@@ -236,7 +265,7 @@ export const projects = [
     ],
   },
   {
-    id: 13, title: "<em>PTT</em> 프로비저닝 관리 시스템", category: "COMPANY" as ProjectCategory,
+    id: 13, title: "통신 고객 <em>프로비저닝</em> 관리 시스템", category: "COMPANY" as ProjectCategory, tier: "FEATURED" as ProjectTier,
     sub_title: { kr: "Customer/Contact 모듈 전체 신규 설계·구현 (93개 신규 파일)", jp: "Customer/Contactモジュール全体新規設計・実装（93個新規ファイル）" },
     period: "2025.07 - 2026.02", member: "Frontend Solo", skills: [] as string[],
     links: [] as { href: string; label: string }[],
@@ -251,7 +280,7 @@ export const projects = [
     ],
   },
   {
-    id: 11, title: "통신 장비 관제 <em>알람/Overview</em>", category: "COMPANY" as ProjectCategory,
+    id: 11, title: "관제 알람 대시보드 · <em>Overview</em> 시스템", category: "COMPANY" as ProjectCategory, tier: "CORE" as ProjectTier,
     sub_title: { kr: "알람 UI 전면 개선 및 Overview 모니터링 신규 개발 (147 commits)", jp: "アラームUI全面改善及びOverviewモニタリング新規開発（147コミット）" },
     period: "2024.01 - 2026.05", member: "Frontend Solo", skills: [] as string[],
     links: [] as { href: string; label: string }[],
@@ -266,113 +295,126 @@ export const projects = [
     ],
   },
   {
-    id: 8, title: "통신 장비 <em>통합 관제</em> 시스템", category: "COMPANY" as ProjectCategory,
-    sub_title: { kr: "Dashboard 토폴로지·CLI 원격 명령어·Sidebar 리뉴얼 (400 commits)", jp: "Dashboardトポロジー・CLI遠隔コマンド・Sidebarリニューアル（400コミット）" },
+    id: 14, title: "통신 네트워크 장비 <em>통합 관제</em> 시스템", category: "COMPANY" as ProjectCategory, tier: "CORE" as ProjectTier,
+    sub_title: { kr: "시스템 토폴로지·CLI 원격 제어·실시간 알람 프론트엔드 (400 commits)", jp: "システムトポロジー・CLI遠隔制御・リアルタイムアラームフロントエンド（400コミット）" },
     period: "2023.06 - 2025.06", member: "Frontend Solo", skills: [] as string[],
     links: [] as { href: string; label: string }[],
-    skill_ids: [4, 5, 21, 28], row_number: 9,
+    skill_ids: [4, 5, 21, 22, 28, 29], row_number: 9,
     items: [
       { id: 25, title: { kr: "주요 업무", jp: "主な業務" }, content: [
-        { kr: "호스트 이중화(Active-Standby/Active-Active/ActiveAlone) 동적 토폴로지 레이아웃 개발", jp: "ホスト二重化（Active-Standby/Active-Active/ActiveAlone）動的トポロジーレイアウト開発" },
-        { kr: "CLI 원격 명령어 Tree 메뉴 구현, recoil-persist→session 전환, 코드 분할", jp: "CLI遠隔コマンドTreeメニュー実装、recoil-persist→session転換、コード分割" },
-        { kr: "Sidebar 축소/확장 리뉴얼 (PNG→SVG, hover 전환, 코드 최적화)", jp: "Sidebar縮小/拡張リニューアル（PNG→SVG、hover転換、コード最適化）" },
-      ], projectId: 8, blobUrl: null, row_number: 1, image_ratio: null },
-    ],
-  },
-  {
-    id: 10, title: "통신 장비 통합 관제 <em>웹</em> 시스템", category: "COMPANY" as ProjectCategory,
-    sub_title: { kr: "CLI TreeView·Dashboard 프로세스 블록·통계 (212 commits)", jp: "CLI TreeView・Dashboardプロセスブロック・統計（212コミット）" },
-    period: "2023.06 - 2025.02", member: "Frontend Solo", skills: [] as string[],
-    links: [] as { href: string; label: string }[],
-    skill_ids: [4, 5, 28], row_number: 10,
-    items: [
-      { id: 26, title: { kr: "주요 업무", jp: "主な業務" }, content: [
-        { kr: "CLI TreeView 메뉴, 동적 입력 필드(8+ 타입), 결과 영역(세션 저장/다운로드/Trace 유지)", jp: "CLI TreeViewメニュー、動的入力フィールド（8+タイプ）、結果領域（セッション保存/ダウンロード/Trace維持）" },
-        { kr: "Dashboard 프로세스 블록 시각화, 팝업 위치 계산, 호 트래픽/미디어 차트 폴링", jp: "Dashboardプロセスブロック可視化、ポップアップ位置計算、呼トラフィック/メディアチャートポーリング" },
-        { kr: "통계 테이블 동적 너비 계산(calculate-size), 가로 스크롤", jp: "統計テーブル動的幅計算（calculate-size）、横スクロール" },
-      ], projectId: 10, blobUrl: null, row_number: 1, image_ratio: null },
-    ],
-  },
-  {
-    id: 9, title: "통신 장비 관제 <em>CLI/통계/Trace</em>", category: "COMPANY" as ProjectCategory,
-    sub_title: { kr: "CLI 리팩토링·ECharts 다중 통계·Trace 감시 (137 commits)", jp: "CLIリファクタリング・ECharts多重統計・Trace監視（137コミット）" },
-    period: "2023.07 - 2025.05", member: "Frontend Solo", skills: [] as string[],
-    links: [] as { href: string; label: string }[],
-    skill_ids: [4, 5, 21, 28], row_number: 11,
-    items: [
-      { id: 27, title: { kr: "주요 업무", jp: "主な業務" }, content: [
-        { kr: "CLI Tree 메뉴, 검색-선택-실행-이력 UX 리팩토링 (22건), Recoil 상태 최적화", jp: "CLI Treeメニュー、検索-選択-実行-履歴UXリファクタリング（22件）、Recoil状態最適化" },
-        { kr: "ECharts 다중 통계 차트(SIP/서비스/PNSUP/INSUP), 조회 구분별 날짜 형식 동적 전환", jp: "ECharts多重統計チャート（SIP/サービス/PNSUP/INSUP）、照会区分別日付形式動的転換" },
-        { kr: "Trace Job 감시/이력 필터링, 호처리이력/샘플링 복합 조회 UI, 엑셀 내보내기", jp: "Trace Job監視/履歴フィルタリング、呼処理履歴/サンプリング複合照会UI、エクセル出力" },
-      ], projectId: 9, blobUrl: null, row_number: 1, image_ratio: null },
-    ],
-  },
-  {
-    id: 14, title: "<em>HSS</em> EMS Web UI", category: "COMPANY" as ProjectCategory,
-    sub_title: { kr: "CLI 원격 명령·통계·WebSocket ws/wss 분기 (72 commits)", jp: "CLI遠隔コマンド・統計・WebSocket ws/wss分岐（72コミット）" },
-    period: "2023.08 - 2026.06", member: "Frontend Solo", skills: [] as string[],
-    links: [] as { href: string; label: string }[],
-    skill_ids: [4, 5, 21, 28], row_number: 12,
-    items: [
-      { id: 28, title: { kr: "주요 업무", jp: "主な業務" }, content: [
-        { kr: "CLI 원격 명령 실행 (20건) — LocalStorage 이력 저장(용량 초과 자동 shift), Trace 메시지", jp: "CLI遠隔コマンド実行（20件） — LocalStorage履歴保存（容量超過自動shift）、Traceメッセージ" },
-        { kr: "WebSocket ws/wss 프로토콜 자동 분기, URL 동적 생성", jp: "WebSocket ws/wssプロトコル自動分岐、URL動的生成" },
-        { kr: "전체 UI 레이아웃 리팩터링 (10개+ 화면 일괄 수정)", jp: "全体UIレイアウトリファクタリング（10個以上画面一括修正）" },
+        { kr: "호스트 이중화(Active-Standby/Active-Active) 상태별 동적 토폴로지 대시보드 구현", jp: "ホスト冗長化（Active-Standby/Active-Active）状態別動的トポロジーダッシュボード実装" },
+        { kr: "CLI 원격 명령어 Tree 메뉴 구현 및 명령어 검색·실행·이력 관리 UX 개선", jp: "CLI遠隔コマンドTreeメニュー実装及びコマンド検索・実行・履歴管理UX改善" },
+        { kr: "ECharts 기반 통계 차트 시스템 구현 (SIP/서비스/연동 통계, 조회 구분별 날짜 형식 동적 전환)", jp: "EChartsベース統計チャートシステム実装（SIP/サービス/連携統計、照会区分別日付形式動的切替）" },
+        { kr: "사이드바 UI 리뉴얼, WebSocket 실시간 프로세스 블록 상태 시각화", jp: "サイドバーUIリニューアル、WebSocketリアルタイムプロセスブロック状態可視化" },
       ], projectId: 14, blobUrl: null, row_number: 1, image_ratio: null },
     ],
   },
   {
-    id: 12, title: "<em>VHVMS</em> Web EMS", category: "COMPANY" as ProjectCategory,
-    sub_title: { kr: "VMS/ARS 관제 — CLI 이력·호스트 상세·실시간 차트 (77 commits)", jp: "VMS/ARS管制 — CLI履歴・ホスト詳細・リアルタイムチャート（77コミット）" },
-    period: "2023.09 - 2025.05", member: "Frontend Solo", skills: [] as string[],
+    id: 15, title: "호 처리·통계 <em>관제</em> 시스템", category: "COMPANY" as ProjectCategory, tier: "CORE" as ProjectTier,
+    sub_title: { kr: "CLI 리팩토링·ECharts 통계 차트·호 처리이력·Trace 모듈 개발 (268 commits)", jp: "CLIリファクタリング・ECharts統計チャート・呼処理履歴・Traceモジュール開発（268コミット）" },
+    period: "2023.07 - 2025.05", member: "Frontend Solo", skills: [] as string[],
     links: [] as { href: string; label: string }[],
-    skill_ids: [4, 5, 21, 28], row_number: 13,
+    skill_ids: [4, 5, 21, 22, 28, 29], row_number: 10,
     items: [
-      { id: 29, title: { kr: "주요 업무", jp: "主な業務" }, content: [
-        { kr: "CLI 명령어 이력 관리 — 별도 윈도우 팝업(react-new-window), 이력 테이블/검색, 다국어", jp: "CLIコマンド履歴管理 — 別ウィンドウポップアップ（react-new-window）、履歴テーブル/検索、多言語" },
-        { kr: "호스트 상세 팝업 UI (30건) — CPU/Memory/Disk/Network 차트, 프로세스 상태 테이블", jp: "ホスト詳細ポップアップUI（30件） — CPU/Memory/Disk/Networkチャート、プロセス状態テーブル" },
-        { kr: "통계/프로비저닝/Call Log 조회조건 수정, 초기화 기능, 공백 제거", jp: "統計/プロビジョニング/Call Log照会条件修正、初期化機能、空白除去" },
-      ], projectId: 12, blobUrl: null, row_number: 1, image_ratio: null },
-    ],
-  },
-  {
-    id: 15, title: "EMS/NMS Web <em>보안 개선</em>", category: "COMPANY" as ProjectCategory,
-    sub_title: { kr: "웹 보안 강화 Phase 1 (34개 파일)", jp: "Webセキュリティ強化Phase 1（34ファイル）" },
-    period: "2023.10 - 2026.06", member: "Frontend Solo", skills: [] as string[],
-    links: [] as { href: string; label: string }[],
-    skill_ids: [4, 5, 22, 28], row_number: 14,
-    items: [
-      { id: 30, title: { kr: "주요 업무", jp: "主な業務" }, content: [
-        { kr: "하드코딩 JWT 토큰 제거, 내부 IP 환경변수화, Source Map 비활성화", jp: "ハードコーディングJWTトークン除去、内部IP環境変数化、Source Map無効化" },
-        { kr: "wss 자동 감지, 인증 쿠키 보안 옵션, 인증 가드 추가", jp: "wss自動検知、認証Cookie セキュリティオプション、認証ガード追加" },
-        { kr: "CORS 헤더 제거, console.log 제거, 불필요 패키지 삭제", jp: "CORSヘッダー除去、console.log除去、不要パッケージ削除" },
+      { id: 26, title: { kr: "주요 업무", jp: "主な業務" }, content: [
+        { kr: "CLI 원격 명령어 모듈 전면 리팩토링 — Recoil 상태 최적화, 하드코딩 제거, 검색·이력 UX 개선", jp: "CLI遠隔コマンドモジュール全面リファクタリング — Recoil状態最適化、ハードコーディング除去、検索・履歴UX改善" },
+        { kr: "호 처리이력/샘플링 데이터 복합 조회 UI 및 엑셀 내보내기 기능 구현", jp: "呼処理履歴/サンプリングデータ複合照会UI及びExcelエクスポート機能実装" },
+        { kr: "Trace Job 감시·이력 필터링, Kendo UI Grid 커스텀 필터 셀 컴포넌트 공통 개발", jp: "Trace Job監視・履歴フィルタリング、Kendo UI Gridカスタムフィルタセルコンポーネント共通開発" },
+        { kr: "ECharts 기반 다중 통계 차트 (SIP/서비스/PNSUP/INSUP), 조회 구분별 날짜 형식 동적 전환", jp: "EChartsベース多重統計チャート（SIP/サービス/PNSUP/INSUP）、照会区分別日付形式動的切替" },
       ], projectId: 15, blobUrl: null, row_number: 1, image_ratio: null },
     ],
   },
   {
-    id: 17, title: "<em>NMS</em> Web (IMS/MCPTT)", category: "COMPANY" as ProjectCategory,
-    sub_title: { kr: "서버 타임존 기반 시간 표시 통합 개선 (4일, 21 commits)", jp: "サーバータイムゾーン基準時間表示統合改善（4日、21コミット）" },
-    period: "2025.07", member: "Frontend Solo", skills: [] as string[],
+    id: 19, title: "Core Network(<em>CSCF</em>) 관제 시스템", category: "COMPANY" as ProjectCategory, tier: "CORE" as ProjectTier,
+    sub_title: { kr: "장애감시·통계·CLI·Trace·보고서·구성정보 전담 개발 (2,144 commits)", jp: "障害監視・統計・CLI・Trace・レポート・構成情報専任開発（2,144コミット）" },
+    period: "2023.11 - 2026.03", member: "Frontend Solo", skills: [] as string[],
     links: [] as { href: string; label: string }[],
-    skill_ids: [4, 5, 21, 28], row_number: 15,
+    skill_ids: [4, 5, 21, 22, 28, 29], row_number: 11,
     items: [
-      { id: 31, title: { kr: "주요 업무", jp: "主な業務" }, content: [
-        { kr: "10개+ 컴포넌트(알람, 이력, 프로세스, 사용자) 서버 타임존 기반 시간 표시 일괄 적용", jp: "10個以上コンポーネント（アラーム、履歴、プロセス、ユーザー）サーバータイムゾーン基準時間表示一括適用" },
-        { kr: "CLI 메시지 스크롤 UX 개선 — 자동 스크롤, 탭 전환 대응", jp: "CLIメッセージスクロールUX改善 — 自動スクロール、タブ切替対応" },
+      { id: 27, title: { kr: "주요 업무", jp: "主な業務" }, content: [
+        { kr: "장애감시 알람 virtual-scroll 적용, 보고서 모듈 신규 개발, MQTT 차트 연동", jp: "障害監視アラームvirtual-scroll適用、レポートモジュール新規開発、MQTTチャート連携" },
+        { kr: "ReactFlow 기반 실시간 Call Flow 시각화, 48포트 네트워크 스위치 모니터링, 다크모드 전체 적용", jp: "ReactFlowベースリアルタイムCall Flow可視化、48ポートネットワークスイッチモニタリング、ダークモード全面適用" },
+        { kr: "TheadTable(다중 행 헤더) 컴포넌트 신규 개발, 통계 차트 고도화, DatePicker 개선", jp: "TheadTable（多重行ヘッダー）コンポーネント新規開発、統計チャート高度化、DatePicker改善" },
+        { kr: "프로젝트 전체 커밋의 약 49% 기여 (2,144 / ~4,400건)", jp: "プロジェクト全体コミットの約49%寄与（2,144 / ~4,400件）" },
+      ], projectId: 19, blobUrl: null, row_number: 1, image_ratio: null },
+    ],
+  },
+  {
+    id: 16, title: "통신 장비 <em>통합 관제</em> 웹 시스템", category: "COMPANY" as ProjectCategory, tier: "CORE" as ProjectTier,
+    sub_title: { kr: "다중 백엔드 프록시 연동 관제 프론트엔드 (212 commits)", jp: "多重バックエンドプロキシ連携管制フロントエンド（212コミット）" },
+    period: "2023.06 - 2025.02", member: "Frontend Solo", skills: [] as string[],
+    links: [] as { href: string; label: string }[],
+    skill_ids: [4, 5, 21, 22, 28, 29], row_number: 12,
+    items: [
+      { id: 28, title: { kr: "주요 업무", jp: "主な業務" }, content: [
+        { kr: "Trace 기능 필터링/정렬, Dashboard 차트 레이아웃, 호 트래픽 차트 폴링", jp: "Trace機能フィルタリング/ソート、ダッシュボードチャートレイアウト、呼トラフィックチャートポーリング" },
+        { kr: "알람 상세 기능, CLI 명령어 실행/조회이력, 통계 API 연동", jp: "アラーム詳細機能、CLIコマンド実行/照会履歴、統計API連携" },
+      ], projectId: 16, blobUrl: null, row_number: 1, image_ratio: null },
+    ],
+  },
+  {
+    id: 17, title: "VMS/ARS 장비 <em>관제</em> 시스템", category: "COMPANY" as ProjectCategory, tier: "CORE" as ProjectTier,
+    sub_title: { kr: "음성사서함·ARS 장비 14개 모듈 관제 프론트엔드 (113 commits)", jp: "ボイスメール・ARS装備14モジュール管制フロントエンド（113コミット）" },
+    period: "2023.09 - 2025.05", member: "Frontend Solo", skills: [] as string[],
+    links: [] as { href: string; label: string }[],
+    skill_ids: [4, 5, 21, 22, 28, 29], row_number: 13,
+    items: [
+      { id: 29, title: { kr: "주요 업무", jp: "主な業務" }, content: [
+        { kr: "프로비저닝·호 처리이력·CLI·Trace·DB 모니터링 등 14개 메뉴 모듈 개발·유지보수", jp: "プロビジョニング・呼処理履歴・CLI・Trace・DBモニタリングなど14メニューモジュール開発・保守" },
+        { kr: "WebSocket(STOMP) 실시간 알람·리소스 모니터링, 다국어(한/영) 지원", jp: "WebSocket（STOMP）リアルタイムアラーム・リソースモニタリング、多言語（韓/英）対応" },
       ], projectId: 17, blobUrl: null, row_number: 1, image_ratio: null },
     ],
   },
   {
-    id: 16, title: "전술정보통신 <em>TICN</em>", category: "COMPANY" as ProjectCategory,
-    sub_title: { kr: "CI/CD 파이프라인 정비 및 UI 브랜딩 (10일, 14 commits)", jp: "CI/CDパイプライン整備及びUIブランディング（10日、14コミット）" },
+    id: 9, title: "<em>HSS</em> Core Network 관제 시스템", category: "COMPANY" as ProjectCategory, tier: "CORE" as ProjectTier,
+    sub_title: { kr: "통신 Core Network 장비(HSS) 관제 웹 프론트엔드", jp: "通信Core Network装備（HSS）管制Webフロントエンド" },
+    period: "2023.08 - 2026.06", member: "Frontend Solo", skills: [] as string[],
+    links: [] as { href: string; label: string }[],
+    skill_ids: [4, 5, 21, 22, 28, 29], row_number: 14,
+    items: [
+      { id: 30, title: { kr: "주요 업무", jp: "主な業務" }, content: [
+        { kr: "멀티 사이트 공통 플랫폼 기반 사이트별 커스터마이징 및 운영", jp: "マルチサイト共通プラットフォームベースのサイト別カスタマイズ及び運用" },
+        { kr: "WebSocket 실시간 모니터링, CLI 원격 제어, 알람 관제, 통계 차트 개발", jp: "WebSocketリアルタイムモニタリング、CLI遠隔制御、アラーム管制、統計チャート開発" },
+      ], projectId: 9, blobUrl: null, row_number: 1, image_ratio: null },
+    ],
+  },
+  {
+    id: 8, title: "<em>전술정보통신</em> 장비 관제 시스템", category: "COMPANY" as ProjectCategory, tier: "CORE" as ProjectTier,
+    sub_title: { kr: "군용 전술통신 네트워크 장비 EMS 유지보수 및 CI/CD 정비", jp: "軍用戦術通信ネットワーク装備EMS保守及びCI/CD整備" },
     period: "2024.08", member: "Frontend Solo", skills: [] as string[],
+    links: [] as { href: string; label: string }[],
+    skill_ids: [4, 5, 21], row_number: 15,
+    items: [
+      { id: 31, title: { kr: "주요 업무", jp: "主な業務" }, content: [
+        { kr: "GitLab CI/CD 파이프라인 정비 (Docker 빌드 환경 + RPM 패키징)", jp: "GitLab CI/CDパイプライン整備（Dockerビルド環境 + RPMパッケージング）" },
+        { kr: "MobX + React 16 레거시 환경에서 버그 수정 및 UI 커스터마이징", jp: "MobX + React 16レガシー環境でバグ修正及びUIカスタマイズ" },
+      ], projectId: 8, blobUrl: null, row_number: 1, image_ratio: null },
+    ],
+  },
+  {
+    id: 10, title: "통신 장비 관제 <em>보안·운영</em> 시스템", category: "COMPANY" as ProjectCategory, tier: "CORE" as ProjectTier,
+    sub_title: { kr: "웹 보안 취약점 개선 및 CI/CD 운영 (Merge 권한 보유)", jp: "Webセキュリティ脆弱性改善及びCI/CD運用（Merge権限保有）" },
+    period: "2023.10 - 2026.06", member: "Frontend Solo", skills: [] as string[],
     links: [] as { href: string; label: string }[],
     skill_ids: [4, 5, 28], row_number: 16,
     items: [
       { id: 32, title: { kr: "주요 업무", jp: "主な業務" }, content: [
-        { kr: "CI/CD 파이프라인 정비 — npm→yarn 전환, 빌드 트러블슈팅", jp: "CI/CDパイプライン整備 — npm→yarn転換、ビルドトラブルシューティング" },
-        { kr: "UI 브랜딩 (헤더/로그인/파비콘 로고 교체), 운용자 계정 등록 권한 표시 버그 수정", jp: "UIブランディング（ヘッダー/ログイン/ファビコンロゴ変更）、運用者アカウント登録権限表示バグ修正" },
-      ], projectId: 16, blobUrl: null, row_number: 1, image_ratio: null },
+        { kr: "웹 보안 취약점 분석·패치, CI/CD 파이프라인 설정, 코드 리뷰 및 Merge 운영", jp: "Webセキュリティ脆弱性分析・パッチ、CI/CDパイプライン設定、コードレビュー及びMerge運用" },
+        { kr: "JWT 인증 기반 보안 강화, XSS/CSRF 대응, 쿠키 보안 속성 적용", jp: "JWT認証ベースのセキュリティ強化、XSS/CSRF対応、Cookie保安属性適用" },
+      ], projectId: 10, blobUrl: null, row_number: 1, image_ratio: null },
+    ],
+  },
+  {
+    id: 12, title: "통합 <em>NMS</em> 관제 대시보드", category: "COMPANY" as ProjectCategory, tier: "CORE" as ProjectTier,
+    sub_title: { kr: "IMS/MCPTT 통합 관제 서버 타임존 통합 개선 및 CI/CD", jp: "IMS/MCPTT統合管制サーバータイムゾーン統合改善及びCI/CD" },
+    period: "2025.07", member: "Frontend Solo", skills: [] as string[],
+    links: [] as { href: string; label: string }[],
+    skill_ids: [4, 5, 21], row_number: 17,
+    items: [
+      { id: 33, title: { kr: "주요 업무", jp: "主な業務" }, content: [
+        { kr: "서버 타임존 기반 시간 표시 통합 개선 (10개+ 컴포넌트 일괄 적용)", jp: "サーバータイムゾーンベース時間表示統合改善（10個以上コンポーネント一括適用）" },
+        { kr: "MobX + React 16 레거시 환경, react-virtualized 가상 스크롤 활용", jp: "MobX + React 16レガシー環境、react-virtualized仮想スクロール活用" },
+      ], projectId: 12, blobUrl: null, row_number: 1, image_ratio: null },
     ],
   },
 ];
@@ -381,46 +423,27 @@ export const projects = [
 export const documentations: { id: number; title: I18nText; items: I18nText[] }[] = [
   {
     id: 1,
-    title: { kr: "운영 매뉴얼 작성 (6건)", jp: "運用マニュアル作成（6件）" },
+    title: { kr: "운영 매뉴얼 · 기술 문서", jp: "運用マニュアル・技術文書" },
     items: [
-      { kr: "VuePress 2.0 기반 6개 EMS 프로젝트의 사용자 운영 매뉴얼 작성·배포", jp: "VuePress 2.0ベース6つのEMSプロジェクトのユーザー運用マニュアル作成・配布" },
-      { kr: "Apache HTTP Server + RPM 패키징으로 사내 서버 배포 자동화", jp: "Apache HTTP Server + RPMパッケージングで社内サーバーデプロイ自動化" },
+      { kr: "VuePress 2.0 기반 6개 EMS 프로젝트 운영 매뉴얼 작성·배포 (Apache + RPM 패키징)", jp: "VuePress 2.0ベース6つのEMSプロジェクト運用マニュアル作成・配布（Apache + RPMパッケージング）" },
+      { kr: "프로젝트 README, 아키텍처 문서, 알람 시나리오, 운용자 교육 자료 등 10건+ 작성", jp: "プロジェクトREADME、アーキテクチャ文書、アラームシナリオ、運用者教育資料など10件以上作成" },
+      { kr: "마이그레이션 타당성·로드맵 기술 검토 보고서 작성으로 의사결정 근거 확보", jp: "マイグレーション妥当性・ロードマップ技術検討報告書作成で意思決定根拠確保" },
     ],
   },
   {
     id: 2,
-    title: { kr: "테스트·인수시험", jp: "テスト・受入試験" },
+    title: { kr: "테스트 · 품질 보증", jp: "テスト・品質保証" },
     items: [
-      { kr: "테스트케이스 구축 및 기능명세서 작성으로 품질 기준 수립", jp: "テストケース構築及び機能仕様書作成で品質基準確立" },
-      { kr: "KT 등 통신사 고객 대상 상용 인수시험 전건 100% 통과", jp: "KT等通信社顧客対象の商用受入試験全件100%通過" },
+      { kr: "테스트케이스 + 기능명세서 구축으로 KT 등 통신사 인수시험 전건 100% 통과", jp: "テストケース + 機能仕様書構築でKT等通信社受入試験全件100%通過" },
       { kr: "Jest → Vitest 마이그레이션, Testing Library 기반 컴포넌트 테스트", jp: "Jest→Vistestマイグレーション、Testing Libraryベースのコンポーネントテスト" },
     ],
   },
   {
     id: 3,
-    title: { kr: "장애 대응·안정화", jp: "障害対応・安定化" },
-    items: [
-      { kr: "장애 분석 프로세스 정립으로 대응 시간 약 50% 단축", jp: "障害分析プロセス確立で対応時間約50%短縮" },
-      { kr: "EMS 절체(Failover) 시 WebSocket 재연결 로직 설계·구현", jp: "EMS切替（Failover）時WebSocket再接続ロジック設計・実装" },
-      { kr: "공통 에러 처리 체계 구축 및 보완내역서 작성", jp: "共通エラー処理体系構築及び補完内訳書作成" },
-    ],
-  },
-  {
-    id: 4,
-    title: { kr: "CI/CD·배포 자동화", jp: "CI/CD・デプロイ自動化" },
+    title: { kr: "CI/CD · 개발 환경", jp: "CI/CD・開発環境" },
     items: [
       { kr: "GitLab CI/CD 파이프라인 구축 (빌드 → RPM 패키징 → Nexus 배포)", jp: "GitLab CI/CDパイプライン構築（ビルド→RPMパッケージング→Nexusデプロイ）" },
-      { kr: "Docker 기반 빌드 환경 구성 및 배포 프로세스 문서화", jp: "Dockerベースのビルド環境構成及びデプロイプロセス文書化" },
-      { kr: "Express + STOMP WebSocket Mock 서버 자체 구축으로 프론트 독립 개발 환경 확보", jp: "Express + STOMP WebSocket Mockサーバー自体構築でフロント独立開発環境確保" },
-    ],
-  },
-  {
-    id: 5,
-    title: { kr: "기술 문서화", jp: "技術文書化" },
-    items: [
-      { kr: "내부 기술 검토 보고서 작성 (마이그레이션 타당성·로드맵)", jp: "内部技術検討報告書作成（マイグレーション妥当性・ロードマップ）" },
-      { kr: "프로젝트 README (아키텍처, Quick Start, 커스텀 컴포넌트 사용법, 다중 클러스터 대응 가이드)", jp: "プロジェクトREADME（アーキテクチャ、Quick Start、カスタムコンポーネント使用法、マルチクラスター対応ガイド）" },
-      { kr: "기능 Wiki 및 알람 시나리오 문서, 운용자 교육 자료 작성", jp: "機能Wiki及びアラームシナリオ文書、運用者教育資料作成" },
+      { kr: "Docker 기반 빌드 환경 + Express STOMP Mock 서버로 프론트 독립 개발 환경 확보", jp: "Dockerベースビルド環境 + Express STOMP Mockサーバーでフロント独立開発環境確保" },
     ],
   },
 ];
@@ -429,45 +452,29 @@ export const documentations: { id: number; title: I18nText; items: I18nText[] }[
 export const japanTimeline: { id: number; period: string; title: I18nText; items: I18nText[] }[] = [
   {
     id: 1,
-    period: "2020.12",
-    title: { kr: "일본 워킹홀리데이 출발", jp: "日本ワーキングホリデー出発" },
+    period: "2020.12 - 2021.12",
+    title: { kr: "일본 워킹홀리데이 · 일본어 학교 졸업", jp: "日本ワーキングホリデー・日本語学校卒業" },
     items: [
-      { kr: "일본 웹 서비스의 안정성과 UX에 감명받아 IT 커리어 전환 결심", jp: "日本のWebサービスの安定性とUXに感銘を受けITキャリア転換を決心" },
+      { kr: "하마마츠 일본어 학교 졸업, JLPT N3 취득", jp: "浜松日本語学校卒業、JLPT N3取得" },
+      { kr: "현지 생활을 통한 일본어 실무 커뮤니케이션 경험", jp: "現地生活を通じた日本語実務コミュニケーション経験" },
     ],
   },
   {
     id: 2,
-    period: "2021.03 - 2021.12",
-    title: { kr: "하마마츠 일본어 학교 (졸업)", jp: "浜松日本語学校（卒業）" },
+    period: "2022.01 - 2022.09",
+    title: { kr: "JLPT N2 취득 · 오사카 IT 교육", jp: "JLPT N2取得・大阪IT教育" },
     items: [
-      { kr: "일본어 집중 학습, JLPT N3 취득 (2021.08)", jp: "日本語集中学習、JLPT N3取得（2021.08）" },
-      { kr: "패밀리마트·스시로 등 현지 아르바이트를 통한 일본어 실무 커뮤니케이션 경험", jp: "ファミリーマート・スシロー等の現地アルバイトを通じた日本語実務コミュニケーション経験" },
+      { kr: "JLPT N2 취득 — 비즈니스 수준 일본어 능력 인증", jp: "JLPT N2取得 — ビジネスレベルの日本語能力認証" },
+      { kr: "오사카 휴먼 아카데미에서 프로그래밍 기초 학습 및 팀 프로젝트 경험", jp: "大阪ヒューマンアカデミーでプログラミング基礎学習及びチームプロジェクト経験" },
     ],
   },
   {
     id: 3,
-    period: "2022.01",
-    title: { kr: "JLPT N2 취득", jp: "JLPT N2取得" },
-    items: [
-      { kr: "비즈니스 수준 일본어 능력 인증", jp: "ビジネスレベルの日本語能力認証" },
-    ],
-  },
-  {
-    id: 4,
-    period: "2022.01 - 2022.09",
-    title: { kr: "오사카 휴먼 아카데미 (게임 프로그래밍학과)", jp: "大阪ヒューマンアカデミー（ゲームプログラミング学科）" },
-    items: [
-      { kr: "Unity, C# 기반 게임 프로그래밍 수학 — 프로그래밍 기초 학습", jp: "Unity、C#ベースのゲームプログラミング修学 — プログラミング基礎学習" },
-      { kr: "일본 교육 환경에서의 팀 프로젝트 경험", jp: "日本の教育環境でのチームプロジェクト経験" },
-    ],
-  },
-  {
-    id: 5,
     period: "2022.09",
     title: { kr: "한국 귀국 → IT 커리어 시작", jp: "韓国帰国→ITキャリア開始" },
     items: [
-      { kr: "일본 경험을 바탕으로 웹 개발 본격 시작, 국비 IT 교육 과정 입과", jp: "日本での経験を基にWeb開発を本格開始、国費IT教育課程入科" },
       { kr: "약 2년의 일본 생활로 다문화 환경 적응력 및 일본어 비즈니스 커뮤니케이션 역량 확보", jp: "約2年の日本生活で多文化環境適応力及び日本語ビジネスコミュニケーション能力確保" },
+      { kr: "일본 경험을 바탕으로 웹 개발 본격 시작", jp: "日本での経験を基にWeb開発を本格開始" },
     ],
   },
 ];

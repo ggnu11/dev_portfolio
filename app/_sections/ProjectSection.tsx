@@ -13,6 +13,7 @@ export default async function ProjectSection() {
     period: p.period,
     member: p.member,
     category: p.category,
+    tier: p.tier,
     skillData: allSkills.filter((s) => p.skill_ids.includes(s.id)),
     links: p.links.map((l) =>
       parsePrismaJSON<{ href: string; label: string }>(l)
