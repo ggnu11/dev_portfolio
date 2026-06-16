@@ -2,6 +2,7 @@ import { SectionWatchProvider } from "@/_components/SectionWatcher";
 import Header from "@/_components/Header";
 import MainSection from "@/_sections/MainSection";
 import IntroduceSection from "@/_sections/IntroduceSection";
+
 import IntroSection from "@/_sections/IntroSection";
 import ExperienceSection from "@/_sections/ExperienceSection";
 import ProjectSection from "@/_sections/ProjectSection";

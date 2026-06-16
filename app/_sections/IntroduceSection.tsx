@@ -1,7 +1,6 @@
 "use client";
 
 import SlideUpInView from "@/_components/SlideUpInView";
-
 import { useI18n } from "@/i18n/context";
 
 const LAST_UPDATED = "2025.06.15";
@@ -31,7 +30,6 @@ export default function IntroduceSection() {
             {lastUpdated}: {LAST_UPDATED}
           </span>
         </div>
-
       </SlideUpInView>
     </section>
   );
