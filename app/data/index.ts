@@ -462,10 +462,9 @@ export const japanTimeline: { id: number; period: string; title: I18nText; items
   {
     id: 2,
     period: "2022.01 - 2022.09",
-    title: { kr: "JLPT N2 취득 · 오사카 IT 교육", jp: "JLPT N2取得・大阪IT教育" },
+    title: { kr: "JLPT N2 취득", jp: "JLPT N2取得" },
     items: [
       { kr: "JLPT N2 취득 — 비즈니스 수준 일본어 능력 인증", jp: "JLPT N2取得 — ビジネスレベルの日本語能力認証" },
-      { kr: "오사카 휴먼 아카데미에서 프로그래밍 기초 학습 및 팀 프로젝트 경험", jp: "大阪ヒューマンアカデミーでプログラミング基礎学習及びチームプロジェクト経験" },
     ],
   },
   {
