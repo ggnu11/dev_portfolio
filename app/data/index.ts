@@ -215,19 +215,19 @@ export const projects = [
   },
   {
     id: 18, title: "<em>NoteSnap</em>", category: "PERSONAL" as ProjectCategory,
-    sub_title: { kr: "AI 없이 브라우저에서 동작하는 텍스트 파일 요약 웹앱", jp: "AI不要でブラウザ内で動作するテキストファイル要約Webアプリ" },
+    sub_title: { kr: "Google Gemini AI 기반 파일 요약 웹앱 (텍스트·이미지·PDF)", jp: "Google Gemini AIベースのファイル要約Webアプリ（テキスト・画像・PDF）" },
     period: "2025.04", member: "Solo Project", skills: [] as string[],
     links: [
       { href: "https://notesnap-6966c.web.app", label: "Live Demo" },
       { href: "https://github.com/ggnu11/notesnap", label: "GitHub" },
     ],
-    skill_ids: [4, 5, 7, 13, 14, 15, 30], row_number: 6,
+    skill_ids: [4, 5, 7, 13, 14], row_number: 6,
     items: [
       { id: 33, title: { kr: "주요 특징", jp: "主な特徴" }, content: [
-        { kr: "텍스트 파일 업로드 시 주요 문장을 추출하여 요약 결과 제공", jp: "テキストファイルアップロード時に主要文を抽出し要約結果を提供" },
-        { kr: "GPT/외부 AI API 없이 브라우저 내 자체 요약 알고리즘 구현", jp: "GPT/外部AI APIなしでブラウザ内自体要約アルゴリズム実装" },
-        { kr: "Firebase Hosting 배포 + GitHub Actions CI/CD 자동 배포 파이프라인", jp: "Firebase Hostingデプロイ + GitHub Actions CI/CD自動デプロイパイプライン" },
-        { kr: "shadcn/ui + Tailwind CSS 기반 깔끔하고 직관적인 UI", jp: "shadcn/ui + Tailwind CSSベースのクリーンで直感的なUI" },
+        { kr: "텍스트·이미지·PDF 파일 업로드 시 Google Gemini 2.5 Flash API로 한국어 상세 요약 제공", jp: "テキスト・画像・PDFファイルアップロード時にGoogle Gemini 2.5 Flash APIで韓国語の詳細要約を提供" },
+        { kr: "Cloudflare Workers 백엔드로 API 키 보호 + CORS 처리 (서버리스 아키텍처)", jp: "Cloudflare Workersバックエンドでのin APIキー保護 + CORS処理（サーバーレスアーキテクチャ）" },
+        { kr: "React 19 + Tailwind CSS v4 + Vite 기반 모던 프론트엔드 구성", jp: "React 19 + Tailwind CSS v4 + Viteベースのモダンフロントエンド構成" },
+        { kr: "Firebase Hosting 배포 + Feature-Based 아키텍처 (features/pages/services 분리)", jp: "Firebase Hostingデプロイ + Feature-Basedアーキテクチャ（features/pages/services分離）" },
       ], projectId: 18, blobUrl: null, row_number: 1, image_ratio: null },
     ],
   },
