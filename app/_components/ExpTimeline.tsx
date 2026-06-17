@@ -54,12 +54,14 @@ function parsePeriodMonths(period: string): number {
   return months;
 }
 
-function formatDuration(months: number): string {
+function formatDuration(months: number, locale: Locale): string {
   const y = Math.floor(months / 12);
   const m = months % 12;
-  if (y > 0 && m > 0) return `${y}년 ${m}개월`;
-  if (y > 0) return `${y}년`;
-  return `${m}개월`;
+  const yr = locale === "kr" ? "년" : "年";
+  const mo = locale === "kr" ? "개월" : "ヶ月";
+  if (y > 0 && m > 0) return `${y}${yr} ${m}${mo}`;
+  if (y > 0) return `${y}${yr}`;
+  return `${m}${mo}`;
 }
 
 /* ─── Section Header ─── */
@@ -86,7 +88,7 @@ function CompanyCard({
 }) {
   const period = r(entry.period, locale);
   const months = parsePeriodMonths(period);
-  const duration = months > 0 ? formatDuration(months) : "";
+  const duration = months > 0 ? formatDuration(months, locale) : "";
 
   return (
     <motion.div
@@ -185,7 +187,7 @@ export default function ExpTimeline({ entries }: { entries: ExpEntry[] }) {
             TOTAL
           </span>
           <span className="text-base font-bold text-primary">
-            총 {formatDuration(totalMonths)}
+            {locale === "kr" ? "총" : "合計"} {formatDuration(totalMonths, locale)}
           </span>
         </div>
       )}

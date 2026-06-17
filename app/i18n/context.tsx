@@ -4,6 +4,7 @@ import {
   createContext,
   useContext,
   useState,
+  useEffect,
   ReactNode,
 } from "react";
 import { type Locale, type Dictionary, getDictionary } from "./dictionaries";
@@ -20,8 +21,20 @@ const I18nContext = createContext<I18nContextType>({
   toggleLocale: () => {},
 });
 
+function detectLocale(): Locale {
+  if (typeof navigator === "undefined") return "kr";
+  const lang = navigator.language || "";
+  if (lang.startsWith("ja")) return "jp";
+  return "kr";
+}
+
 export function I18nProvider({ children }: { children: ReactNode }) {
   const [locale, setLocale] = useState<Locale>("kr");
+
+  useEffect(() => {
+    setLocale(detectLocale());
+  }, []);
+
   const t = getDictionary(locale);
 
   const toggleLocale = () => {
