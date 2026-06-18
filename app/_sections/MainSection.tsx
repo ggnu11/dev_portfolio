@@ -106,7 +106,6 @@ export default function MainSection() {
             doc={activeDoc}
             locale={locale}
             downloadLabel={t.resume.download}
-            scrollLabel={t.resume.scroll}
             onClose={close}
           />
         )}
@@ -120,13 +119,11 @@ function ResumeCinematic({
   doc,
   locale,
   downloadLabel,
-  scrollLabel,
   onClose,
 }: {
   doc: DocItem;
   locale: string;
   downloadLabel: string;
-  scrollLabel: string;
   onClose: () => void;
 }) {
   const scrollRef = useRef<HTMLDivElement>(null);

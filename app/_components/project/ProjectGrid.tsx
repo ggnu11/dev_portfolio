@@ -270,8 +270,6 @@ export default function ProjectGrid({
   const featuredProjects = companyProjects.filter((p) => p.tier === "FEATURED");
   const coreProjects = companyProjects.filter((p) => p.tier === "CORE");
 
-  const currentProjects =
-    activeCategory === "COMPANY" ? companyProjects : personalProjects;
   const isCompany = activeCategory === "COMPANY";
 
   // For personal projects, use paginated view
